@@ -1,24 +1,24 @@
 @charset "UTF-8";
 @keyframes openIn {
   0% {
-    transform: rotateY(-90deg);
+    transform: rotateX(-90deg);
     opacity: 0; }
   50% {
-    transform: rotateY(-90deg);
+    transform: rotateX(-90deg);
     opacity: 0; }
   100% {
-    transform: rotateY(0deg);
+    transform: rotateX(0deg);
     opacity: 1; } }
 
 @keyframes closeOut {
   0% {
-    transform: rotateY(0deg);
+    transform: rotateX(0deg);
     opacity: 1; }
   50% {
-    transform: rotateY(90deg);
+    transform: rotateX(90deg);
     opacity: 0; }
   100% {
-    transform: rotateY(90deg);
+    transform: rotateX(90deg);
     opacity: 0; } }
 
 @font-face {
@@ -75,8 +75,8 @@ table.players tr.ng-leave.ng-leave-active {
 
 div.scoreboard img.logo {
   position: absolute;
-  width: 0px;
-  height: 80px;
+  width: 160px;
+  height: 95px;
   left: 2%;
   top: 10px; }
 
@@ -87,7 +87,7 @@ div.scoreboard div.title {
   font-size: 40px;
   -webkit-user-select: none;
   top: 0px;
-  margin-left: calc(2% + 0px + 0px); }
+  margin-left: calc(2% + 160px + 10px); }
 
 div.scoreboard div.timer {
   font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", "Noto Sans Japanese", "ヒラギノ角ゴ ProN W3", Meiryo, sans-serif;
@@ -95,10 +95,11 @@ div.scoreboard div.timer {
   position: absolute;
   font-size: 40px;
   -webkit-user-select: none;
-  top: 0px;
+  top: calc(50% - 200px);
   width: 96%;
   margin-left: 2%;
-  text-align: right; }
+  text-align: center;
+  font-size: 300px; }
 
 div.scoreboard div.qCount {
   font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", "Noto Sans Japanese", "ヒラギノ角ゴ ProN W3", Meiryo, sans-serif;
@@ -107,13 +108,13 @@ div.scoreboard div.qCount {
   font-size: 40px;
   -webkit-user-select: none;
   top: 45px;
-  margin-left: calc(2% + 0px + 0px); }
+  margin-left: calc(2% + 160px + 10px); }
 
 div.scoreboard hr.hr0 {
   position: absolute;
   top: 30px;
-  width: calc(96% - 0px);
-  margin-left: calc(2% + 0px);
+  width: calc(96% - 160px);
+  margin-left: calc(2% + 160px);
   margin-right: 2%;
   border: 0;
   height: 2px;
@@ -167,10 +168,13 @@ div.scoreboard div.victory {
 div.player {
   width: 1000px;
   height: 1000px;
+  pointer-events: none;
   transform-origin: 0px 0px;
   transform: translate3d(0, 0, 0);
   cursor: default;
   transition: 1s; }
+  div.player button {
+    pointer-events: auto; }
   div.player.ng-enter {
     transition: 0s; }
   div.player.ng-leave {
@@ -222,12 +226,18 @@ div.explain {
 div.global_actions {
   position: absolute;
   left: 0px;
-  top: calc(100% - 120px); }
+  top: calc(100% - 120px);
+  pointer-events: none; }
+  div.global_actions button {
+    pointer-events: auto; }
 
 div.timer_actions {
   position: absolute;
   right: 2%;
-  top: 15px; }
+  top: 15px;
+  pointer-events: none; }
+  div.timer_actions button {
+    pointer-events: auto; }
 
 .modal-dialog {
   width: 1200px; }

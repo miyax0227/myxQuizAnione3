@@ -1083,8 +1083,10 @@ app.service('qCommon', ['$uibModal', '$localStorage', '$interval', '$location', 
      */
 		function timerStop() {
 			var timer = qCommon.timer;
-			timer.restTime = new Date(timer.destination.getTime() - new Date().getTime());
-			timer.destination = null;
+			if(timer.destination){
+				timer.restTime = new Date(timer.destination.getTime() - new Date().getTime());
+				timer.destination = null;	
+			}
 		}
 
     /** timerを再び始める
