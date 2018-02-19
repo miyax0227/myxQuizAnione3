@@ -37,7 +37,7 @@ app.factory('rule', ['qCommon', function(qCommon) {
       "css": "select"
     },
     {
-      "key": "course",
+      "key": "lot",
       "value": 0,
       "style": "number"
     },
@@ -182,10 +182,10 @@ app.factory('rule', ['qCommon', function(qCommon) {
       return true;
     },
     "action0": function(player, players, header, property) {
-      if (player.course === 0) {
-        player.course = header.nowCourse;
+      if (player.lot === 0) {
+        player.lot = header.nowCourse;
       } else {
-        player.course = 0;
+        player.lot = 0;
       }
     }
   }];
@@ -243,12 +243,12 @@ app.factory('rule', ['qCommon', function(qCommon) {
       player.nameLat = player.name;
       var wait = 1 + Math.floor(index / (players.length / courseCount));
 
-      if (player.course === 0) {
+      if (player.lot === 0) {
         player.keyIndex = (key["wait" + wait]++);
         player.line = "wait" + wait;
       } else {
-        player.keyIndex = (key["course" + player.course]++);
-        player.line = "course" + player.course;
+        player.keyIndex = (key["course" + player.lot]++);
+        player.line = "course" + player.lot;
       }
 
     });

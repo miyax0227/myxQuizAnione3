@@ -102,9 +102,19 @@ table.players {
 	}
 }
 
-div.scoreboard {	
-	img.logo {
-	    position: absolute;
+div.scoreboard {
+	transition : 1s linear all;
+
+	&.ng-hide-remove {
+		opacity : 0;
+	}
+	
+	&.ng-hide-remove-active {
+		opacity : 1;
+	}
+
+	img.logo {	
+		position: absolute;
 	    width: $logo-width;
 	    height: $logo-height;
 	    left: 2%;

@@ -73,97 +73,98 @@ table.players tr.ng-leave {
 table.players tr.ng-leave.ng-leave-active {
   opacity: 0; }
 
-div.scoreboard img.logo {
-  position: absolute;
-  width: 160px;
-  height: 95px;
-  left: 2%;
-  top: 10px; }
-
-div.scoreboard div.title {
-  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", "Noto Sans Japanese", "ヒラギノ角ゴ ProN W3", Meiryo, sans-serif;
-  font-weight: bold;
-  position: absolute;
-  font-size: 40px;
-  -webkit-user-select: none;
-  top: 0px;
-  margin-left: calc(2% + 160px + 10px); }
-
-div.scoreboard div.timer {
-  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", "Noto Sans Japanese", "ヒラギノ角ゴ ProN W3", Meiryo, sans-serif;
-  font-weight: bold;
-  position: absolute;
-  font-size: 40px;
-  -webkit-user-select: none;
-  top: calc(50% - 200px);
-  width: 96%;
-  margin-left: 2%;
-  text-align: center;
-  font-size: 300px; }
-
-div.scoreboard div.qCount {
-  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", "Noto Sans Japanese", "ヒラギノ角ゴ ProN W3", Meiryo, sans-serif;
-  font-weight: bold;
-  position: absolute;
-  font-size: 40px;
-  -webkit-user-select: none;
-  top: 45px;
-  margin-left: calc(2% + 160px + 10px); }
-
-div.scoreboard hr.hr0 {
-  position: absolute;
-  top: 30px;
-  width: calc(96% - 160px);
-  margin-left: calc(2% + 160px);
-  margin-right: 2%;
-  border: 0;
-  height: 2px;
-  background-image: -webkit-linear-gradient(left, white, rgba(255, 255, 255, 0.5)); }
-
-div.scoreboard div.victory {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(255, 255, 255, 0.9);
-  color: black; }
-  div.scoreboard div.victory.ng-enter {
-    -webkit-transition: all cubic-bezier(0.25, 0.46, 0.45, 0.94) 3s;
-    opacity: 0;
-    -webkit-filter: blur(30px); }
-  div.scoreboard div.victory.ng-enter-active {
-    opacity: 1;
-    -webkit-filter: blur(0px); }
-  div.scoreboard div.victory h1 {
+div.scoreboard {
+  transition: 1s linear all; }
+  div.scoreboard.ng-hide-remove {
+    opacity: 0; }
+  div.scoreboard.ng-hide-remove-active {
+    opacity: 1; }
+  div.scoreboard img.logo {
+    position: absolute;
+    width: 160px;
+    height: 95px;
+    left: 2%;
+    top: 10px; }
+  div.scoreboard div.title {
+    font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", "Noto Sans Japanese", "ヒラギノ角ゴ ProN W3", Meiryo, sans-serif;
+    font-weight: bold;
+    position: absolute;
+    font-size: 40px;
+    -webkit-user-select: none;
+    top: 0px;
+    margin-left: calc(2% + 160px + 10px); }
+  div.scoreboard div.timer {
+    font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", "Noto Sans Japanese", "ヒラギノ角ゴ ProN W3", Meiryo, sans-serif;
+    font-weight: bold;
+    position: absolute;
+    font-size: 40px;
+    -webkit-user-select: none;
+    top: calc(50% - 200px);
+    width: 96%;
+    margin-left: 2%;
+    text-align: center;
+    font-size: 300px; }
+  div.scoreboard div.qCount {
+    font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", "Noto Sans Japanese", "ヒラギノ角ゴ ProN W3", Meiryo, sans-serif;
+    font-weight: bold;
+    position: absolute;
+    font-size: 40px;
+    -webkit-user-select: none;
+    top: 45px;
+    margin-left: calc(2% + 160px + 10px); }
+  div.scoreboard hr.hr0 {
+    position: absolute;
+    top: 30px;
+    width: calc(96% - 160px);
+    margin-left: calc(2% + 160px);
+    margin-right: 2%;
+    border: 0;
+    height: 2px;
+    background-image: -webkit-linear-gradient(left, white, rgba(255, 255, 255, 0.5)); }
+  div.scoreboard div.victory {
+    position: absolute;
     width: 100%;
-    text-align: center; }
-    div.scoreboard div.victory h1.cupTitle {
-      font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", "Noto Sans Japanese", "ヒラギノ角ゴ ProN W3", Meiryo, sans-serif;
-      font-weight: bold;
-      position: absolute;
-      font-size: 100px;
-      -webkit-user-select: none;
-      margin-top: 10%; }
-    div.scoreboard div.victory h1.first {
-      font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", "Noto Sans Japanese", "ヒラギノ角ゴ ProN W3", Meiryo, sans-serif;
-      font-weight: bold;
-      position: absolute;
-      font-size: 100px;
-      -webkit-user-select: none;
-      margin-top: 20%; }
-    div.scoreboard div.victory h1.name {
-      font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", "Noto Sans Japanese", "ヒラギノ角ゴ ProN W3", Meiryo, sans-serif;
-      font-weight: bold;
-      position: absolute;
-      font-size: 100px;
-      -webkit-user-select: none;
-      margin-top: 30%; }
-    div.scoreboard div.victory h1.member {
-      font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", "Noto Sans Japanese", "ヒラギノ角ゴ ProN W3", Meiryo, sans-serif;
-      font-weight: bold;
-      position: absolute;
-      font-size: 40px;
-      -webkit-user-select: none;
-      margin-top: 40%; }
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.9);
+    color: black; }
+    div.scoreboard div.victory.ng-enter {
+      -webkit-transition: all cubic-bezier(0.25, 0.46, 0.45, 0.94) 3s;
+      opacity: 0;
+      -webkit-filter: blur(30px); }
+    div.scoreboard div.victory.ng-enter-active {
+      opacity: 1;
+      -webkit-filter: blur(0px); }
+    div.scoreboard div.victory h1 {
+      width: 100%;
+      text-align: center; }
+      div.scoreboard div.victory h1.cupTitle {
+        font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", "Noto Sans Japanese", "ヒラギノ角ゴ ProN W3", Meiryo, sans-serif;
+        font-weight: bold;
+        position: absolute;
+        font-size: 100px;
+        -webkit-user-select: none;
+        margin-top: 10%; }
+      div.scoreboard div.victory h1.first {
+        font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", "Noto Sans Japanese", "ヒラギノ角ゴ ProN W3", Meiryo, sans-serif;
+        font-weight: bold;
+        position: absolute;
+        font-size: 100px;
+        -webkit-user-select: none;
+        margin-top: 20%; }
+      div.scoreboard div.victory h1.name {
+        font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", "Noto Sans Japanese", "ヒラギノ角ゴ ProN W3", Meiryo, sans-serif;
+        font-weight: bold;
+        position: absolute;
+        font-size: 100px;
+        -webkit-user-select: none;
+        margin-top: 30%; }
+      div.scoreboard div.victory h1.member {
+        font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", "Noto Sans Japanese", "ヒラギノ角ゴ ProN W3", Meiryo, sans-serif;
+        font-weight: bold;
+        position: absolute;
+        font-size: 40px;
+        -webkit-user-select: none;
+        margin-top: 40%; }
 
 div.player {
   width: 1000px;
