@@ -938,9 +938,10 @@ app.service('qCommon', ['$uibModal', '$localStorage', '$interval', '$location', 
 
 				angular.forEach(selectPlayer, function (value, attribute) {
 					if (value != "" && value != null) {
-						var value2 = participant[attribute];
+						var valueStr = "" + value;
+						var value2 = "" + participant[attribute];
 
-						if (value2 == null || value2.indexOf(value) == -1) {
+						if (value2 == null || value2.indexOf(valueStr) == -1) {
 							participant.filtered = true;
 						}
 					}

@@ -55,9 +55,9 @@ app.factory('rule', ['qCommon', function(qCommon) {
       "css": "combo"
     },
     {
-      "key": "present",
-      "value": false,
-      "style": "boolean"
+      "key": "order",
+      "value": -1,
+      "style": "number"
     },
     {
       "key": "priority",
@@ -350,7 +350,7 @@ app.factory('rule', ['qCommon', function(qCommon) {
       player.chance = (player.o + 1 + player.combo * property.combo >= property.winningPoint) &&
         (player.status == 'normal');
 
-      if (angular.isUndefined(player.order)) {
+      if (angular.isUndefined(player.order) || player.order === -1) {
         player.order = (nextOrder++);
       }
 
