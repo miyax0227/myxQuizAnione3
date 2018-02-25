@@ -223,7 +223,7 @@ app.factory('round', ['qCommon', 'rule', '$filter',
 							x: scope.captureWindowSize.left,
 							title: "Capture"
 						});
-						win.loadURL(__dirname + '/board.html?view=true&anonymous=true');
+						win.loadURL('file://' + __dirname + '/board.html?view=true&anonymous=true');
 						// キャプチャ用ウィンドウの立ち上げ終了時にイベントを検知する
 						win.webContents.on('did-finish-load', captureFunc);
 
