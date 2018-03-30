@@ -140,6 +140,10 @@ app.factory('rule', ['qCommon', function(qCommon) {
       },
       "action0": function(player, players, header, property) {
         setMotion(player, 'x');
+        // 即失格の場合
+        if (header.rule === 0) {
+          player.x++;
+        }
         // サイドアウトの場合
         if (header.rule == 1) {
           player.x++;

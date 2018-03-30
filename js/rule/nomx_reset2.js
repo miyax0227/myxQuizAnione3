@@ -28,7 +28,7 @@ app.factory('rule', ['qCommon', function(qCommon) {
     },
     {
       "key": "nowSet",
-      "value": 0,
+      "value": 1,
       "style": "number"
     }
   ];
@@ -217,10 +217,12 @@ app.factory('rule', ['qCommon', function(qCommon) {
       },
       "action0": function(players, header, property) {
         header.nowSet++;
-        header.maxRankDisplay = property.maxRanks[header.nowSet];
         header.qCount = 1;
 
-        var nextOrder = 1000;
+        var nextOrder = 1 + Math.max.apply(null, players.map(function(p) {
+          return p.order
+        }));
+
         angular.forEach(players.slice().sort(function(a, b) {
           return a.order - b.order;
         }), function(player) {
@@ -228,7 +230,7 @@ app.factory('rule', ['qCommon', function(qCommon) {
             switch (player.status) {
               case "win":
               case "lose":
-                player.order = -1;
+                player.order = -2;
                 break;
               default:
                 player.order = (nextOrder++);
@@ -244,7 +246,6 @@ app.factory('rule', ['qCommon', function(qCommon) {
         }), function(player) {
           player.order = (nextOrder++);
         });
-
       },
       "keyArray": "",
       "keyboard": "z"
@@ -339,18 +340,24 @@ app.factory('rule', ['qCommon', function(qCommon) {
    * @param {Object} items - items
    ****************************************************************************/
   function calc(players, header, items, property) {
+    // 最大勝抜人数を設定
+    header.maxRankDisplay = property.maxRanks[header.nowSet];
+    // 残り勝抜人数を設定
     header.rest = header.maxRankDisplay - players.filter(function(p) {
       return (p.status == "win") && (p.winningSet == header.nowSet);
     }).length;
+    // 待ち順の最大値を取得
+    var nextOrder = 1 + Math.max.apply(null, players.map(function(p) {
+      return p.order
+    }));
 
-    var nextOrder = 1000;
     angular.forEach(players, function(player, index) {
       // pinch, chance
       player.pinch = (player.x == property.losingPoint - 1) && (player.status == 'normal');
       player.chance = (player.o + 1 + player.combo * property.combo >= property.winningPoint) &&
         (player.status == 'normal');
 
-      if (angular.isUndefined(player.order) || player.order === -1) {
+      if (angular.isUndefined(player.order) || player.order == -1) {
         player.order = (nextOrder++);
       }
 

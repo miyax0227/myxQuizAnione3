@@ -60,9 +60,9 @@ div.player {
       }
     }
     div.absent {
-      @include player-item(-35, -95, 70, 48);
+      @include player-item(20, -110, 70, 60);
       @include bordered(1, #000000, #FFFF22);
-      line-height: 80%;
+      line-height: 50%;
       z-index: 1;
     }
     div.combo {
@@ -104,16 +104,32 @@ div.player {
         opacity: 0;
       }
     }
+    div.div {
+      @include player-item(25, -270, 100, 50);
+      @include value-range(0, 0) {
+        display: none;
+      }
+      color: black;
+      background: url('../img/div.png');
+      background-size: 100px 60px;
+      background-position: 0px 10px;
+      background-repeat: no-repeat;
+    }
   }
   div.closed {
     div.paperRank {
-      @include player-item(-50, -134, 100, 24);
+      @include player-item(-50,
+      -134,
+      100,
+      24);
       border-radius: 16px;
-      @include value-range(1, 10) {
+      @include value-range(1,
+      10) {
         @include bordered;
         background-color: red;
       }
-      @include value-range(11, 300) {
+      @include value-range(11,
+      300) {
         background-color: black;
         border: solid 2px white;
       }
@@ -121,7 +137,10 @@ div.player {
   }
   div.rank {
     img {
-      @include player-img(-40, -210, 90, 60);
+      @include player-img(-40,
+      -210,
+      90,
+      60);
       background-color: rgba(0, 0, 0, 0.5);
       @include fadein(1) {
         -webkit-transform: rotateX(180deg);
@@ -130,37 +149,51 @@ div.player {
   }
   div.status {
     img.win {
-      @include player-img(-30, -75, 60, 166);
+      @include player-img(-30,
+      -75,
+      60,
+      166);
       @include fadein(0.5) {
         transform: scale(1.5, 1.5);
       }
     }
     img.lose {
-      @include player-img(-37, -80, 75, 182);
+      @include player-img(-37,
+      -80,
+      75,
+      182);
       @include fadein(0.5) {
         transform: scale(1.5, 1.5) rotate(30deg);
       }
     }
     img.wait {
-      @include player-img(-30, -62, 60, 146);
+      @include player-img(-30,
+      -62,
+      60,
+      146);
       @include fadein(0.5) {
         transform: scale(1.5, 1.5);
       }
     }
     img.absent {
-      @include player-img(-30, -100, 60, 205);
+      @include player-img(-30,
+      -100,
+      60,
+      205);
       opacity: 0.7;
     }
   }
   div.motion {
     img.o {
-      @include player-img(-25, -30);
+      @include player-img(-25,
+      -30);
       @include fadeout(0.5) {
         transform: scale(1.5, 1.5);
       }
     }
     img.x {
-      @include player-img(-25, -30);
+      @include player-img(-25,
+      -30);
       @include fadeout(0.5) {
         transform: scale(1.5, 1.5);
       }
@@ -174,21 +207,27 @@ div.player {
     display: none;
   }
   div.action_o {
-    @include player-button(-22, -100);
+    @include player-button(-22,
+    -100);
   }
   div.action_x {
-    @include player-button(-22, 60);
+    @include player-button(-22,
+    60);
   }
   div.action_win {
-    @include player-button(-30, 110);
+    @include player-button(-30,
+    110);
   }
   div.action_lose {
-    @include player-button(-10, 110);
+    @include player-button(-10,
+    110);
   }
   div.action_wait {
-    @include player-button(10, 110);
+    @include player-button(10,
+    110);
   }
   div.action_s {
-    @include player-button(-22, -20);
+    @include player-button(-22,
+    -20);
   }
 }
