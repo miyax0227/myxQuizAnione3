@@ -22,16 +22,22 @@ app.factory('rule', ['qCommon', function(qCommon) {
    * header - ルール固有のヘッダ
    ****************************************************************************/
   rule.head = [{
-    "key": "pos",
-    "value": true,
-    "style": "boolean"
-  }];
+      "key": "pos",
+      "value": true,
+      "style": "boolean"
+    },
+    {
+      "key": "mode",
+      "value": 1,
+      "style": "number"
+    }
+  ];
 
   /*****************************************************************************
    * items - ルール固有のアイテム
    ****************************************************************************/
   rule.items = [{
-      "key": "o",
+      "key": "pts",
       "value": 0,
       "style": "number",
       "css": "o"
@@ -40,23 +46,8 @@ app.factory('rule', ['qCommon', function(qCommon) {
       "key": "x",
       "value": 0,
       "style": "number",
-      "css": "x"
-    },
-    {
-      "key": "div",
-      "css": "div"
-    },
-    {
-      "key": "pinch",
-      "css": "pinch_img"
-    },
-    {
-      "key": "chance",
-      "css": "chance_img"
-    },
-    {
-      "key": "star",
-      "css": "star_img"
+      "css": "x",
+      "repeatChar": "×"
     },
     {
       "key": "priority",
@@ -68,11 +59,11 @@ app.factory('rule', ['qCommon', function(qCommon) {
             2,
             "lose",
             0,
-            0
+            1
           ]
         },
         {
-          "key": "o",
+          "key": "pts",
           "order": "desc"
         }
       ]
@@ -83,8 +74,8 @@ app.factory('rule', ['qCommon', function(qCommon) {
    * tweet - ルール固有のツイートのひな型
    ****************************************************************************/
   rule.tweet = {
-    "o": "${handleName}◯　→${o}◯ ${x}×",
-    "x": "${handleName}×　→${o}◯ ${x}× ${absent}休",
+    "o": "${handleName}◯　→${pts}p",
+    "x": "${handleName}×　→${pts}p",
     "thru": "スルー"
   };
 
@@ -121,10 +112,25 @@ app.factory('rule', ['qCommon', function(qCommon) {
         return (player.status == 'normal' && !header.playoff);
       },
       "action0": function(player, players, header, property) {
-        // ○を加算
-        player.o++;
-        setMotion(player, 'o');
-        addQCount(players, header, property);
+        switch (header.mode) {
+          case 1:
+            // ptsを加算
+            player.pts++;
+            setMotion(player, 'o');
+            addQCount(players, header, property);
+            break;
+          case 2:
+          case 3:
+            // 他のプレイヤーのptsを減算
+            players.filter(function(p) {
+              return p != player && p.status == "normal";
+            }).map(function(p) {
+              p.pts--;
+            });
+            setMotion(player, 'o');
+            addQCount(players, header, property);
+            break;
+        }
       }
     },
     {
@@ -137,16 +143,30 @@ app.factory('rule', ['qCommon', function(qCommon) {
         return (player.status == 'normal' && !header.playoff);
       },
       "action0": function(player, players, header, property) {
-        // ×を加算
-        player.x++;
-        // 休み処理
-        player.status = "preabsent";
-        player.absent = players.filter(function(p) {
-          return p.status != "win" && p.status != "lose";
-        }).length - 1;
-
-        setMotion(player, 'x');
-        addQCount(players, header, property);
+        switch (header.mode) {
+          case 1:
+            // 他のプレイヤーのptsを加算
+            players.filter(function(p) {
+              return p != player && p.status == "normal";
+            }).map(function(p) {
+              p.pts++;
+            });
+            setMotion(player, 'x');
+            addQCount(players, header, property);
+            break;
+          case 2:
+            // 自分のptsを減算
+            player.pts--;
+            setMotion(player, 'x');
+            addQCount(players, header, property);
+            break;
+          case 3:
+            // 自分に×をつける
+            player.x = 1;
+            setMotion(player, 'x');
+            // 問題は進めない
+            break;
+        }
       }
     }
   ];
@@ -165,6 +185,11 @@ app.factory('rule', ['qCommon', function(qCommon) {
       },
       "action0": function(players, header, property) {
         addQCount(players, header, property);
+        // ×を解除
+        players.map(function(p) {
+          p.x = 0;
+        });
+
       }
     },
     {
@@ -189,78 +214,22 @@ app.factory('rule', ['qCommon', function(qCommon) {
    * @param {Object} property - property
    ****************************************************************************/
   function judgement(players, header, property) {
-    // 所定回数以上の×は失格
-    players.filter(function(p) {
-      return p.status != "win" && p.status != "lose" && p.x >= property.losingPoint;
-    }).map(function(p) {
-      lose(p, players, header, property);
-    });
-
-    function withoutWin(p) {
-      return p.status != "win";
-    }
-
-    var maxPoint = Math.max.apply(null, players.filter(withoutWin).map(function(p) {
-      return p.o;
-    }));
-    var minPoint = Math.min.apply(null, players.filter(withoutWin).map(function(p) {
-      return p.o;
-    }));
-    var changedPlayer = [];
-
-    var nowGap = 0;
-    var gapPtsArray = [];
-
-    gapFor: for (var pts = maxPoint; pts >= minPoint; pts--) {
-      if (players.filter(function(p) {
-          return p.o == pts && p.status != "win";
-        }).length > 0) {
-        nowGap = 0;
-      } else {
-        nowGap++;
-        if (nowGap >= property.gap - 1) {
-          gapPtsArray.push(pts);
-          //break gapFor;
-        }
-      }
-    }
-
-    angular.forEach(gapPtsArray, function(gapPts) {
-      // 既に勝抜している人数＋ラインより上の人数
-      console.log(gapPts, players.filter(function(p) {
-        return p.status == "win";
-      }).length, players.filter(function(p) {
-        return p.o > gapPts && p.status != "win" && p.status != "lose";
-      }).length);
-
-      var nextWinnerCount = players.filter(function(p) {
-        return p.status == "win";
-      }).length + players.filter(function(p) {
-        return p.o > gapPts && p.status != "win" && p.status != "lose";
-      }).length;
-
-      // 勝抜人数以下の場合、ラインより上のプレイヤーは勝抜
-      if (nextWinnerCount <= property.maxRankDisplay) {
+    angular.forEach(players.filter(function(item) {
+      /* rankがない人に限定 */
+      return (item.rank === 0);
+    }), function(player, i) {
+      /* win条件*/
+      if (player.pts >= 1 && header.mode >= 2 &&
         players.filter(function(p) {
-          return p.o > gapPts && p.status != "win" && p.status != "lose";
-        }).map(function(p) {
-          win(p, players, header, property);
-          changedPlayer.push(p);
-        });
+          return p.pts >= 1 && p != player;
+        }).length === 0) {
+        win(player, players, header, property);
       }
-      // 勝抜人数以上の場合、ラインより下のプレイヤーは失格
-      if (nextWinnerCount >= property.maxRankDisplay) {
-        players.filter(function(p) {
-          return p.o < gapPts && p.status != "win" && p.status != "lose";
-        }).map(function(p) {
-          lose(p, players, header, property);
-          changedPlayer.push(p);
-        });
+      /* lose条件 */
+      if (player.pts <= 0 && header.mode >= 2) {
+        lose(player, players, header, property);
       }
-
     });
-
-    return changedPlayer;
   }
 
   /*****************************************************************************
@@ -270,70 +239,37 @@ app.factory('rule', ['qCommon', function(qCommon) {
    * @param {Object} items - items
    ****************************************************************************/
   function calc(players, header, items, property) {
-    function getPlayer(ps, p) {
-      var pp = ps.filter(function(np) {
-        return np.entryNo == p.entryNo
-      });
-      if (pp.length > 0) {
-        return pp[0];
-      } else {
-        return undefined;
-      }
-    }
-
-    // div
-    var prevPlayer;
-    if (header.pos) {
-      players.map(function(p) {
-        p.div = 0;
-      });
+    // modeName
+    if (header.mode == 1) {
+      header.modeName = "前半";
     } else {
-      players.slice().sort(function(a, b) {
-        return a.priority - b.priority;
-      }).filter(function(p) {
-        return players.filter(function(pp) {
-          return pp.priority >= p.priority && pp.status != "win" && pp.status != "lose"
-        }).length > 0;
-      }).map(function(p) {
-        if (prevPlayer) {
-          if (prevPlayer.status != "win") {
-            prevPlayer.div = prevPlayer.o - p.o;
-          } else {
-            prevPlayer.div = 0;
-          }
-        }
-        prevPlayer = p;
-        p.div = 0;
-      });
+      header.modeName = "後半";
     }
 
-    // pinch, chance, star
-    players.map(function(p) {
-      p.pinch = false;
-      p.chance = false;
-      p.star = false;
-    });
-
-    players.filter(function(p) {
-      return p.status == "normal";
-    }).map(function(p) {
-      var nextPlayers = angular.copy(players);
-      getPlayer(nextPlayers, p).o++;
-      var judge = judgement(nextPlayers, header, property);
-      if (judge.length > 0) {
-        p.star = true;
-        judge.map(function(np) {
-          if (np.status == "win") {
-            getPlayer(players, np).chance = true;
-          } else if (np.status == "lose") {
-            getPlayer(players, np).pinch = true;
-          }
-        })
+    // mode 1->2
+    if (header.mode == 1) {
+      if (players.filter(function(p) {
+          return p.pts >= property.roundTripPoint;
+        }).length >= 1) {
+        header.mode = 2;
       }
-    });
-
+    }
+    // mode 2->3
+    if (header.mode == 2) {
+      if (players.filter(function(p) {
+          return p.pts <= 0;
+        }).length >= 1) {
+        header.mode = 3;
+      }
+    }
 
     angular.forEach(players, function(player, index) {
+      // pinch, chance
+      player.pinch = false;
+      player.chance = player.pts >= 1 && header.mode >= 2 &&
+        players.filter(function(p) {
+          return p.pts >= 2 && p != player;
+        }).length === 0;
 
       // キーボード入力時の配列の紐付け ローリング等の特殊形式でない場合はこのままでOK\
       player.keyIndex = player.position;

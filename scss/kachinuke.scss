@@ -115,6 +115,45 @@ div.player {
       background-position: 0px 10px;
       background-repeat: no-repeat;
     }
+    div.chance_img {
+      @include player-item(-50,
+      -250,
+      100,
+      50);
+      color: rgba(0, 0, 0, 0);
+      &[value="true"] {
+        background: url("../img/chance.png");
+        background-size: 100px 50px;
+        background-position: 0px 0px;
+        background-repeat: no-repeat;
+      }
+    }
+    div.star_img {
+      @include player-item(-25,
+      -250,
+      50,
+      50);
+      color: rgba(0, 0, 0, 0);
+      &[value="true"] {
+        background: url("../img/star.png");
+        background-size: 50px 50px;
+        background-position: 0px 0px;
+        background-repeat: no-repeat;
+      }
+    }
+    div.pinch_img {
+      @include player-item(-25,
+      -250,
+      50,
+      50);
+      color: rgba(0, 0, 0, 0);
+      &[value="true"] {
+        background: url("../img/pinch.png");
+        background-size: 50px 50px;
+        background-position: 0px 0px;
+        background-repeat: no-repeat;
+      }
+    }
   }
   div.closed {
     div.paperRank {
