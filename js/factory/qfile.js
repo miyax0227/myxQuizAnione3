@@ -9,6 +9,7 @@ app.service('qFile', ['$window', '$interval', '$filter', '$uibModal',
 		const fs = require('fs');
 		const dir = __dirname + '/round';
 		const nameListFile = __dirname + "/history/current/nameList.json";
+		const questionFile = __dirname + "/history/current/question.json";
 		const remote = require('electron').remote;
 		const Dialog = remote.dialog;
 		const browserWindow = remote.BrowserWindow;
@@ -139,6 +140,7 @@ app.service('qFile', ['$window', '$interval', '$filter', '$uibModal',
 		qFile.rounds = rounds;
 		qFile.initialize = initialize;
 		qFile.openNameList = openNameList;
+		qFile.openQuestion = openQuestion;
 		qFile.saveJsonFile = saveJsonFile;
 		qFile.cancelJsonFile = cancelJsonFile;
 		qFile.twitterWindowOpen = twitterWindowOpen;
@@ -162,6 +164,25 @@ app.service('qFile', ['$window', '$interval', '$filter', '$uibModal',
 		 * @param {object} scope $scope
 		 */
 		function openNameList(scope) {
+			openExcelFile(scope, "nameList", nameListFile);
+		}
+
+		/** 問題を開く
+		 * @param {object} scope $scope
+		 */
+		function openQuestion(scope){
+			console.log(scope.tableTitle);
+			console.log(excelProperty.sheetName);
+			openExcelFile(scope, "Question", questionFile);			
+			console.log(scope.tableTitle);
+		}
+
+		/** Excelファイルを開く
+     * @param {object} scope $scope
+     * @param {string} title タイトル
+     * @param {string} filename ファイル名
+     */
+		function openExcelFile(scope, tableTitle, filename) {
 			Dialog.showOpenDialog(null, {
 				properties: ['openFile'],
 				title: 'ファイルを開く',
@@ -225,8 +246,8 @@ app.service('qFile', ['$window', '$interval', '$filter', '$uibModal',
 				}
 				scope.tableHead = nameListColumn;
 				scope.tableContent = nameList;
-				scope.tableTitle = "nameList";
-				scope.tableFilename = nameListFile;
+				scope.tableTitle = tableTitle;
+				scope.tableFilename = filename;
 			});
 		}
 

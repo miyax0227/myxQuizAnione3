@@ -24,6 +24,9 @@ app.controller('index', ['$scope', 'qFile', function ($scope, qFile) {
 	$scope.openNameList = function () {
 		qFile.openNameList($scope);
 	};
+	$scope.openQuestion = function () {
+		qFile.openQuestion($scope);
+	};
 	$scope.saveJsonFile = function () {
 		qFile.saveJsonFile($scope);
 	};
