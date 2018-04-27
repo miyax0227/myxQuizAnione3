@@ -4,7 +4,7 @@
 		"x": "${handleName}×　→${o}◯ ${x}×",
 		"lot": "第${nowLot}組",
 		"thru": "スルー",
-		"win": "${handleName}勝抜！ ${rank}位",
+		"win": "${handleName}勝抜！",
 		"lose": "${handleName}失格！",
 		"comeback": "${handleName}復帰",
 		"playoff": "プレーオフ開始",
@@ -17,6 +17,7 @@
 		"undo": "操作ミスのため巻き戻し",
 		"set": "第${qSet}セット",
 		"push": "${handleName}押下",
-		"alter": "補充:${handleName}"
+		"alter": "補充:${handleName}",
+		"score": "${score}"
 	}
 ]

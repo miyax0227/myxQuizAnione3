@@ -33,16 +33,30 @@ div.player {
       border: solid 2px white;
     }
     div.o {
-      @include player-item(-100, -230, 200, 72);
-      &.chance {
-        color: $chance-color;
+      @include player-item(-100, -60, 200, 120);
+      -webkit-writing-mode: vertical-rl;
+      -webkit-text-orientation: upright;
+      font-size: 0px;
+      font-weight: 900;
+      color: lightskyblue;
+      @include value-range(1, 1) {
+        &::before {
+          content: "○";
+          font-size: 100px;
+        }
+        transform: translate(-29px, -10px);
       }
-      &.hidepts {
-        opacity: 0;
+      @include value-range(2, 2) {
+        &::before {
+          content: "◎";
+          vertical-align: middle;
+          font-size: 120px;
+        }
+        transform: translate(-3px, 0px);
       }
     }
     div.x {
-      @include player-item(-100, 130, 200, 72);
+      display: none;
       @include value-range(0, 0) {
         display: none;
       }
@@ -64,7 +78,10 @@ div.player {
       font-size: 0px;
       @include value-range(1, 1) {
         height: 210px;
-        background-color: $combo-color;
+        border-style: solid;
+        border-color: lightskyblue;
+        border-width: 10px;
+        background-color: rgba(0, 0, 0, 0);
         z-index: -100;
       }
     }

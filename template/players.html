@@ -3,7 +3,7 @@
   <div svg></div>
 
   <div class="open" ng-if="! player.close">
-    <div ng-repeat="item in items" ng-class="mergeItemCSS(item.css, player)" ng-if="item.hasOwnProperty('css') && (!item.hasOwnProperty('anonymous') || (anonymous == item.anonymous))"
+    <div ng-repeat="item in items" ng-class="mergeItemCSS(item.css, player)" ng-if="item.hasOwnProperty('css') && (!item.hasOwnProperty('anonymous') || (capturing == item.anonymous))"
     value="{{player[item.key]}}" ng-style="getItemCSS(item, player[item.key].length, player)">
       {{getDisplayValue(item ,player[item.key])}}
     </div>
@@ -24,7 +24,7 @@
     </div>
   </div>
   
-  <div ng-repeat="action in actions" ng-class="action.css" ng-if="! viewMode && ! anonymous">
+  <div ng-repeat="action in actions" ng-class="action.css" ng-if="! viewMode && ! capturing">
     <button ng-click="func_player_scope(action.action, player)" ng-class="action.button_css" ng-disabled="! func_player_scope(action.enable,player) || !pushable">
       {{action.name}}
     </button>

@@ -59,12 +59,14 @@ app.service('qCommon', ['$uibModal', '$localStorage', '$interval', '$location', 
 		qCommon.explainNext = explainNext;
 		qCommon.getExplainCount = getExplainCount;
 		qCommon.pushed = pushed;
+		qCommon.getCaptureFileName = getCaptureFileName;
+		qCommon.getTempCaptureFileName = getTempCaptureFileName;
 		return qCommon;
 
-    /** ログ文字列を生成する
-     * @param {Object} scope  $scope
+		/** ログ文字列を生成する
+		 * @param {Object} scope  $scope
 		 * @return {string}
-     **/
+		 **/
 		function getLog(scope) {
 			var logArray = [];
 			var header = scope.current.header;
@@ -83,9 +85,9 @@ app.service('qCommon', ['$uibModal', '$localStorage', '$interval', '$location', 
 			return logArray.join(',');
 		}
 
-    /** 履歴を作成する
-     * @param {object} scope  $scope
-     **/
+		/** 履歴を作成する
+		 * @param {object} scope  $scope
+		 **/
 		function createHist(scope) {
 			var needToTweet = false;
 			if (scope.current.header.tweets.length > 0) {
@@ -114,9 +116,18 @@ app.service('qCommon', ['$uibModal', '$localStorage', '$interval', '$location', 
 				});
 				// ツイート出力
 				if (needToTweet) {
-					fs.writeFile(getTweetFileName(), tweet, function (err) {
+					// 一度カレントディレクトリ内にファイルを作成する
+					var tempFileName = getTempTweetFileName();
+					var fileName = getTweetFileName();
+
+					fs.writeFile(tempFileName, tweet, function (err) {
 						if (err) {
 							console.log(err);
+						} else {
+							// ファイルを移動する
+							fs.rename(tempFileName, fileName, function (err) {
+								console.log(err);
+							});
 						}
 					});
 				}
@@ -126,11 +137,11 @@ app.service('qCommon', ['$uibModal', '$localStorage', '$interval', '$location', 
 			}
 		}
 
-    /** ツイート内容を最終的に編集する
-     * @param {Object} scope  $scope
-     * @param {array} tweets  連携したいツイート（リスト形式）
-     * @return {string} 編集したツイート内容
-     **/
+		/** ツイート内容を最終的に編集する
+		 * @param {Object} scope  $scope
+		 * @param {array} tweets  連携したいツイート（リスト形式）
+		 * @return {string} 編集したツイート内容
+		 **/
 		function constructTweet(scope, tweets) {
 			function dateString() {
 				return $filter('date')(new Date(), 'HH:mm:ss');
@@ -148,10 +159,10 @@ app.service('qCommon', ['$uibModal', '$localStorage', '$interval', '$location', 
 
 		}
 
-    /** playerを追加する
-     * @param {number} index  追加する位置
-     * @param {Object} scope  $scope
-     **/
+		/** playerを追加する
+		 * @param {number} index  追加する位置
+		 * @param {Object} scope  $scope
+		 **/
 		function addPlayer(index, scope) {
 			var player = {};
 			// playerにitemの初期値を設定
@@ -164,10 +175,10 @@ app.service('qCommon', ['$uibModal', '$localStorage', '$interval', '$location', 
 			scope.calc();
 		}
 
-    /** playerを勝抜処理する
-     * @param {Object} player  勝ち抜けたプレイヤー
-     * @param {Object} players  players
-     **/
+		/** playerを勝抜処理する
+		 * @param {Object} player  勝ち抜けたプレイヤー
+		 * @param {Object} players  players
+		 **/
 		function win(player, players, header, property) {
 			/* rank算出 */
 			player.rank = players.filter(function (item) {
@@ -192,10 +203,10 @@ app.service('qCommon', ['$uibModal', '$localStorage', '$interval', '$location', 
 			editTweet(header.tweets, property.tweet["win"], player, false);
 		}
 
-    /** playerを失格処理する
-     * @param {Object} player  勝ち抜けたプレイヤー
-     * @param {Object} players  players
-     **/
+		/** playerを失格処理する
+		 * @param {Object} player  勝ち抜けたプレイヤー
+		 * @param {Object} players  players
+		 **/
 		function lose(player, players, header, property) {
 			/* rank算出 */
 			player.rank = players.filter(function (item) {
@@ -221,10 +232,10 @@ app.service('qCommon', ['$uibModal', '$localStorage', '$interval', '$location', 
 
 		}
 
-    /** playerを削除する
-     * @param {number} index  削除する位置
-     * @param {Object} scope  $scope
-     **/
+		/** playerを削除する
+		 * @param {number} index  削除する位置
+		 * @param {Object} scope  $scope
+		 **/
 		function removePlayer(index, scope) {
 			// players内のindexで指定した位置のplayerを削除
 			scope.current.players.splice(index, 1);
@@ -232,11 +243,11 @@ app.service('qCommon', ['$uibModal', '$localStorage', '$interval', '$location', 
 			scope.calc();
 		}
 
-    /** 値の置換をする
-     * @param {string,number} a  元の文字列/数値
-     * @param {Array. <string,number>} alter (置換前文字列/数値, 置換後文字列/数値)*n [,elseの場合の文字列/数値]
-     * @return {string,number} 置換後の文字列/数値
-     **/
+		/** 値の置換をする
+		 * @param {string,number} a  元の文字列/数値
+		 * @param {Array. <string,number>} alter (置換前文字列/数値, 置換後文字列/数値)*n [,elseの場合の文字列/数値]
+		 * @return {string,number} 置換後の文字列/数値
+		 **/
 		function decode(a, alter) {
 			// alterをalterCopyに退避
 			var alterCopy = angular.copy(alter);
@@ -259,12 +270,12 @@ app.service('qCommon', ['$uibModal', '$localStorage', '$interval', '$location', 
 			return a;
 		}
 
-    /** playerのソート用関数
-     * @param {object[]} order  key:比較対象属性名 order:昇順(asc)/降順(desc) alter:置換文字列
-     * @param {boolean} position  比較結果が同等の場合、初期位置で比較を行うか
-     * @param {object} scope  $scope
-     * @return {function} 評価関数
-     **/
+		/** playerのソート用関数
+		 * @param {object[]} order  key:比較対象属性名 order:昇順(asc)/降順(desc) alter:置換文字列
+		 * @param {boolean} position  比較結果が同等の場合、初期位置で比較を行うか
+		 * @param {object} scope  $scope
+		 * @return {function} 評価関数
+		 **/
 		function playerSortOn(order, position, players) {
 			return function (a, b) {
 				// ループ内のコンテキスト、flgは返却予定値(-1/0/1)
@@ -319,10 +330,10 @@ app.service('qCommon', ['$uibModal', '$localStorage', '$interval', '$location', 
 			};
 		}
 
-    /** 現在の状態を履歴に反映する（undo,redoで使用）
-     * @param {object} hist  反映したい1履歴
-     * @param {object} scope  $scope
-     **/
+		/** 現在の状態を履歴に反映する（undo,redoで使用）
+		 * @param {object} hist  反映したい1履歴
+		 * @param {object} scope  $scope
+		 **/
 		function refreshCurrent(hist, scope) {
 			// headerの中身を入替
 			angular.forEach(scope.current.header, function (value, key) {
@@ -351,9 +362,9 @@ app.service('qCommon', ['$uibModal', '$localStorage', '$interval', '$location', 
 			}
 		}
 
-    /** 得点の編集画面を表示する
-     * @param {object} scope  $scope
-     **/
+		/** 得点の編集画面を表示する
+		 * @param {object} scope  $scope
+		 **/
 		function editCurrent(scope) {
 			scope.workKeyDown = false;
 			var modal = $uibModal.open({
@@ -376,10 +387,10 @@ app.service('qCommon', ['$uibModal', '$localStorage', '$interval', '$location', 
 			});
 		}
 
-    /** localStorageに保存する
-     * @param {object} scope  $scope
-     * @param {boolean} viewMode  表示モード
-     **/
+		/** localStorageに保存する
+		 * @param {object} scope  $scope
+		 * @param {boolean} viewMode  表示モード
+		 **/
 		function saveToStorage(scope, viewMode) {
 			var defaultObj = {};
 			defaultObj[getRoundName()] = {
@@ -422,31 +433,31 @@ app.service('qCommon', ['$uibModal', '$localStorage', '$interval', '$location', 
 			}
 		}
 
-    /** URLパラメータから表示モードかどうか判定する
-     * @return {boolean} 表示モードの場合はtrue, それ以外はfalse
-     **/
+		/** URLパラメータから表示モードかどうか判定する
+		 * @return {boolean} 表示モードの場合はtrue, それ以外はfalse
+		 **/
 		function viewMode() {
 			return $location.search()["view"] == "true";
 		}
 
-    /** URLパラメータから匿名モードかどうか判定する
-     * @return {boolean} 匿名モードの場合はtrue, それ以外はfalse
-     **/
+		/** URLパラメータから匿名モードかどうか判定する
+		 * @return {boolean} 匿名モードの場合はtrue, それ以外はfalse
+		 **/
 		function anonymousMode() {
 			return $location.search()["anonymous"] == "true";
 		}
 
-    /** パスからラウンド名を取得する
-     * @return {string} ラウンド名
-     **/
+		/** パスからラウンド名を取得する
+		 * @return {string} ラウンド名
+		 **/
 		function getRoundName() {
 			var pathArray = $location.path().split("/");
 			return pathArray[pathArray.length - 2];
 		}
 
-    /** サブウィンドウを開く
-     * @param {object} windowSize  windowSize
-     **/
+		/** サブウィンドウを開く
+		 * @param {object} windowSize  windowSize
+		 **/
 		function openWindow(windowSize) {
 			var parameter = "";
 			parameter += 'width=' + windowSize.width;
@@ -458,9 +469,9 @@ app.service('qCommon', ['$uibModal', '$localStorage', '$interval', '$location', 
 			$window.open('board.html?view=true', getRoundName() + ' - view', parameter);
 		}
 
-    /** ウィンドウサイズ変更を検知する関数
-     * @param {object} scope  scope
-     **/
+		/** ウィンドウサイズ変更を検知する関数
+		 * @param {object} scope  scope
+		 **/
 		function resizeWindow(scope) {
 			angular.element($window).bind('resize', function (event) {
 				adjustWindow(scope);
@@ -468,19 +479,19 @@ app.service('qCommon', ['$uibModal', '$localStorage', '$interval', '$location', 
 
 		}
 
-    /** ウィンドウサイズ変更に追従してzoomを変更する関数
-     * @param {object} scope  scope
-     **/
+		/** ウィンドウサイズ変更に追従してzoomを変更する関数
+		 * @param {object} scope  scope
+		 **/
 		function adjustWindow(scope) {
 			var widthRatio = $window.innerWidth / scope.windowSize.width;
 			var heightRatio = $window.innerHeight / scope.windowSize.height;
 			document.body.style.zoom = Math.min(widthRatio, heightRatio);
 		}
 
-    /** header.jsonに記載されたデフォルトのheaderを取得する
-     * @param {object} header.jsonをパースした状態のオブジェクト
-     * @return {object} ヘッダ情報
-     **/
+		/** header.jsonに記載されたデフォルトのheaderを取得する
+		 * @param {object} header.jsonをパースした状態のオブジェクト
+		 * @return {object} ヘッダ情報
+		 **/
 		function getDefaultHeader(headerObj) {
 			var header = {};
 			headerObj.map(function (record) {
@@ -489,11 +500,11 @@ app.service('qCommon', ['$uibModal', '$localStorage', '$interval', '$location', 
 			return header;
 		}
 
-    /** playerの表示位置を示すCSSを取得する
-     * @param [Array] players 全プレイヤー情報
-     * @param {object} player プレイヤー
-     * @return {object} CSSオブジェクト
-     **/
+		/** playerの表示位置を示すCSSを取得する
+		 * @param [Array] players 全プレイヤー情報
+		 * @param {object} player プレイヤー
+		 * @return {object} CSSオブジェクト
+		 **/
 		function getPlayerCSS(players, player, windowSize, lineProperty) {
 			var property = {};
 			if (lineProperty.hasOwnProperty(player.line)) {
@@ -570,12 +581,12 @@ app.service('qCommon', ['$uibModal', '$localStorage', '$interval', '$location', 
 			};
 		}
 
-    /** 伸縮が必要なアイテムのCSS情報を取得する
-     * @param {object} item アイテム情報
-     * @param {object} length 文字列長
-     * @param {object} player プレイヤー情報
-     * @return {object} CSSオブジェクト
-     **/
+		/** 伸縮が必要なアイテムのCSS情報を取得する
+		 * @param {object} item アイテム情報
+		 * @param {object} length 文字列長
+		 * @param {object} player プレイヤー情報
+		 * @return {object} CSSオブジェクト
+		 **/
 		function getItemCSS(item, length, player) {
 			var css = {};
 
@@ -591,11 +602,11 @@ app.service('qCommon', ['$uibModal', '$localStorage', '$interval', '$location', 
 			return css;
 		}
 
-    /** 値により背景色が変わるアイテムのCSS情報を取得する（主に予選順位用）
-     * @param {object} item アイテム情報
-     * @param {object} rank 順位
-     * @return {object} CSSオブジェクト
-     **/
+		/** 値により背景色が変わるアイテムのCSS情報を取得する（主に予選順位用）
+		 * @param {object} item アイテム情報
+		 * @param {object} rank 順位
+		 * @return {object} CSSオブジェクト
+		 **/
 		function getRankColorCSS(item, rank) {
 			if (item.hasOwnProperty('rankColor')) {
 				return {
@@ -607,11 +618,11 @@ app.service('qCommon', ['$uibModal', '$localStorage', '$interval', '$location', 
 			return null;
 		}
 
-    /** 表示用の値を取得する
-     * @param {object} item item.json等に定義された表示方法
-     * @param {number/string} value 本当の値
-     * @return {string} 表示用の値
-     **/
+		/** 表示用の値を取得する
+		 * @param {object} item item.json等に定義された表示方法
+		 * @param {number/string} value 本当の値
+		 * @return {string} 表示用の値
+		 **/
 		function getDisplayValue(item, value) {
 			// nullやゼロの場合表示しない指定がされており、実際の値がnullやゼロの場合
 			if (item.hasOwnProperty('invisibleWhenZeroOrNull') && (value == 0 || value == null)) {
@@ -624,6 +635,10 @@ app.service('qCommon', ['$uibModal', '$localStorage', '$interval', '$location', 
 					return "";
 				}
 				return Array(parseInt(value) + 1).join(item.repeatChar);
+
+				// DNQが指定されていて、それ以上の値の場合
+			} else if (item.hasOwnProperty('dnq') && value >= item.dnq) {
+				return "DNQ";
 
 				// 普通の場合
 			} else {
@@ -653,10 +668,10 @@ app.service('qCommon', ['$uibModal', '$localStorage', '$interval', '$location', 
 			}
 		}
 
-    /** 問題数を進める
-     * @param {object} players プレイヤー情報
-     * @param {object} header ヘッダ情報
-     **/
+		/** 問題数を進める
+		 * @param {object} players プレイヤー情報
+		 * @param {object} header ヘッダ情報
+		 **/
 		function addQCount(players, header, property) {
 			// 問題数を進める
 			header.qCount++;
@@ -676,10 +691,10 @@ app.service('qCommon', ['$uibModal', '$localStorage', '$interval', '$location', 
 			});
 		}
 
-    /** モーションを設定する(アニメーションさせるため、motionとmotion2に交互に設定する)
-     * @param {object} player 設定先プレイヤー
-     * @param {object} motion 設定したいmotion
-     **/
+		/** モーションを設定する(アニメーションさせるため、motionとmotion2に交互に設定する)
+		 * @param {object} player 設定先プレイヤー
+		 * @param {object} motion 設定したいmotion
+		 **/
 		function setMotion(player, motion) {
 			if (player.motion == "") {
 				player.motion = motion;
@@ -690,10 +705,10 @@ app.service('qCommon', ['$uibModal', '$localStorage', '$interval', '$location', 
 			}
 		}
 
-    /** keydownイベントのハンドラ
-     * @param {object} scope $scope
-     * @param {object} event $event
-     **/
+		/** keydownイベントのハンドラ
+		 * @param {object} scope $scope
+		 * @param {object} event $event
+		 **/
 		function keyDown(scope, event) {
 			// キー押下が有効な場合
 			if (scope.workKeyDown) {
@@ -760,9 +775,9 @@ app.service('qCommon', ['$uibModal', '$localStorage', '$interval', '$location', 
 			}
 		}
 
-    /** 履歴ファイル名の取得
-     * @return {string} 履歴ファイル名
-     **/
+		/** 履歴ファイル名の取得
+		 * @return {string} 履歴ファイル名
+		 **/
 		function getHistoryFileName() {
 			try {
 				return __dirname + '/../../history/current/' + getRoundName() + '.json';
@@ -771,9 +786,9 @@ app.service('qCommon', ['$uibModal', '$localStorage', '$interval', '$location', 
 			}
 		}
 
-    /** エントリーファイル名の取得
-     * @return {string} 履歴ファイル名
-     **/
+		/** エントリーファイル名の取得
+		 * @return {string} 履歴ファイル名
+		 **/
 		function getEntryFileName() {
 			try {
 				return __dirname + '/../../history/current/' + getRoundName() + '-entry.json';
@@ -782,13 +797,17 @@ app.service('qCommon', ['$uibModal', '$localStorage', '$interval', '$location', 
 			}
 		}
 
-    /** ツイートファイル名の取得
-     * @return {string} ツイートファイル名
-     **/
+		/** yyyyMMddHHmmss.sss形式で日時を返却する
+		 * @return {string} yyyyMMddHHmmss.sss形式の日時
+		 */
+		function dateString() {
+			return $filter('date')(new Date(), 'yyyyMMddHHmmss.sss');
+		}
+
+		/** ツイートファイル名の取得
+		 * @return {string} ツイートファイル名
+		 **/
 		function getTweetFileName() {
-			function dateString() {
-				return $filter('date')(new Date(), 'yyyyMMddHHmmss.sss');
-			}
 			try {
 				return __dirname + '/../../twitter/' + dateString() + "_" + getRoundName() + '.txt';
 			} catch (e) {
@@ -796,11 +815,36 @@ app.service('qCommon', ['$uibModal', '$localStorage', '$interval', '$location', 
 			}
 		}
 
-    /** プレイヤー情報の補完・初期化
-     * @param {array} players  プレイヤー情報
-     * @param {array} items  アイテム情報
-     * @return {array} 不足していたアイテム情報が付加されたプレイヤー情報
-     **/
+		/** 一時ツイートファイル名の取得
+		 * @return {string} 一時ツイートファイル名
+		 **/
+		function getTempTweetFileName() {
+			return './' + dateString() + "_" + getRoundName() + '.txt';
+		}
+
+		/** ツイート用画像ファイル名の取得 
+		 * @return {string} ツイート用画像ファイル名
+		 */
+		function getCaptureFileName() {
+			try {
+				return __dirname + '/../../twitter/' + dateString() + "_" + getRoundName() + '.png';
+			} catch (e) {
+				return '../../twitter/' + dateString() + "_" + getRoundName() + '.png';
+			}
+		}
+
+		/** 一時ツイート用画像ファイル名の取得 
+		 * @return {string} 一時ツイート用画像ファイル名
+		 **/
+		function getTempCaptureFileName() {
+			return './' + dateString() + "_" + getRoundName() + '.png';
+		}
+
+		/** プレイヤー情報の補完・初期化
+		 * @param {array} players  プレイヤー情報
+		 * @param {array} items  アイテム情報
+		 * @return {array} 不足していたアイテム情報が付加されたプレイヤー情報
+		 **/
 		function initPlayers(players, items) {
 			var toPlayers = angular.copy(players);
 			angular.forEach(toPlayers, function (player) {
@@ -813,10 +857,10 @@ app.service('qCommon', ['$uibModal', '$localStorage', '$interval', '$location', 
 			return toPlayers;
 		}
 
-    /** タイマー表示
-     * @param {object} scope  $scope
-     * @return {string} timer  表示用タイマー文字列
-     **/
+		/** タイマー表示
+		 * @param {object} scope  $scope
+		 * @return {string} timer  表示用タイマー文字列
+		 **/
 		function getTimer(scope) {
 			function timerFormat(millisec) {
 				if (millisec >= 60000) {
@@ -858,8 +902,8 @@ app.service('qCommon', ['$uibModal', '$localStorage', '$interval', '$location', 
 			}
 		}
 
-    /** タイマー表示用タイマー
-     **/
+		/** タイマー表示用タイマー
+		 **/
 		function timerTimerStart(scope) {
 			var t;
 			t = $interval(function () {
@@ -876,13 +920,13 @@ app.service('qCommon', ['$uibModal', '$localStorage', '$interval', '$location', 
 			}, 2000, 1);
 		}
 
-    /** 優勝者名の設定
-     * @param {object} scope  $scope
-     **/
+		/** 優勝者名の設定
+		 * @param {object} scope  $scope
+		 **/
 		function victoryName(scope) {
 			if (scope.current.players.filter(function (player) {
-				return player.rank == 1;
-			}).length == 1) {
+					return player.rank == 1;
+				}).length == 1) {
 				return scope.current.players.filter(function (player) {
 					return player.rank == 1;
 				})[0];
@@ -891,11 +935,11 @@ app.service('qCommon', ['$uibModal', '$localStorage', '$interval', '$location', 
 			}
 		}
 
-    /** プレイヤー変更用のモーダルウィンドウを表示
-     * @param {object} scope  $scope
-     * @param {object} player  変更したいプレイヤー
-     * @param {array} items  items
-     **/
+		/** プレイヤー変更用のモーダルウィンドウを表示
+		 * @param {object} scope  $scope
+		 * @param {object} player  変更したいプレイヤー
+		 * @param {array} items  items
+		 **/
 		function changePlayer(scope, player, items) {
 			angular.forEach(scope.nameList, function (participant) {
 				participant.filtered = false;
@@ -920,15 +964,14 @@ app.service('qCommon', ['$uibModal', '$localStorage', '$interval', '$location', 
 				angular.forEach(scope.selectPlayer, function (value, key) {
 					player[key] = value;
 				});
-			}, function () {
-			});
+			}, function () {});
 
 		}
 
-    /** 参加者フィルタ
-     * @param {object} nameList  参加者リスト
-     * @param {object} selectPlayer  検索条件
-     **/
+		/** 参加者フィルタ
+		 * @param {object} nameList  参加者リスト
+		 * @param {object} selectPlayer  検索条件
+		 **/
 		function filterPlayer(nameList, selectPlayer) {
 			var count = 0;
 			var onlyOneParticipant = {};
@@ -962,28 +1005,28 @@ app.service('qCommon', ['$uibModal', '$localStorage', '$interval', '$location', 
 
 		}
 
-    /** プレイヤー選択
-     * @param {object} participant  参加者(一人)
-     * @param {object} selectPlayer  検索条件
-     **/
+		/** プレイヤー選択
+		 * @param {object} participant  参加者(一人)
+		 * @param {object} selectPlayer  検索条件
+		 **/
 		function setPlayer(participant, selectPlayer) {
 			angular.forEach(selectPlayer, function (value, key) {
 				selectPlayer[key] = participant[key];
 			});
 		}
 
-    /** プレイヤー検索条件クリア
-     * @param {object} selectPlayer  検索条件
-     **/
+		/** プレイヤー検索条件クリア
+		 * @param {object} selectPlayer  検索条件
+		 **/
 		function clearPlayer(selectPlayer) {
 			angular.forEach(selectPlayer, function (value, key) {
 				selectPlayer[key] = "";
 			});
 		}
 
-    /** 参加者並び替え
-     * @param {object} selectPlayer  検索条件
-     **/
+		/** 参加者並び替え
+		 * @param {object} selectPlayer  検索条件
+		 **/
 		function sortPlayer(nameList, attribute, order, style) {
 			nameList.sort(function (a, b) {
 				var aa;
@@ -1023,9 +1066,9 @@ app.service('qCommon', ['$uibModal', '$localStorage', '$interval', '$location', 
 			});
 		}
 
-    /** プレーオフ終了
-     * @param {object} scope  $scope
-     **/
+		/** プレーオフ終了
+		 * @param {object} scope  $scope
+		 **/
 		function playoffoff(players, header) {
 			// プレーオフ終了
 			header.playoff = false;
@@ -1038,12 +1081,12 @@ app.service('qCommon', ['$uibModal', '$localStorage', '$interval', '$location', 
 			});
 		}
 
-    /** ツイート編集
-     * @param {array} tweets  追加先のツイートリスト
-     * @param {string} tweet  ツイートのひな型
-     * @param {object} obj  ツイートの主体となるプレイヤーまたはプレイヤーリストまたはヘッダ情報
-     * @param {boolean} top  ツイートリストの先頭に追加する場合はtrue, 末尾に追加する場合はfalse
-     **/
+		/** ツイート編集
+		 * @param {array} tweets  追加先のツイートリスト
+		 * @param {string} tweet  ツイートのひな型
+		 * @param {object} obj  ツイートの主体となるプレイヤーまたはプレイヤーリストまたはヘッダ情報
+		 * @param {boolean} top  ツイートリストの先頭に追加する場合はtrue, 末尾に追加する場合はfalse
+		 **/
 		function editTweet(tweets, tweet, obj, top) {
 			// objが指定されていない場合は空オブジェクトを補完
 			if (obj == null) {
@@ -1070,11 +1113,11 @@ app.service('qCommon', ['$uibModal', '$localStorage', '$interval', '$location', 
 
 		}
 
-    /** itemのCSSを編集して返却する関数
-     * @param {string} css  item.css(スペース区切り文字列）
-     * @param {object} player  player(オブジェクト)
-     * @return {array}  cssのリスト
-     */
+		/** itemのCSSを編集して返却する関数
+		 * @param {string} css  item.css(スペース区切り文字列）
+		 * @param {object} player  player(オブジェクト)
+		 * @return {array}  cssのリスト
+		 */
 		function mergeItemCSS(css, player) {
 			var cssArray = [];
 			if (angular.isString(css)) {
@@ -1089,8 +1132,8 @@ app.service('qCommon', ['$uibModal', '$localStorage', '$interval', '$location', 
 			return cssArray;
 		}
 
-    /** timerを初期化する
-     */
+		/** timerを初期化する
+		 */
 		function timerReset() {
 			var timer = qCommon.timer;
 			timer.destination = null;
@@ -1098,8 +1141,8 @@ app.service('qCommon', ['$uibModal', '$localStorage', '$interval', '$location', 
 			timer.working = false;
 		}
 
-    /** timerを始める
-     */
+		/** timerを始める
+		 */
 		function timerStart() {
 			var timer = qCommon.timer;
 			timer.destination = new Date(new Date().getTime() + timer.defaultTime * 1000);
@@ -1107,8 +1150,8 @@ app.service('qCommon', ['$uibModal', '$localStorage', '$interval', '$location', 
 			timer.working = true;
 		}
 
-    /** timerを止める
-     */
+		/** timerを止める
+		 */
 		function timerStop() {
 			var timer = qCommon.timer;
 			if (timer.destination) {
@@ -1117,30 +1160,30 @@ app.service('qCommon', ['$uibModal', '$localStorage', '$interval', '$location', 
 			}
 		}
 
-    /** timerを再び始める
-     */
+		/** timerを再び始める
+		 */
 		function timerRestart() {
 			var timer = qCommon.timer;
 			timer.destination = new Date(new Date().getTime() + timer.restTime.getTime());
 			timer.restTime = null;
 		}
 
-    /** timerを表示する
-     */
+		/** timerを表示する
+		 */
 		function timerShow() {
 			var timer = qCommon.timer;
 			timer.visible = true;
 		}
 
-    /** timerを非表示にする
-     */
+		/** timerを非表示にする
+		 */
 		function timerHide() {
 			var timer = qCommon.timer;
 			timer.visible = false;
 		}
 
-    /** timerの秒数＋１
-     */
+		/** timerの秒数＋１
+		 */
 		function timerPlus1() {
 			var timer = qCommon.timer;
 			if (timer.restTime) {
@@ -1150,8 +1193,8 @@ app.service('qCommon', ['$uibModal', '$localStorage', '$interval', '$location', 
 			}
 		}
 
-    /** timerの秒数ー１
-     */
+		/** timerの秒数ー１
+		 */
 		function timerMinus1() {
 			var timer = qCommon.timer;
 			if (timer.restTime) {
@@ -1163,14 +1206,14 @@ app.service('qCommon', ['$uibModal', '$localStorage', '$interval', '$location', 
 
 		/** 説明文　最大数設定 
 		 * @param {number} max 説明文の最大数
-		*/
+		 */
 		function setExplainCount(max) {
 			var timer = qCommon.timer;
 			timer.explainMax = max;
 			timer.explainCount = 0;
 		}
 		/** 説明文　次へ
-		*/
+		 */
 		function explainNext() {
 			var timer = qCommon.timer;
 			timer.explainCount++;
@@ -1194,9 +1237,9 @@ app.service('qCommon', ['$uibModal', '$localStorage', '$interval', '$location', 
 			return timer.explainCount;
 		}
 
-    /** ボタン押下後、一定時間押下できないようにする
-     * @param {object} scope  $scope
-     */
+		/** ボタン押下後、一定時間押下できないようにする
+		 * @param {object} scope  $scope
+		 */
 		function pushed(scope) {
 			scope.pushable = false;
 			var t;
@@ -1204,4 +1247,5 @@ app.service('qCommon', ['$uibModal', '$localStorage', '$interval', '$location', 
 				scope.pushable = true;
 			}, 500, 1);
 		}
-	}]);
+	}
+]);

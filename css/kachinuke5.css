@@ -1,6 +1,14 @@
 @charset "UTF-8";
 div.player div.open div.name {
-  display: none;
+  position: absolute;
+  left: -9px;
+  top: -108px;
+  width: 50px;
+  font-size: 56px;
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", "Noto Sans Japanese", "ヒラギノ角ゴ ProN W3", Meiryo, sans-serif;
+  font-weight: bold;
+  text-align: center;
+  -webkit-user-select: none;
   -webkit-writing-mode: vertical-rl;
   -webkit-text-orientation: upright;
   -webkit-text-stroke-color: #000000;
@@ -11,23 +19,16 @@ div.player div.open div.name {
   transform-origin: 0px 12px; }
 
 div.player div.open div.nameLat {
-  position: absolute;
-  left: -180px;
-  top: -32px;
-  font-size: 56px;
-  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", "Noto Sans Japanese", "ヒラギノ角ゴ ProN W3", Meiryo, sans-serif;
-  font-weight: bold;
-  text-align: center;
-  -webkit-user-select: none;
+  display: none;
   transform-origin: -5px 0px;
   transform: translate(55px, 0px); }
 
 div.player div.open div.paperRank {
   position: absolute;
-  left: -320px;
-  top: -18px;
-  width: 120px;
-  font-size: 36px;
+  left: -50px;
+  top: -134px;
+  width: 100px;
+  font-size: 24px;
   font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", "Noto Sans Japanese", "ヒラギノ角ゴ ProN W3", Meiryo, sans-serif;
   font-weight: bold;
   text-align: center;
@@ -38,43 +39,47 @@ div.player div.open div.paperRank {
 
 div.player div.open div.pref {
   position: absolute;
-  left: 120px;
-  top: 2px;
-  width: 120px;
-  font-size: 20px;
+  left: -50px;
+  top: 110px;
+  width: 100px;
+  font-size: 24px;
   font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", "Noto Sans Japanese", "ヒラギノ角ゴ ProN W3", Meiryo, sans-serif;
   font-weight: bold;
   text-align: center;
   -webkit-user-select: none;
+  border-radius: 20px;
   background-color: black;
-  border: solid 2px white;
-  border-radius: 50px; }
+  border: solid 2px white; }
 
 div.player div.open div.o {
   position: absolute;
   left: -100px;
-  top: -230px;
+  top: -60px;
   width: 200px;
-  font-size: 72px;
+  font-size: 120px;
   font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", "Noto Sans Japanese", "ヒラギノ角ゴ ProN W3", Meiryo, sans-serif;
   font-weight: bold;
   text-align: center;
-  -webkit-user-select: none; }
-  div.player div.open div.o.chance {
-    color: lightskyblue; }
-  div.player div.open div.o.hidepts {
-    opacity: 0; }
+  -webkit-user-select: none;
+  -webkit-writing-mode: vertical-rl;
+  -webkit-text-orientation: upright;
+  font-size: 0px;
+  font-weight: 900;
+  color: lightskyblue; }
+  div.player div.open div.o[value="1"] {
+    transform: translate(-29px, -10px); }
+    div.player div.open div.o[value="1"]::before {
+      content: "○";
+      font-size: 100px; }
+  div.player div.open div.o[value="2"] {
+    transform: translate(-3px, 0px); }
+    div.player div.open div.o[value="2"]::before {
+      content: "◎";
+      vertical-align: middle;
+      font-size: 120px; }
 
 div.player div.open div.x {
-  position: absolute;
-  left: -100px;
-  top: 130px;
-  width: 200px;
-  font-size: 72px;
-  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", "Noto Sans Japanese", "ヒラギノ角ゴ ProN W3", Meiryo, sans-serif;
-  font-weight: bold;
-  text-align: center;
-  -webkit-user-select: none; }
+  display: none; }
   div.player div.open div.x[value="0"] {
     display: none; }
   div.player div.open div.x.pinch {
@@ -84,10 +89,10 @@ div.player div.open div.x {
 
 div.player div.open div.absent {
   position: absolute;
-  left: -35px;
-  top: -95px;
+  left: 20px;
+  top: -110px;
   width: 70px;
-  font-size: 30px;
+  font-size: 60px;
   font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", "Noto Sans Japanese", "ヒラギノ角ゴ ProN W3", Meiryo, sans-serif;
   font-weight: bold;
   text-align: center;
@@ -95,7 +100,7 @@ div.player div.open div.absent {
   -webkit-text-stroke-color: #000000;
   -webkit-text-stroke-width: 1px;
   -webkit-text-fill-color: #FFFF22;
-  line-height: 80%;
+  line-height: 50%;
   z-index: 1; }
 
 div.player div.open div.combo {
@@ -111,7 +116,10 @@ div.player div.open div.combo {
   font-size: 0px; }
   div.player div.open div.combo[value="1"] {
     height: 210px;
-    background-color: gold;
+    border-style: solid;
+    border-color: lightskyblue;
+    border-width: 10px;
+    background-color: transparent;
     z-index: -100; }
 
 div.player div.open div.select {
@@ -162,28 +170,86 @@ div.player div.open div.o2 {
   div.player div.open div.o2.hidepts {
     opacity: 0; }
 
-div.player div.open div.paperPts {
+div.player div.open div.div {
   position: absolute;
-  left: 120px;
-  top: -22px;
-  width: 120px;
-  font-size: 20px;
-  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", "Noto Sans Japanese", "ヒラギノ角ゴ ProN W3", Meiryo, sans-serif;
-  font-weight: bold;
-  text-align: center;
-  -webkit-user-select: none; }
-
-div.player div.closed div.paperRank {
-  position: absolute;
-  left: -320px;
-  top: -18px;
-  width: 120px;
-  font-size: 36px;
+  left: 25px;
+  top: -270px;
+  width: 100px;
+  font-size: 50px;
   font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", "Noto Sans Japanese", "ヒラギノ角ゴ ProN W3", Meiryo, sans-serif;
   font-weight: bold;
   text-align: center;
   -webkit-user-select: none;
-  border-radius: 50px; }
+  color: black;
+  background: url("../img/div.png");
+  background-size: 100px 60px;
+  background-position: 0px 10px;
+  background-repeat: no-repeat; }
+  div.player div.open div.div[value="0"] {
+    display: none; }
+
+div.player div.open div.chance_img {
+  position: absolute;
+  left: -50px;
+  top: -250px;
+  width: 100px;
+  font-size: 50px;
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", "Noto Sans Japanese", "ヒラギノ角ゴ ProN W3", Meiryo, sans-serif;
+  font-weight: bold;
+  text-align: center;
+  -webkit-user-select: none;
+  color: transparent; }
+  div.player div.open div.chance_img[value="true"] {
+    background: url("../img/chance.png");
+    background-size: 100px 50px;
+    background-position: 0px 0px;
+    background-repeat: no-repeat; }
+
+div.player div.open div.star_img {
+  position: absolute;
+  left: -25px;
+  top: -250px;
+  width: 50px;
+  font-size: 50px;
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", "Noto Sans Japanese", "ヒラギノ角ゴ ProN W3", Meiryo, sans-serif;
+  font-weight: bold;
+  text-align: center;
+  -webkit-user-select: none;
+  color: transparent; }
+  div.player div.open div.star_img[value="true"] {
+    background: url("../img/star.png");
+    background-size: 50px 50px;
+    background-position: 0px 0px;
+    background-repeat: no-repeat; }
+
+div.player div.open div.pinch_img {
+  position: absolute;
+  left: -25px;
+  top: -250px;
+  width: 50px;
+  font-size: 50px;
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", "Noto Sans Japanese", "ヒラギノ角ゴ ProN W3", Meiryo, sans-serif;
+  font-weight: bold;
+  text-align: center;
+  -webkit-user-select: none;
+  color: transparent; }
+  div.player div.open div.pinch_img[value="true"] {
+    background: url("../img/pinch.png");
+    background-size: 50px 50px;
+    background-position: 0px 0px;
+    background-repeat: no-repeat; }
+
+div.player div.closed div.paperRank {
+  position: absolute;
+  left: -50px;
+  top: -134px;
+  width: 100px;
+  font-size: 24px;
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", "Noto Sans Japanese", "ヒラギノ角ゴ ProN W3", Meiryo, sans-serif;
+  font-weight: bold;
+  text-align: center;
+  -webkit-user-select: none;
+  border-radius: 16px; }
   div.player div.closed div.paperRank[value="1"] {
     -webkit-text-stroke-color: #000000;
     -webkit-text-stroke-width: 1px;
@@ -1179,17 +1245,9 @@ div.player div.status img.absent {
   left: -30px;
   top: -100px;
   width: 60px;
-  height: 200px;
-  -webkit-user-select: none; }
-  div.player div.status img.absent.ng-enter {
-    transition: all cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.5s;
-    opacity: 0;
-    transform: scale(1.2, 1.2); }
-    div.player div.status img.absent.ng-enter.ng-enter-active {
-      opacity: 0.3;
-      -webkit-transform: rotateX(0deg);
-      transform: translate(0px, 0px);
-      transform: scale(1, 1); }
+  height: 205px;
+  -webkit-user-select: none;
+  opacity: 0.7; }
 
 div.player div.motion img.o {
   position: absolute;
@@ -1249,24 +1307,21 @@ div.player div.action_win {
   left: -30px;
   top: 110px;
   opacity: 0.8;
-  -webkit-user-select: none;
-  display: none; }
+  -webkit-user-select: none; }
 
 div.player div.action_lose {
   position: absolute;
   left: -10px;
   top: 110px;
   opacity: 0.8;
-  -webkit-user-select: none;
-  display: none; }
+  -webkit-user-select: none; }
 
 div.player div.action_wait {
   position: absolute;
   left: 10px;
   top: 110px;
   opacity: 0.8;
-  -webkit-user-select: none;
-  display: none; }
+  -webkit-user-select: none; }
 
 div.player div.action_s {
   position: absolute;

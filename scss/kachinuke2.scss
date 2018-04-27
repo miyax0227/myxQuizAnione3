@@ -23,14 +23,8 @@ div.player {
     div.paperRank {
       @include player-item(-320, -18, 120, 36);
       border-radius: 50px;
-      @include value-range(1, 10) {
-        @include bordered;
-        background-color: red;
-      }
-      @include value-range(11, 300) {
-        background-color: black;
-        border: solid 2px white;
-      }
+      background-color: black;
+      border: solid 2px white;
     }
     div.pref {
       @include player-item(120, 2, 120, 20);

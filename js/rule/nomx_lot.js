@@ -84,7 +84,7 @@ app.factory('rule', ['qCommon', function(qCommon) {
    ****************************************************************************/
   rule.tweet = {
     "o": "${handleName}◯　→${o}◯ ${x}×",
-    "x": "${handleName}×　→${o}◯ ${x}× ${absent}休",
+    "x": "${handleName}×　→${o}◯ ${x}×",
     "thru": "スルー"
   };
 

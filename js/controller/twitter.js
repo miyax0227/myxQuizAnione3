@@ -8,6 +8,15 @@ app.controller('twitter', ['$scope', 'qTwitter', function ($scope, qTwitter) {
   $scope.accounts = qTwitter.accounts;
   $scope.history = qTwitter.history;
   $scope.accountNum = qTwitter.accountNum;
+  $scope.status = qTwitter.status;
+  $scope.status.start = false;
+
+  /** 滞留しているファイルをすべて削除する
+   * 
+   */
+  $scope.backup = function backup(){
+    qTwitter.backup();
+  }
 
   /** アカウント番号を変更する
    * @param {number} num アカウント番号

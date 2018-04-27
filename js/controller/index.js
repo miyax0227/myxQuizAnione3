@@ -1,13 +1,14 @@
 'use strict';
 
 var appName = "myxQuizIndex";
-var app = angular.module(appName, ["ui.bootstrap", "ngAnimate", "ngResource"]);
+var app = angular.module(appName, ["ui.bootstrap", "ngAnimate", "ngResource", "ui.sortable"]);
 
 /** INDEX画面用コントローラ */
 app.controller('index', ['$scope', 'qFile', function ($scope, qFile) {
 	$scope.tableHead = [];
 	$scope.tableContent = [];
 	$scope.rounds = qFile.rounds;
+	$scope.nameList = [];
 	angular.forEach($scope.rounds, function (round) {
 		round.initialize = function () {
 			round.initialize0($scope);
@@ -33,6 +34,12 @@ app.controller('index', ['$scope', 'qFile', function ($scope, qFile) {
 	$scope.cancelJsonFile = function () {
 		qFile.cancelJsonFile($scope);
 	};
+
+	$scope.deleteContent = qFile.deleteContent;
+	$scope.addContent = qFile.addContent;
+	$scope.isProfile = qFile.isProfile;
+	$scope.typeaheadLabel = qFile.typeaheadLabel;
+	$scope.onSelect = qFile.onSelect
 
 }]);
 

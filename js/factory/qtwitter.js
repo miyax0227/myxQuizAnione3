@@ -31,22 +31,29 @@ app.service('qTwitter', ['$twitterApi', '$interval', '$filter',
 		qTwitter.deleteTweet = deleteTweet;
 		// ツイートの削除
 		qTwitter.replySubmit = replySubmit;
+		// 滞留しているファイルの削除
+		qTwitter.backup = backup;
+		// 滞留しているファイル数
+		qTwitter.status = {};
+		qTwitter.status.fileCount = 0;
 
 		// 1秒置きにファイル監視
 		var t = $interval(function () {
 			var file;
 			try {
 				// ディレクトリ内の指定の拡張子のファイルのうち、ソートして最初のファイルを取得
-				file = fs.readdirSync(dir).filter(function (file) {
+				var files = fs.readdirSync(dir).filter(function (file) {
 					return fs.statSync(dir + "/" + file).isFile() && file.match(/\.(txt|png)$/i);
-				}).sort()[0];
+				}).sort();
+				qTwitter.status.fileCount = files.length;
+				file = files[0];
 
 			} catch (e) {
 				console.log(e);
 			}
 
-			// ファイルが存在する場合
-			if (file != undefined) {
+			// ファイルが存在する場合、かつ連携中の場合
+			if (file != undefined && qTwitter.status.start) {
 				// ファイルのフルパスを取得
 				var filePath = dir + "/" + file;
 				// 退避先ファイルパスを生成
@@ -58,7 +65,6 @@ app.service('qTwitter', ['$twitterApi', '$interval', '$filter',
 					var tweet = fs.readFileSync(filePath, 'utf-8');
 					// ファイル退避
 					fs.renameSync(filePath, backupFilePath);
-
 					// ツイート内容がNULL等ではない場合
 					if (tweet != null && tweet != undefined && tweet != "") {
 						// ツイートは140文字で切る
@@ -111,8 +117,8 @@ app.service('qTwitter', ['$twitterApi', '$interval', '$filter',
 
 		}, 1000);
 
-	  /** 成功時の履歴生成
-	   * @return {object} data TwitterAPIのレスポンスボディ
+		/** 成功時の履歴生成
+		 * @return {object} data TwitterAPIのレスポンスボディ
 		 */
 		function addSuccessHistory(data) {
 			console.log(data);
@@ -120,15 +126,15 @@ app.service('qTwitter', ['$twitterApi', '$interval', '$filter',
 				id: data.id_str,
 				owner: data.user.screen_name,
 				date: $filter('date')(new Date(data.created_at), 'yyyy-MM-dd HH:mm:ss'),
-				tweet: data.text,
+				tweet: data.text.replace(/\n/g, ""),
 				removable: true
 			};
 
 			history.unshift(obj);
 		}
 
-	  /** 失敗時の履歴生成
-	   * @param {object} data TwitterAPIのレスポンスボディ
+		/** 失敗時の履歴生成
+		 * @param {object} data TwitterAPIのレスポンスボディ
 		 */
 		function addFailHistory(data) {
 			var obj = {
@@ -141,8 +147,8 @@ app.service('qTwitter', ['$twitterApi', '$interval', '$filter',
 			history.unshift(obj);
 		}
 
-	  /** 新しいツイート用ファイルの生成
-	   * @param {string} tweet ツイート内容
+		/** 新しいツイート用ファイルの生成
+		 * @param {string} tweet ツイート内容
 		 */
 		function newTweetSubmit(tweet) {
 			var filePath = dir + "/" + dateString() + ".txt";
@@ -151,8 +157,8 @@ app.service('qTwitter', ['$twitterApi', '$interval', '$filter',
 			});
 		}
 
-	  /** 新しいリプライ用ファイルの生成
-	   * @param {string} tweet ツイート内容
+		/** 新しいリプライ用ファイルの生成
+		 * @param {string} tweet ツイート内容
 		 * @param {number} id リプライ先ツイートID
 		 */
 		function replySubmit(tweet, id) {
@@ -172,9 +178,9 @@ app.service('qTwitter', ['$twitterApi', '$interval', '$filter',
 			});
 		}
 
-	  /**　ツイートの削除
-	   * @param {number} id 削除するツイートのid
-	   */
+		/**　ツイートの削除
+		 * @param {number} id 削除するツイートのid
+		 */
 		function deleteTweet(id) {
 			// ツイートを投稿
 			$twitterApi.postStatusDestroy(id).then(function (data) {
@@ -185,16 +191,16 @@ app.service('qTwitter', ['$twitterApi', '$interval', '$filter',
 
 		}
 
-	  /** システム日時文字列の取得
-	   * @return {string} dateString - 日付を示す文字列
-	   */
+		/** システム日時文字列の取得
+		 * @return {string} dateString - 日付を示す文字列
+		 */
 		function dateString() {
 			return $filter('date')(new Date(), 'yyyyMMddHHmmss');
 		}
 
-	  /** アカウント番号設定
-	   * @param {number} num アカウント番号
-	   */
+		/** アカウント番号設定
+		 * @param {number} num アカウント番号
+		 */
 		function setAccountNum(num) {
 			// configure
 			accountNum = num;
@@ -209,6 +215,28 @@ app.service('qTwitter', ['$twitterApi', '$interval', '$filter',
 			});
 		}
 
+		/** 滞留中ファイルを削除する
+		 * 
+		 */
+		function backup() {
+			try {
+				fs.readdirSync(dir).filter(function (file) {
+					return fs.statSync(dir + "/" + file).isFile() && file.match(/\.(txt|png)$/i);
+				}).map(function (file) {
+					// ファイルのフルパスを取得
+					var filePath = dir + "/" + file;
+					// 退避先ファイルパスを生成
+					var backupFilePath = dir_backup + "/notweet_" + dateString() + "_" + file;
+					// ファイル退避
+					fs.renameSync(filePath, backupFilePath);
+				});
+			} catch (e) {
+				console.log(e);
+			}
+		}
+
+
 		return qTwitter;
 
-	}]);
+	}
+]);

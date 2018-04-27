@@ -3,12 +3,12 @@
 div.player {
   div.open {
     div.o {
-      @include player-item(-50, -100, 100, 200);
-      font-size: 0px;
+      @include player-item(-25, -25, 100, 100);
+      font-weight: bold;
       @include value-range(1, 1) {
-        height: 210px;
-        background-color: $combo-color;
-        z-index: -100;
+        &::before {
+          content: "○";
+        }
       }
     }
     div.x {

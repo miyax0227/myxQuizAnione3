@@ -40,8 +40,7 @@ app.factory('rule', ['qCommon', function(qCommon) {
       "key": "o",
       "value": 0,
       "style": "number",
-      "css": "o",
-      "repeatChar": "○\n"
+      "css": "o"
     },
     {
       "key": "x",
@@ -234,7 +233,12 @@ app.factory('rule', ['qCommon', function(qCommon) {
                 player.order = -2;
                 break;
               default:
-                player.order = (nextOrder++);
+                if (!property.hasOwnProperty('remainingPoint') ||
+                  player.o < property.remainingPoint) {
+                  player.order = (nextOrder++);
+                }
+                player.o = 0;
+                player.x = 0;
             }
           }
         });
@@ -316,11 +320,13 @@ app.factory('rule', ['qCommon', function(qCommon) {
         player.combo = 0;
         timerStop();
         // 勝抜が出ると残るプレイヤーのポイントをリセット
-        angular.forEach(players, function(p) {
-          if (p.status == "normal") {
-            p.o = 0;
-          }
-        });
+        if (property.reset) {
+          angular.forEach(players, function(p) {
+            if (p.status == "normal") {
+              p.o = 0;
+            }
+          });
+        }
 
       }
       /* lose条件 */

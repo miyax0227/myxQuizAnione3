@@ -6,8 +6,8 @@ var app = angular.module(appName);
 /*******************************************************************************
  * round - ラウンド特有のクイズのルール・画面操作の設定
  ******************************************************************************/
-app.factory('round', ['qCommon', 'rule', '$filter',
-	function (qCommon, rule, $filter) {
+app.factory('round', ['qCommon', 'rule', '$filter', '$timeout',
+	function (qCommon, rule, $filter, $timeout) {
 
 		var round = {};
 		var win = qCommon.win;
@@ -159,7 +159,8 @@ app.factory('round', ['qCommon', 'rule', '$filter',
 					player.status = "wait";
 					header.qCount++;
 				}
-			}]);
+			}
+		]);
 
 		/*****************************************************************************
 		 * global_actions - 全体に対する操作の設定
@@ -202,55 +203,52 @@ app.factory('round', ['qCommon', 'rule', '$filter',
 				group: "basic",
 				keyboard: "Esc",
 				enable: function (scope) {
+					console.log(scope.capturing);
 					return !scope.capturing;
 				},
 				action: function (scope) {
 					// キャプチャ中
 					scope.capturing = true;
+					console.log(scope.capturing);
 
 					var fs;
 					var BrowserWindow;
 					try {
 						fs = require('fs');
-						BrowserWindow = require('electron').remote.BrowserWindow;
-
 						// キャプチャ用ウィンドウを生成
-						var win = null;
-						win = new BrowserWindow({
-							width: scope.captureWindowSize.width,
-							height: scope.captureWindowSize.height,
-							y: scope.captureWindowSize.top,
-							x: scope.captureWindowSize.left,
-							title: "Capture"
-						});
-						win.loadURL('file://' + __dirname + '/board.html?view=true&anonymous=true');
-						// キャプチャ用ウィンドウの立ち上げ終了時にイベントを検知する
-						win.webContents.on('did-finish-load', captureFunc);
+						var win = require('electron').remote.getCurrentWindow();
 
 						function dateString() {
 							return $filter('date')(new Date(), 'yyyyMMddHHmmss.sss');
 						}
 
-						function captureFunc() {
-							// 立ち上げ終了から5秒後に動作
-							setTimeout(function () {
-								// キャプチャ実行
-								win.capturePage(function (img) {
-									// png形式で保存
-									fs.writeFile(__dirname + "/../../twitter/" + dateString() + ".png", img.toPng(), function (err) {
-										if (err) {
+						// オブジェクト更新後に動作
+						$timeout(function () {
+							// キャプチャ実行
+							win.capturePage(function (img) {
+								// キャプチャ終了
+								scope.capturing = false;
+								// png形式で保存
+								var tempFileName = qCommon.getTempCaptureFileName();
+								var fileName = qCommon.getCaptureFileName();
+
+								fs.writeFile(tempFileName, img.toPng(), function (err) {
+									if (err) {
+										console.log(err);
+									} else {
+										fs.rename(tempFileName, fileName, function (err) {
 											console.log(err);
-										}
-									});
-									// キャプチャ用ウィンドウを閉じる
-									win.close();
-									// キャプチャ終了
-									scope.capturing = false;
+										})
+									}
 								});
-							}, 5000);
-						}
+
+							});
+						}, 1000);
+
 					} catch (e) {
 						console.log('fs is not supported.');
+						// キャプチャ終了
+						scope.capturing = false;
 					}
 				}
 			},
@@ -437,8 +435,8 @@ app.factory('round', ['qCommon', 'rule', '$filter',
 				},
 				action0: function (players, header, property) {
 					if (players.filter(function (player) {
-						return player.close;
-					}).length == 0) {
+							return player.close;
+						}).length == 0) {
 						header.openRank = -1;
 					} else {
 						// クローズ状態のプレイヤーの最小順位
@@ -681,7 +679,8 @@ app.factory('round', ['qCommon', 'rule', '$filter',
 					qCommon.createHist(scope);
 
 				}
-			}]);
+			}
+		]);
 
 		/*****************************************************************************
 		 * actions - プレイヤー毎に設定する操作の設定(ラッピング)
@@ -827,4 +826,5 @@ app.factory('round', ['qCommon', 'rule', '$filter',
 		};
 
 		return round;
-	}]);
+	}
+]);

@@ -79,8 +79,8 @@ app.factory('rule', ['qCommon', function(qCommon) {
    * tweet - ルール固有のツイートのひな型
    ****************************************************************************/
   rule.tweet = {
-    "o": "${handleName}◯　→${o}◯ ${x}×",
-    "x": "${handleName}×　→${o}◯ ${x}× ${absent}休",
+    "o": "${handleName}◯　→${o}◯ ${score}",
+    "x": "${handleName}×",
     "thru": "スルー"
   };
 
@@ -311,6 +311,21 @@ app.factory('rule', ['qCommon', function(qCommon) {
         p.x = 0;
       });
       addQCount(players, header, property);
+    }
+    // [氏名] pts - pts [氏名]
+    if (players.filter(function(p) {
+        return p.lot == header.nowLot
+      }).length == 2) {
+      var p1p2 = players.filter(function(p) {
+        return p.lot == header.nowLot
+      });
+      var p1 = p1p2[0];
+      var p2 = p1p2[1];
+      var score = "\n" + p1.name + " " + p1.o + " - " + p2.o + " " + p2.name;
+      p1.score = score;
+      p2.score = score;
+    } else {
+
     }
 
     var key = 1;

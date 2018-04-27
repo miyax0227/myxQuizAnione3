@@ -121,6 +121,7 @@ app.factory('rule', ['qCommon', function(qCommon) {
 
     angular.forEach(players, function(player) {
       player.nameLat = player.name;
+      player.handleNameLat = player.handleName;
       player.keyIndex = 999;
       player.line = "left";
     });

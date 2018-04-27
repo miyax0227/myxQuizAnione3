@@ -1,5 +1,4 @@
-[
-	{
+[{
 		"key": "entryNo",
 		"style": "number",
 		"value": 999,
@@ -31,6 +30,14 @@
 		"vtrans": 3.7
 	},
 	{
+		"key": "handleNameLat",
+		"style": "string",
+		"profile": false,
+		"anonymous": true,
+		"css": "nameLat",
+		"htrans": 5
+	},
+	{
 		"key": "pref",
 		"style": "string",
 		"value": "",
@@ -45,28 +52,7 @@
 		"suffix": "位",
 		"css": "paperRank",
 		"close-css": "paperRank",
-		"rankColor": [
-			{
-				"maxRank": 4,
-				"color": "255,0,0"
-			},
-			{
-				"maxRank": 12,
-				"color": "0,0,255"
-			},
-			{
-				"maxRank": 24,
-				"color": "255,255,0"
-			},
-			{
-				"maxRank": 48,
-				"color": "0,255,127"
-			},
-			{
-				"maxRank": 1000,
-				"color": "127,127,127"
-			}
-		]
+		"dnq": 101
 	},
 	{
 		"key": "motion",

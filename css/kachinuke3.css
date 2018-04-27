@@ -1003,10 +1003,10 @@ div.player div.open div.x {
 
 div.player div.open div.absent {
   position: absolute;
-  left: -35px;
-  top: -95px;
+  left: 20px;
+  top: -110px;
   width: 70px;
-  font-size: 30px;
+  font-size: 60px;
   font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", "Noto Sans Japanese", "ヒラギノ角ゴ ProN W3", Meiryo, sans-serif;
   font-weight: bold;
   text-align: center;
@@ -1014,7 +1014,7 @@ div.player div.open div.absent {
   -webkit-text-stroke-color: #000000;
   -webkit-text-stroke-width: 1px;
   -webkit-text-fill-color: #FFFF22;
-  line-height: 80%;
+  line-height: 50%;
   z-index: 1; }
 
 div.player div.open div.combo {
@@ -1080,6 +1080,75 @@ div.player div.open div.o2 {
     color: lightskyblue; }
   div.player div.open div.o2.hidepts {
     opacity: 0; }
+
+div.player div.open div.div {
+  position: absolute;
+  left: 25px;
+  top: -270px;
+  width: 100px;
+  font-size: 50px;
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", "Noto Sans Japanese", "ヒラギノ角ゴ ProN W3", Meiryo, sans-serif;
+  font-weight: bold;
+  text-align: center;
+  -webkit-user-select: none;
+  color: black;
+  background: url("../img/div.png");
+  background-size: 100px 60px;
+  background-position: 0px 10px;
+  background-repeat: no-repeat; }
+  div.player div.open div.div[value="0"] {
+    display: none; }
+
+div.player div.open div.chance_img {
+  position: absolute;
+  left: -50px;
+  top: -250px;
+  width: 100px;
+  font-size: 50px;
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", "Noto Sans Japanese", "ヒラギノ角ゴ ProN W3", Meiryo, sans-serif;
+  font-weight: bold;
+  text-align: center;
+  -webkit-user-select: none;
+  color: transparent; }
+  div.player div.open div.chance_img[value="true"] {
+    background: url("../img/chance.png");
+    background-size: 100px 50px;
+    background-position: 0px 0px;
+    background-repeat: no-repeat; }
+
+div.player div.open div.star_img {
+  position: absolute;
+  left: -25px;
+  top: -250px;
+  width: 50px;
+  font-size: 50px;
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", "Noto Sans Japanese", "ヒラギノ角ゴ ProN W3", Meiryo, sans-serif;
+  font-weight: bold;
+  text-align: center;
+  -webkit-user-select: none;
+  color: transparent; }
+  div.player div.open div.star_img[value="true"] {
+    background: url("../img/star.png");
+    background-size: 50px 50px;
+    background-position: 0px 0px;
+    background-repeat: no-repeat; }
+
+div.player div.open div.pinch_img {
+  position: absolute;
+  left: -25px;
+  top: -250px;
+  width: 50px;
+  font-size: 50px;
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", "Noto Sans Japanese", "ヒラギノ角ゴ ProN W3", Meiryo, sans-serif;
+  font-weight: bold;
+  text-align: center;
+  -webkit-user-select: none;
+  color: transparent; }
+  div.player div.open div.pinch_img[value="true"] {
+    background: url("../img/pinch.png");
+    background-size: 50px 50px;
+    background-position: 0px 0px;
+    background-repeat: no-repeat; }
 
 div.player div.closed div.paperRank {
   position: absolute;
@@ -2087,17 +2156,9 @@ div.player div.status img.absent {
   left: -30px;
   top: -100px;
   width: 60px;
-  height: 200px;
-  -webkit-user-select: none; }
-  div.player div.status img.absent.ng-enter {
-    transition: all cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.5s;
-    opacity: 0;
-    transform: scale(1.2, 1.2); }
-    div.player div.status img.absent.ng-enter.ng-enter-active {
-      opacity: 0.3;
-      -webkit-transform: rotateX(0deg);
-      transform: translate(0px, 0px);
-      transform: scale(1, 1); }
+  height: 205px;
+  -webkit-user-select: none;
+  opacity: 0.7; }
 
 div.player div.motion img.o {
   position: absolute;
@@ -2182,19 +2243,17 @@ div.player div.action_s {
 
 div.player div.open div.o {
   position: absolute;
-  left: -50px;
-  top: -100px;
+  left: -25px;
+  top: -25px;
   width: 100px;
-  font-size: 200px;
+  font-size: 100px;
   font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", "Noto Sans Japanese", "ヒラギノ角ゴ ProN W3", Meiryo, sans-serif;
   font-weight: bold;
   text-align: center;
   -webkit-user-select: none;
-  font-size: 0px; }
-  div.player div.open div.o[value="1"] {
-    height: 210px;
-    background-color: gold;
-    z-index: -100; }
+  font-weight: bold; }
+  div.player div.open div.o[value="1"]::before {
+    content: "○"; }
 
 div.player div.open div.x {
   display: none; }

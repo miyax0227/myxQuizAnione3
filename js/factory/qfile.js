@@ -116,10 +116,12 @@ app.service('qFile', ['$window', '$interval', '$filter', '$uibModal',
 				try {
 					var data = JSON.parse(fs.readFileSync(round.historyFile, 'utf-8'));
 					round.qCount = data.header.qCount;
+					round.nowLot = data.header.nowLot;
 					round.initializable = true;
 
 				} catch (e) {
 					round.qCount = null;
+					round.nowLot = null;
 					round.initializable = false;
 				}
 
@@ -127,9 +129,11 @@ app.service('qFile', ['$window', '$interval', '$filter', '$uibModal',
 				try {
 					fs.statSync(round.entryFile);
 					round.startable = nameListExists;
+					round.pCount = JSON.parse(fs.readFileSync(round.entryFile)).length;
 
 				} catch (e) {
 					round.startable = false;
+					round.pCount = null;
 				}
 
 				round.callable = nameListExists;
@@ -145,10 +149,15 @@ app.service('qFile', ['$window', '$interval', '$filter', '$uibModal',
 		qFile.cancelJsonFile = cancelJsonFile;
 		qFile.twitterWindowOpen = twitterWindowOpen;
 		qFile.openFolder = openFolder;
+		qFile.addContent = addContent;
+		qFile.deleteContent = deleteContent;
+		qFile.isProfile = isProfile;
+		qFile.typeaheadLabel = typeaheadLabel;
+		qFile.onSelect = onSelect;
 		return qFile;
 
 		/** 履歴フォルダの初期化
-		*/
+		 */
 		function initialize() {
 			var oldFile = __dirname + '/history/current';
 			var newFile = __dirname + '/history/' + dateString();
@@ -170,18 +179,15 @@ app.service('qFile', ['$window', '$interval', '$filter', '$uibModal',
 		/** 問題を開く
 		 * @param {object} scope $scope
 		 */
-		function openQuestion(scope){
-			console.log(scope.tableTitle);
-			console.log(excelProperty.sheetName);
-			openExcelFile(scope, "Question", questionFile);			
-			console.log(scope.tableTitle);
+		function openQuestion(scope) {
+			openExcelFile(scope, "Question", questionFile);
 		}
 
 		/** Excelファイルを開く
-     * @param {object} scope $scope
-     * @param {string} title タイトル
-     * @param {string} filename ファイル名
-     */
+		 * @param {object} scope $scope
+		 * @param {string} title タイトル
+		 * @param {string} filename ファイル名
+		 */
 		function openExcelFile(scope, tableTitle, filename) {
 			Dialog.showOpenDialog(null, {
 				properties: ['openFile'],
@@ -207,7 +213,6 @@ app.service('qFile', ['$window', '$interval', '$filter', '$uibModal',
 						c: column
 					})];
 					if (cell != null) {
-						console.log(cell.t, cell.v, cell.w);
 						if (cell.t == "n") {
 							return cell.v;
 						} else {
@@ -259,6 +264,10 @@ app.service('qFile', ['$window', '$interval', '$filter', '$uibModal',
 			var oldFile = scope.tableFilename;
 			var newFile = scope.tableFilename.replace(/\.json/, "_" + dateString() + ".json");
 
+			if (scope.tableTitle == "nameList") {
+				scope.nameList = angular.copy(scope.tableContent);
+			}
+
 			try {
 				fs.statSync(scope.tableFilename);
 
@@ -289,13 +298,13 @@ app.service('qFile', ['$window', '$interval', '$filter', '$uibModal',
 		}
 
 		/** 日付のシリアル表現（yyyyMMddHHmmss）を返す
-     */
+		 */
 		function dateString() {
 			return $filter('date')(new Date(), 'yyyyMMddHHmmss');
 		}
 
 		/** ツイート管理画面を開く
- 		 */
+		 */
 		function twitterWindowOpen() {
 			$window.open("./twitter.html", "Twitter", twitterWindowParameter);
 		}
@@ -320,8 +329,7 @@ app.service('qFile', ['$window', '$interval', '$filter', '$uibModal',
 			modal.result.then(function () {
 				// OKの場合のみ実行
 				func();
-			}, function () {
-			});
+			}, function () {});
 		}
 
 		/** メッセージ用モーダルウィンドウを表示する
@@ -345,6 +353,59 @@ app.service('qFile', ['$window', '$interval', '$filter', '$uibModal',
 		 */
 		function openFolder() {
 			shell.openItem(__dirname);
+		}
+
+		/** リストから要素を削除する
+		 * @param {number} 削除する要素の位置
+		 * @param {array} 削除する要素を含むリスト
+		 */
+		function deleteContent(index, arr) {
+			arr.splice(index, 1);
+		}
+
+		/** リストに要素を追加する
+		 * @param {number} 追加する要素の位置
+		 * @param {array} 追加する要素を含むリスト
+		 */
+		function addContent(index, arr) {
+			arr.splice(index, 0, {});
+		}
+
+		/** プロフィール項目か否か判定する
+		 * @param {string} 項目名
+		 * @return {boolean} 判定結果
+		 */
+		function isProfile(item) {
+			return profiles.indexOf(item) >= 0;
+		}
+
+		/** typeaheadで表示するラベル
+		 * @param {object} item 選択しているアイテム
+		 * @param {string} head 選択している項目名
+		 */
+		function typeaheadLabel(item, head) {
+			if (angular.isObject(item)) {
+				return item[head] + "(" + profiles.map(function (key) {
+					return item[key];
+				}).join(",") + ")";
+
+			} else {
+				return null;
+
+			}
+		}
+
+		/** プロフィール項目をまとめて更新する
+		 * @param {object} content 更新するプレイヤー
+		 * @param {object} item 更新元情報
+		 */
+		function onSelect(content, item) {
+			angular.forEach(item, function (value, key) {
+				if (profiles.indexOf(key) >= 0) {
+					content[key] = item[key];
+				}
+			});
+			content.autocompleted = true;
 		}
 
 		/** 参加者の招集
@@ -466,8 +527,6 @@ app.service('qFile', ['$window', '$interval', '$filter', '$uibModal',
 						angular.forEach(subEntryList, function (obj) {
 							obj._random = Math.random();
 						});
-						console.log(subEntryList);
-
 						subEntryList.sort(sortFunc(["_random"]));
 
 						angular.forEach(subEntryList, function (obj) {
@@ -502,8 +561,6 @@ app.service('qFile', ['$window', '$interval', '$filter', '$uibModal',
 							}
 						});
 					}
-
-					console.log(subEntryList);
 
 					angular.forEach(subEntryList, function (o) {
 						entryList.push(angular.copy(o));
@@ -578,4 +635,5 @@ app.service('qFile', ['$window', '$interval', '$filter', '$uibModal',
 		}
 
 
-	}]);
+	}
+]);
