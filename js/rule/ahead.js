@@ -319,7 +319,7 @@ app.factory('rule', ['qCommon', function(qCommon) {
     }).map(function(p) {
       var nextPlayers = angular.copy(players);
       getPlayer(nextPlayers, p).o++;
-      var judge = judgement(nextPlayers, header, property);
+      var judge = judgement(nextPlayers, angular.copy(header), property);
       if (judge.length > 0) {
         p.star = true;
         judge.map(function(np) {

@@ -1,6 +1,6 @@
 @import "_rule.scss";
-$chance-color: lightskyblue;
-$pinch-color: lightpink;
+$chance-color: lightcyan;
+$pinch-color: peachpuff;
 $win-color: gold;
 $lose-color: gray;
 $combo-color: gold;
@@ -155,17 +155,9 @@ div.player {
       -134,
       100,
       24);
-      border-radius: 16px;
-      @include value-range(1,
-      10) {
-        @include bordered;
-        background-color: red;
-      }
-      @include value-range(11,
-      300) {
-        background-color: black;
-        border: solid 2px white;
-      }
+      border-radius: 50px;
+      background-color: black;
+      border: solid 2px white;
     }
   }
   div.rank {

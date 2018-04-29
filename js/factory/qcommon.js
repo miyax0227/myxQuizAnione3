@@ -151,6 +151,12 @@ app.service('qCommon', ['$uibModal', '$localStorage', '$interval', '$location', 
 			tweet += scope.property.tweetCupTitle || "";
 			tweet += scope.property.tweetRoundTitle || "";
 			tweet += "\n";
+
+			// ヘッダ部分の埋込文字置換
+			var tmpTweets = [];
+			editTweet(tmpTweets, tweet, scope.current.header, true);
+			tweet = tmpTweets[0];
+
 			tweet += tweets.join("\n");
 			tweet += "\n";
 			tweet += " - " + dateString();

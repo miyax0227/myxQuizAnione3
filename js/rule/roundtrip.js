@@ -74,8 +74,8 @@ app.factory('rule', ['qCommon', function(qCommon) {
    * tweet - ルール固有のツイートのひな型
    ****************************************************************************/
   rule.tweet = {
-    "o": "${handleName}◯　→${pts}p",
-    "x": "${handleName}×　→${pts}p",
+    "o": "${handleName}◯　→${pts}p ${score}",
+    "x": "${handleName}×　→${pts}p ${score}",
     "thru": "スルー"
   };
 
@@ -129,6 +129,10 @@ app.factory('rule', ['qCommon', function(qCommon) {
             });
             setMotion(player, 'o');
             addQCount(players, header, property);
+            // ×を消す
+            players.map(function(p) {
+              p.x = 0;
+            });
             break;
         }
       }
@@ -262,6 +266,24 @@ app.factory('rule', ['qCommon', function(qCommon) {
         header.mode = 3;
       }
     }
+
+    if (players.filter(function(p) {
+        return p.status == "normal" && p.x === 0
+      }).length === 0) {
+      players.map(function(p) {
+        p.x = 0;
+      });
+      addQCount(players, header, property);
+    }
+
+    // score
+    var score =
+      players.map(function(p) {
+        return p.name + ":" + p.pts + "p";
+      }).join(" / ");
+    players.map(function(p) {
+      p.score = "\n" + score;
+    });
 
     angular.forEach(players, function(player, index) {
       // pinch, chance
