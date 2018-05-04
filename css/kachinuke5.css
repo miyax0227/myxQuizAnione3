@@ -65,7 +65,7 @@ div.player div.open div.o {
   -webkit-text-orientation: upright;
   font-size: 0px;
   font-weight: 900;
-  color: lightcyan; }
+  color: lightblue; }
   div.player div.open div.o[value="1"] {
     transform: translate(-29px, -10px); }
     div.player div.open div.o[value="1"]::before {
@@ -83,7 +83,7 @@ div.player div.open div.x {
   div.player div.open div.x[value="0"] {
     display: none; }
   div.player div.open div.x.pinch {
-    color: peachpuff; }
+    color: lightpink; }
   div.player div.open div.x.hidepts {
     opacity: 0; }
 
@@ -117,7 +117,7 @@ div.player div.open div.combo {
   div.player div.open div.combo[value="1"] {
     height: 210px;
     border-style: solid;
-    border-color: lightcyan;
+    border-color: lightblue;
     border-width: 10px;
     background-color: transparent;
     z-index: -100; }
@@ -151,7 +151,7 @@ div.player div.open div.x2 {
   div.player div.open div.x2[value="0"] {
     display: none; }
   div.player div.open div.x2.pinch {
-    color: peachpuff; }
+    color: lightpink; }
   div.player div.open div.x2.hidepts {
     opacity: 0; }
 
@@ -166,7 +166,7 @@ div.player div.open div.o2 {
   text-align: center;
   -webkit-user-select: none; }
   div.player div.open div.o2.chance {
-    color: lightcyan; }
+    color: lightblue; }
   div.player div.open div.o2.hidepts {
     opacity: 0; }
 

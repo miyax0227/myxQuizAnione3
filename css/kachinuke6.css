@@ -47,7 +47,7 @@ div.player div.open div.o {
   -webkit-user-select: none;
   letter-spacing: -10px; }
   div.player div.open div.o.chance {
-    color: lightcyan; }
+    color: lightblue; }
   div.player div.open div.o.hidepts {
     opacity: 0; }
 
@@ -64,7 +64,7 @@ div.player div.open div.x {
   div.player div.open div.x[value="0"] {
     display: none; }
   div.player div.open div.x.pinch {
-    color: peachpuff; }
+    color: lightpink; }
   div.player div.open div.x.hidepts {
     opacity: 0; }
 
@@ -129,7 +129,7 @@ div.player div.open div.x2 {
   div.player div.open div.x2[value="0"] {
     display: none; }
   div.player div.open div.x2.pinch {
-    color: peachpuff; }
+    color: lightpink; }
   div.player div.open div.x2.hidepts {
     opacity: 0; }
 
@@ -144,7 +144,7 @@ div.player div.open div.o2 {
   text-align: center;
   -webkit-user-select: none; }
   div.player div.open div.o2.chance {
-    color: lightcyan; }
+    color: lightblue; }
   div.player div.open div.o2.hidepts {
     opacity: 0; }
 
