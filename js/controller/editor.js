@@ -1,7 +1,8 @@
 'use strict';
 var appName = "myxQuizEditor";
 var app = angular.module(appName, ["ui.bootstrap", "ngAnimate", "ui.sortable", "ui.ace",
-	"angular-clipboard", "ngTwitter", "ngSanitize"]);
+	"angular-clipboard", "ngTwitter", "ngSanitize"
+]);
 
 /** エディタ用コントローラ */
 app.controller('main', ['$scope', 'qeditor', '$interval', 'round', 'rule', 'css', '$sce',
@@ -38,8 +39,8 @@ app.controller('main', ['$scope', 'qeditor', '$interval', 'round', 'rule', 'css'
 		$scope.aceLoaded = aceLoaded;
 		$scope.aceLoadedCSS = aceLoadedCSS;
 
-	  /** ファイルリストをリフレッシュする
-	   */
+		/** ファイルリストをリフレッシュする
+		 */
 		function refresh() {
 			$scope.rounds = qeditor.getFileList(__dirname + '/round', false);
 			$scope.csses = qeditor.getFileList(__dirname + '/json/css', true, 'json');
@@ -47,7 +48,9 @@ app.controller('main', ['$scope', 'qeditor', '$interval', 'round', 'rule', 'css'
 
 			// フローチャートの作成
 			var flowchart = "";
-			var flowchartObject = { "nameList": "origin" };
+			var flowchartObject = {
+				"nameList": "origin"
+			};
 			var tmpId = 0;
 
 			flowchart += "graph TB;\n";
@@ -63,6 +66,8 @@ app.controller('main', ['$scope', 'qeditor', '$interval', 'round', 'rule', 'css'
 				} else if (angular.isObject(filter)) {
 					if (filter.oper == "~") {
 						return "|" + filter.crit + "<=" + filter.param + "<=" + filter.crit2 + "|";
+					} else if (filter.oper == "in" && angular.isArray(filter.crit)) {
+						return "|" + filter.param + " in " + filter.crit[0] + "..|";
 					} else {
 						return "|" + filter.param + filter.oper + filter.crit + "|";
 					}
@@ -117,8 +122,8 @@ app.controller('main', ['$scope', 'qeditor', '$interval', 'round', 'rule', 'css'
 			});
 		}
 
-	  /** すべて閉じる
-	   */
+		/** すべて閉じる
+		 */
 		function closeAll() {
 			round.closeRound();
 			rule.closeRule();
@@ -126,48 +131,48 @@ app.controller('main', ['$scope', 'qeditor', '$interval', 'round', 'rule', 'css'
 			$scope.data = "";
 		}
 
-	  /** 開く
-	   * @param {string} name データの名前
-	   */
+		/** 開く
+		 * @param {string} name データの名前
+		 */
 		function openData(name) {
 			closeAll();
 			$scope.data = name;
 			qeditor.loadData(name, $scope);
 		}
 
-	  /** 要素を追加する
-	   * @param {string} name データの名前
-	   */
+		/** 要素を追加する
+		 * @param {string} name データの名前
+		 */
 		function addElement(name) {
 			qeditor.addElement(name, $scope);
 		}
 
-	  /** 要素を削除する
-	   * @param {string} name データの名前
-	   * @param {number} index 削除対象要素の番号
-	   */
+		/** 要素を削除する
+		 * @param {string} name データの名前
+		 * @param {number} index 削除対象要素の番号
+		 */
 		function deleteElement(name, index) {
 			qeditor.deleteElement(name, index, $scope);
 		}
 
-	  /** データを保存する
-	   * @param {string} name データの名前
-	   */
+		/** データを保存する
+		 * @param {string} name データの名前
+		 */
 		function saveData(name) {
 			qeditor.saveData(name, $scope);
 		}
 
-	  /** ラウンドを開く
-	   * @param {string} name ラウンドの名前
-	   */
+		/** ラウンドを開く
+		 * @param {string} name ラウンドの名前
+		 */
 		function openRound(name) {
 			closeAll();
 			round.load(name);
 		}
 
-	  /** ラウンドをコピーする
-	   * @param {string} name ラウンドの名前
-	   */
+		/** ラウンドをコピーする
+		 * @param {string} name ラウンドの名前
+		 */
 		function copyRound(name) {
 			var oldRound = __dirname + '/round/' + name;
 			var newRound = "";
@@ -186,9 +191,9 @@ app.controller('main', ['$scope', 'qeditor', '$interval', 'round', 'rule', 'css'
 			});
 		}
 
-	  /** ラウンドを削除する
-	   * @param {string} name ラウンドの名前
-	   */
+		/** ラウンドを削除する
+		 * @param {string} name ラウンドの名前
+		 */
 		function deleteRound(name) {
 			var oldRound = __dirname + '/round/' + name;
 
@@ -207,17 +212,17 @@ app.controller('main', ['$scope', 'qeditor', '$interval', 'round', 'rule', 'css'
 			});
 		}
 
-	  /** ルールを開く
-	   * @param {string} name ルールの名前
-	   */
+		/** ルールを開く
+		 * @param {string} name ルールの名前
+		 */
 		function openRule(name) {
 			closeAll();
 			rule.load(name);
 		}
 
-	  /** ルールをコピーする
-	   * @param {string} name ルールの名前
-	   */
+		/** ルールをコピーする
+		 * @param {string} name ルールの名前
+		 */
 		function copyRule(name) {
 			var oldRuleJs = __dirname + '/js/rule/' + name + '.js';
 			var oldRuleJson = __dirname + '/json/rule/' + name + '.json';
@@ -235,9 +240,9 @@ app.controller('main', ['$scope', 'qeditor', '$interval', 'round', 'rule', 'css'
 			});
 		}
 
-	  /** ルールを削除する
-	   * @param {string} name ルールの名前
-	   */
+		/** ルールを削除する
+		 * @param {string} name ルールの名前
+		 */
 		function deleteRule(name) {
 			var oldRuleJs = __dirname + '/js/rule/' + name + '.js';
 			var oldRuleJson = __dirname + '/json/rule/' + name + '.json';
@@ -253,31 +258,31 @@ app.controller('main', ['$scope', 'qeditor', '$interval', 'round', 'rule', 'css'
 			});
 		}
 
-	  /** CSSを開く
-	   * @param {string} name CSSの名前
-	   */
+		/** CSSを開く
+		 * @param {string} name CSSの名前
+		 */
 		function openCss(name) {
 			closeAll();
 			css.load(name);
 		}
 
-	  /** CSSをコピーする
-	   * @param {string} name CSSの名前
-	   */
+		/** CSSをコピーする
+		 * @param {string} name CSSの名前
+		 */
 		function copyCss(name) {
 			// TODO:
 		}
 
-	  /** CSSを削除する
-	   * @param {string} name CSSの名前
-	   */
+		/** CSSを削除する
+		 * @param {string} name CSSの名前
+		 */
 		function deleteCss(name) {
 			// TODO:
 		}
 
-	  /** aceエディタ起動処理
-	   * @param {object} _editor editorオブジェクト
-	   */
+		/** aceエディタ起動処理
+		 * @param {object} _editor editorオブジェクト
+		 */
 		function aceLoaded(_editor) {
 			_editor.commands.addCommand({
 				Name: "beautify",
@@ -293,7 +298,7 @@ app.controller('main', ['$scope', 'qeditor', '$interval', 'round', 'rule', 'css'
 		}
 
 		/** aceエディタ起動処理(CSS用)
-	   * @param {object} _editor editorオブジェクト
+		 * @param {object} _editor editorオブジェクト
 		 */
 		function aceLoadedCSS(_editor) {
 			_editor.commands.addCommand({
@@ -309,7 +314,8 @@ app.controller('main', ['$scope', 'qeditor', '$interval', 'round', 'rule', 'css'
 			});
 		}
 
-	}]);
+	}
+]);
 
 /** ラウンド編集用のコントローラ */
 app.controller('roundCtrl', ['$scope', 'round', function ($scope, round) {
@@ -345,7 +351,8 @@ app.controller('modal', ['$scope', '$uibModalInstance', 'myMsg',
 		$scope.modalCancel = function () {
 			$uibModalInstance.dismiss($scope.input);
 		};
-	}]);
+	}
+]);
 
 /* ディレクティブ */
 app.directive('editorRoundBoard', function () {

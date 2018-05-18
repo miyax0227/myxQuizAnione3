@@ -68,6 +68,34 @@ app.factory('rule', ['qCommon', function(qCommon) {
       "bottom": 0.95,
       "zoom": 1,
       "orderBy": "keyIndex"
+    },
+    "line_center_big": {
+      "x": 0.5,
+      "top": 0.15,
+      "bottom": 0.95,
+      "zoom": 2,
+      "orderBy": "keyIndex"
+    },
+    "line_left_small": {
+      "x": 0.17,
+      "top": 0.15,
+      "bottom": 0.95,
+      "zoom": 0.66,
+      "orderBy": "keyIndex"
+    },
+    "line_center_small": {
+      "x": 0.5,
+      "top": 0.15,
+      "bottom": 0.95,
+      "zoom": 0.66,
+      "orderBy": "keyIndex"
+    },
+    "line_right_small": {
+      "x": 0.83,
+      "top": 0.15,
+      "bottom": 0.95,
+      "zoom": 0.66,
+      "orderBy": "keyIndex"
     }
   };
 
@@ -117,6 +145,8 @@ app.factory('rule', ['qCommon', function(qCommon) {
    * @param {Object} items - items
    ****************************************************************************/
   function calc(players, header, items, property) {
+    header.mode = property.lotsName[header.nowLot];
+
     var key = 0;
 
     angular.forEach(players, function(player) {
@@ -130,12 +160,24 @@ app.factory('rule', ['qCommon', function(qCommon) {
       key = 0;
 
       if (lotConfig.lot === header.nowLot) {
-        for (var i = lotConfig.min; i <= lotConfig.max; i++) {
-          var player = players.filter(function(p) {
-            return p.paperRank === i;
-          })[0];
-          player.keyIndex = (key++);
-          player.line = lotConfig.line;
+        if (lotConfig.hasOwnProperty("paperRanks")) {
+          for (var i in lotConfig.paperRanks) {
+            var player = players.filter(function(p) {
+              return p.paperRank === lotConfig.paperRanks[i];
+            })[0];
+            player.keyIndex = (key++);
+            player.line = lotConfig.line;
+          }
+
+        } else {
+          for (var i = lotConfig.min; i <= lotConfig.max; i++) {
+            var player = players.filter(function(p) {
+              return p.paperRank === i;
+            })[0];
+            player.keyIndex = (key++);
+            player.line = lotConfig.line;
+          }
+
         }
       }
     })

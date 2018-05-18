@@ -1,11 +1,23 @@
-$font-family-default: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI","Noto Sans Japanese","ヒラギノ角ゴ ProN W3", Meiryo, sans-serif;
+$font-family-default: -apple-system,
+BlinkMacSystemFont,
+"Helvetica Neue",
+"Segoe UI",
+"Noto Sans Japanese",
+"ヒラギノ角ゴ ProN W3",
+Meiryo,
+sans-serif;
 
-@mixin score-div($fontsize:40px){
-	font-family: $font-family-default;
-	font-weight: bold;
-	position: absolute;
-    font-size: $fontsize;
-  	-webkit-user-select: none;
+@font-face {
+	font-family: 'NationalizeAlp';
+	src: url('../fonts/NATIONALYZEALP.TTF');
+}
+
+@mixin score-div($fontsize:40px) {
+  font-family: $font-family-default;
+  font-weight: bold;
+  position: absolute;
+  font-size: $fontsize;
+  -webkit-user-select: none;
 }
 
 @mixin player-item($left:0, $top:0, $width:0, $font-size:56, $font-family:$font-family-default) {
@@ -88,10 +100,29 @@ $font-family-default: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Sego
   -webkit-text-fill-color: $fill-color;
 }
 
+@mixin bordered-twotone($stroke-width:1, $stroke-color:#000000, $fill-color1:#FFFFFF, $fill-color2:#FFFFFF) {
+  -webkit-text-stroke-color: $stroke-color;
+  -webkit-text-stroke-width: #{$stroke-width}px;
+  -webkit-text-fill-color: transparent;
+  -webkit-background-clip: text;
+  background-image: linear-gradient($fill-color1 50%, $fill-color2 50%);
+
+}
+
 @mixin value-range($min, $max) {
   @for $value from $min through $max {
-  	&[value="#{$value}"]{
-  		@content;
-  	}
+    &[value="#{$value}"] {
+      @content;
+    }
+  }
+}
+
+@mixin img-show($filename, $width, $height) {
+  color: rgba(0, 0, 0, 0);
+  &[value="true"] {
+    background: url("../img/#{$filename}");
+    background-size: $width $height;
+    background-position: 0px 0px;
+    background-repeat: no-repeat;
   }
 }

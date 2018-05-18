@@ -11,6 +11,7 @@ app.factory('rule', [ 'qCommon', function(qCommon) {
   var rule = {};
   var win = qCommon.win;
   var lose = qCommon.lose;
+  var rolling = qCommon.rolling;
   var timerStop = qCommon.timerStop;
   var setMotion = qCommon.setMotion;
   var addQCount = qCommon.addQCount;

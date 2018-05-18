@@ -1,0 +1,92 @@
+@import "_rule.scss";
+@import "vwx.scss";
+div.player {
+  div.open {
+    div.name {
+      display: none;
+      -webkit-writing-mode: vertical-rl;
+      -webkit-text-orientation: upright;
+      @include bordered;
+      font-family: "Migmix 1M";
+      letter-spacing: -24px;
+      transform-origin: 0px 12px;
+    }
+    div.nameLat {
+      @include player-item(-137, -36);
+      display: inline;
+      transform-origin: -5px 0px;
+      transform: translate(55px, 0px);
+    }
+    div.paperRank {
+      @include player-item(-310, -18, 160, 36);
+      font-family: NationalyzeAlp;
+      border-radius: 0px;
+      @include bordered;
+      @include value-range( 1, 1) {
+        background-color: gold;
+      }
+      @include value-range( 2, 4) {
+        background-color: silver;
+      }
+      @include value-range( 5, 10) {
+        background-color: red;
+      }
+      @include value-range(11, 22) {
+        background-color: blue;
+      }
+      @include value-range(23, 40) {
+        background-color: orange;
+      }
+      @include value-range(41, 88) {
+        background-color: green;
+      }
+      @include value-range(89, 300) {
+        background-color: purple;
+      }
+    }
+    div.pref {
+      @include player-item(150, -18, 160, 36);
+      background-color: black;
+      border-radius: 0px;
+      border: solid 2px white;
+    }
+    div.paperPts {
+      display: none;
+    }
+    div.courseWill {
+      @include player-item(310, -18, 400, 36);
+    }
+  }
+  div.closed {
+    div.paperRank {
+      @include player-item(-320, -18, 120, 36);
+      font-family: NationalyzeAlp;
+      border-radius: 0px;
+      @include bordered;
+      @include value-range( 1, 1) {
+        background-color: gold;
+      }
+      @include value-range( 2, 4) {
+        background-color: silver;
+      }
+      @include value-range( 5, 10) {
+        background-color: red;
+      }
+      @include value-range(11, 22) {
+        background-color: blue;
+      }
+      @include value-range(23, 40) {
+        background-color: orange;
+      }
+      @include value-range(41, 88) {
+        background-color: green;
+      }
+      @include value-range(89, 300) {
+        background-color: purple;
+      }
+    }
+  }
+  div.rank {}
+  div.status {}
+  div.motion {}
+}

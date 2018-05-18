@@ -602,6 +602,9 @@ app.service('qFile', ['$window', '$interval', '$filter', '$uibModal',
 					case "~":
 						return (b <= a) && (a <= c);
 						break;
+					case "in":
+						if (!angular.isArray(b)) return false;
+					  return b.indexOf(a) >= 0;
 				}
 				return false;
 			}

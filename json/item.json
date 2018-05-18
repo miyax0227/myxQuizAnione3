@@ -49,10 +49,10 @@
 		"style": "number",
 		"value": 999,
 		"profile": true,
-		"suffix": "位",
+		"suffix": "th",
 		"css": "paperRank",
 		"close-css": "paperRank",
-		"dnq": 101
+		"dnq": 89
 	},
 	{
 		"key": "motion",
@@ -88,7 +88,8 @@
 			"win": "win.png",
 			"lose": "lose.png",
 			"wait": "wait.png",
-			"absent": "absent.png"
+			"absent": "absent.png",
+			"selected": "transparent.png"
 		}
 	},
 	{

@@ -15,6 +15,7 @@ app.service('qCommon', ['$uibModal', '$localStorage', '$interval', '$location', 
 		qCommon.removePlayer = removePlayer;
 		qCommon.win = win;
 		qCommon.lose = lose;
+		qCommon.rolling = rolling;
 		qCommon.decode = decode;
 		qCommon.playerSortOn = playerSortOn;
 		qCommon.refreshCurrent = refreshCurrent;
@@ -126,7 +127,9 @@ app.service('qCommon', ['$uibModal', '$localStorage', '$interval', '$location', 
 						} else {
 							// ファイルを移動する
 							fs.rename(tempFileName, fileName, function (err) {
-								console.log(err);
+								if (err) {
+									console.log(err);
+								}
 							});
 						}
 					});
@@ -236,6 +239,49 @@ app.service('qCommon', ['$uibModal', '$localStorage', '$interval', '$location', 
 			/* tweet */
 			editTweet(header.tweets, property.tweet["lose"], player, false);
 
+		}
+
+		/** 列をrollingする
+		 * @param {number} players players
+		 * @param {number} col ローリング対象列
+		 */
+		function rolling(players, col) {
+			// 一人もボタンについていない場合は処理しない
+			if (players.filter(function (p) {
+					return (p.col === col) && (p.status == "selected");
+				}).length === 0) {
+				return;
+			}
+
+			// ボタンについている人を特定
+			var nowPlayer = players.filter(function (p) {
+				return (p.col === col) && (p.status == "selected");
+			})[0];
+			var nowRow = nowPlayer.row;
+			// 現在ボタンについている人の権利を剥奪
+			nowPlayer.status = "normal";
+
+			var nextArray = [];
+			// ボタンについていた人よりも大きいrowを持つ、勝抜・失格・休みでないプレイヤー
+			players.filter(function (p) {
+				return (p.col == col) && (p.row > nowRow) && (p.status == "normal");
+			}).sort(function (a, b) {
+				return (a.row < b.row) ? -1 : 1;
+			}).map(function (p) {
+				nextArray.push(p);
+			});
+			// ボタンについていた人以下のrowを持つ、勝抜・失格・休みでないプレイヤー
+			players.filter(function (p) {
+				return (p.col == col) && (p.row <= nowRow) && (p.status == "normal");
+			}).sort(function (a, b) {
+				return (a.row < b.row) ? -1 : 1;
+			}).map(function (p) {
+				nextArray.push(p);
+			});
+			// 要素が１つ以上ある場合、最初のプレイヤーをボタンにつける
+			if (nextArray.length >= 1) {
+				nextArray[0].status = "selected";
+			}
 		}
 
 		/** playerを削除する
@@ -759,6 +805,8 @@ app.service('qCommon', ['$uibModal', '$localStorage', '$interval', '$location', 
 										if (action.enable(player, scope)) {
 											// そのplayerのactionを実行
 											action.action(player, scope);
+											index = -1;
+											return;
 										}
 									}
 								});
@@ -775,6 +823,7 @@ app.service('qCommon', ['$uibModal', '$localStorage', '$interval', '$location', 
 						if (action.enable(scope)) {
 							// そのglobal_actionを実行
 							action.action(scope);
+							return;
 						}
 					}
 				});

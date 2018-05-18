@@ -18,13 +18,13 @@
 
   <div ng-repeat="item in items" ng-class="item.css_img" ng-if="item.hasOwnProperty('css_img')">
     <div ng-class="mergeItemCSS(item.css, player)">
-      <img ng-class="player[item.key]" ng-src="../../img/{{item.css_img_file[player[item.key]]}}" ng-if="item.css_img_file.hasOwnProperty(player[item.key]) && item.key != 'rank'"></img>
+      <img ng-class="mergeItemCSS(player[item.key], player)" ng-src="../../img/{{item.css_img_file[player[item.key]]}}" ng-if="item.css_img_file.hasOwnProperty(player[item.key]) && item.key != 'rank'"></img>
       <img ng-class="rank" ng-src="../../img/{{item.css_img_file[player['rank']]}}"    ng-if="! player.hasOwnProperty('lotRank') && item.css_img_file.hasOwnProperty(player['rank'])    && item.key == 'rank' && player['rank']    <= property.maxRankDisplay"></img>
       <img ng-class="rank" ng-src="../../img/{{item.css_img_file[player['lotRank']]}}" ng-if="  player.hasOwnProperty('lotRank') && item.css_img_file.hasOwnProperty(player['lotRank']) && item.key == 'rank' && player['lotRank'] <= property.maxRankDisplay"></img>
     </div>
   </div>
   
-  <div ng-repeat="action in actions" ng-class="action.css" ng-if="! viewMode && ! capturing">
+  <div ng-repeat="action in actions" ng-class="action.css" ng-if="globalActionVisible && ! viewMode && ! capturing">
     <button ng-click="func_player_scope(action.action, player)" ng-class="action.button_css" ng-disabled="! func_player_scope(action.enable,player) || !pushable">
       {{action.name}}
     </button>

@@ -1,0 +1,6 @@
+[{
+  "source": "V03_course",
+  "filter": "course==a",
+  "order": "rankPoint",
+  "profile": true
+}]

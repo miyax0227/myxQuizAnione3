@@ -1,0 +1,453 @@
+@import "_rule.scss";
+$chance-color: lightblue;
+$pinch-color: lightpink;
+$win-color: gold;
+$lose-color: gray;
+$combo-color: gold;
+div.player {
+  div.open {
+    div.name {
+      @include player-item(-9, -108, 50, 56);
+      -webkit-writing-mode: vertical-rl;
+      -webkit-text-orientation: upright;
+      @include bordered;
+      font-family: "Migmix 1M";
+      letter-spacing: -24px;
+      transform-origin: 0px 12px;
+    }
+    div.nameLat {
+      display: none;
+      transform-origin: -5px 0px;
+      transform: translate(55px, 0px);
+    }
+    div.paperRank {
+      @include player-item(-50, -134, 100, 24);
+      font-family: NationalyzeAlp;
+      border-radius: 0px;
+      @include bordered;
+      @include value-range( 1, 1) {
+        background-color: gold;
+      }
+      @include value-range( 2, 4) {
+        background-color: silver;
+      }
+      @include value-range( 5, 10) {
+        background-color: red;
+      }
+      @include value-range(11, 22) {
+        background-color: blue;
+      }
+      @include value-range(23, 40) {
+        background-color: orange;
+      }
+      @include value-range(41, 88) {
+        background-color: green;
+      }
+      @include value-range(89, 300) {
+        background-color: purple;
+      }
+    }
+    div.pref {
+      @include player-item(-50, 110, 100, 24);
+      border-radius: 0px;
+      background-color: black;
+      border: solid 2px white;
+    }
+    div.o {
+      @include player-item(-100, -235, 200, 80);
+      transform: rotateY(0deg);
+      &.chance {
+        color: $chance-color;
+      }
+      &.hidepts {
+        opacity: 0;
+        transform: rotateY(180deg);
+      }
+      transition: 1s;
+    }
+    div.x {
+      @include player-item(-100, 130, 200, 80);
+      transform: rotateY(0deg);
+      @include value-range(0, 0) {
+        display: none;
+      }
+      &.pinch {
+        color: $pinch-color;
+      }
+      &.hidepts {
+        opacity: 0;
+        transform: rotateY(180deg);
+      }
+      transition: 1s;
+    }
+    div.absent {
+      @include player-item(20, -110, 70, 60);
+      @include bordered(1, #000000, #FFFF22);
+      line-height: 50%;
+      z-index: 1;
+    }
+    div.combo {
+      @include player-item(-50, -100, 100, 200);
+      font-size: 0px;
+      @include value-range(1, 1) {
+        height: 210px;
+        background-color: $combo-color;
+        z-index: -100;
+      }
+    }
+    div.select {
+      @include player-item(-50, -100, 100, 200);
+      font-size: 0px;
+      &.selected {
+        height: 210px;
+        background-color: $combo-color;
+        z-index: -100;
+      }
+    }
+    div.x2 {
+      @include player-item(-50, 202, 100, 48);
+      @include value-range(0, 0) {
+        display: none;
+      }
+      &.pinch {
+        color: $pinch-color;
+      }
+      &.hidepts {
+        opacity: 0;
+      }
+    }
+    div.o2 {
+      @include player-item(-50, -270, 200, 40);
+      transform: rotateY(0deg);
+      &.chance {
+        color: $chance-color;
+      }
+      &.hidepts {
+        opacity: 0;
+        transform: rotateY(180deg);
+      }
+      transition: 1s;
+    }
+    div.div {
+      @include player-item(25, -270, 100, 50);
+      @include value-range(0, 0) {
+        display: none;
+      }
+      color: black;
+      background: url('../img/div.png');
+      background-size: 100px 60px;
+      background-position: 0px 10px;
+      background-repeat: no-repeat;
+    }
+    div.chance_img {
+      @include player-item(-50,
+      -250,
+      100,
+      50);
+      @include img-show("chance.png",
+      100px,
+      50px);
+    }
+    div.star_img {
+      @include player-item(-25,
+      -250,
+      50,
+      50);
+      color: rgba(0, 0, 0, 0);
+      &[value="true"] {
+        background: url("../img/star.png");
+        background-size: 50px 50px;
+        background-position: 0px 0px;
+        background-repeat: no-repeat;
+      }
+    }
+    div.pinch_img {
+      @include player-item(-25,
+      -250,
+      50,
+      50);
+      color: rgba(0, 0, 0, 0);
+      &[value="true"] {
+        background: url("../img/pinch.png");
+        background-size: 50px 50px;
+        background-position: 0px 0px;
+        background-repeat: no-repeat;
+      }
+    }
+    div.o3 {
+      @include player-item(-25,
+      -337,
+      50,
+      40);
+      border-radius: 25px;
+      border-width: 2px;
+      border-style: solid;
+      line-height: 45px;
+      letter-spacing: 0px;
+      &.select1 {
+        color: yellow;
+        border-width: 5px;
+      }
+      &.chance1 {
+        color: $chance-color;
+        border-color: $chance-color;
+      }
+      &.absent1 {
+        color: black;
+        border-color: black;
+        background-color: yellow;
+      }
+      &.hidepts {
+        opacity: 0;
+      }
+    }
+    div.o4 {
+      @include player-item(15,
+      -307,
+      50,
+      40);
+      border-radius: 25px;
+      border-width: 2px;
+      border-style: solid;
+      line-height: 45px;
+      letter-spacing: 0px;
+      &.select2 {
+        color: yellow;
+        border-width: 5px;
+      }
+      &.chance2 {
+        color: $chance-color;
+        border-color: $chance-color;
+      }
+      &.absent2 {
+        color: black;
+        border-color: black;
+        background-color: yellow;
+      }
+      &.hidepts {
+        opacity: 0;
+      }
+    }
+    div.o5 {
+      @include player-item(0,
+      -260,
+      50,
+      40);
+      border-radius: 25px;
+      border-width: 2px;
+      border-style: solid;
+      line-height: 45px;
+      letter-spacing: 0px;
+      &.select3 {
+        color: yellow;
+        border-width: 5px;
+      }
+      &.chance3 {
+        color: $chance-color;
+        border-color: $chance-color;
+      }
+      &.absent3 {
+        color: black;
+        border-color: black;
+        background-color: yellow;
+      }
+      &.hidepts {
+        opacity: 0;
+      }
+    }
+    div.o6 {
+      @include player-item(-50,
+      -260,
+      50,
+      40);
+      border-radius: 25px;
+      border-width: 2px;
+      border-style: solid;
+      line-height: 45px;
+      letter-spacing: 0px;
+      &.select4 {
+        color: yellow;
+        border-width: 5px;
+      }
+      &.chance4 {
+        color: $chance-color;
+        border-color: $chance-color;
+      }
+      &.absent4 {
+        color: black;
+        border-color: black;
+        background-color: yellow;
+      }
+      &.hidepts {
+        opacity: 0;
+      }
+    }
+    div.o7 {
+      @include player-item(-65,
+      -307,
+      50,
+      40);
+      border-radius: 25px;
+      border-width: 2px;
+      border-style: solid;
+      line-height: 45px;
+      letter-spacing: 0px;
+      &.select5 {
+        color: yellow;
+        border-width: 5px;
+      }
+      &.chance5 {
+        color: $chance-color;
+        border-color: $chance-color;
+      }
+      &.absent5 {
+        color: black;
+        border-color: black;
+        background-color: yellow;
+      }
+      &.hidepts {
+        opacity: 0;
+      }
+    }
+  }
+  div.closed {
+    div.paperRank {
+      @include player-item(-50,
+      -134,
+      100,
+      24);
+      font-family: NationalyzeAlp;
+      border-radius: 0px;
+      @include bordered;
+      @include value-range( 1,
+      1) {
+        background-color: gold;
+      }
+      @include value-range( 2,
+      4) {
+        background-color: silver;
+      }
+      @include value-range( 5,
+      10) {
+        background-color: red;
+      }
+      @include value-range(11,
+      22) {
+        background-color: blue;
+      }
+      @include value-range(23,
+      40) {
+        background-color: orange;
+      }
+      @include value-range(41,
+      88) {
+        background-color: green;
+      }
+      @include value-range(89,
+      300) {
+        background-color: purple;
+      }
+    }
+  }
+  div.rank {
+    img {
+      @include player-img(-40,
+      -210,
+      90,
+      60);
+      background-color: rgba(0, 0, 0, 0.5);
+      @include fadein(1) {
+        -webkit-transform: rotateX(180deg);
+      }
+    }
+  }
+  div.status {
+    img.win {
+      @include player-img(-30,
+      -75,
+      60,
+      166);
+      @include fadein(0.5) {
+        transform: scale(1.5, 1.5);
+      }
+    }
+    img.lose {
+      @include player-img(-37,
+      -80,
+      75,
+      182);
+      @include fadein(0.5) {
+        transform: scale(1.5, 1.5) rotate(30deg);
+      }
+    }
+    img.wait {
+      @include player-img(-30,
+      -62,
+      60,
+      146);
+      @include fadein(0.5) {
+        transform: scale(1.5, 1.5);
+      }
+    }
+    img.absent {
+      @include player-img(-30,
+      -100,
+      60,
+      205);
+      opacity: 0.7;
+    }
+  }
+  div.motion {
+    img.o {
+      @include player-img(-25,
+      -30);
+      @include fadeout(0.5) {
+        transform: scale(1.5, 1.5);
+      }
+      &.hidepts {
+        display: none;
+      }
+    }
+    img.x {
+      @include player-img(-25,
+      -30);
+      @include fadeout(0.5) {
+        transform: scale(1.5, 1.5);
+      }
+      &.hidepts {
+        display: none;
+      }
+    }
+  }
+  hr.hr1 {
+    display: none;
+    display: none;
+  }
+  hr.hr2 {
+    display: none;
+  }
+  div.action_o {
+    @include player-button(-22,
+    -100);
+  }
+  div.action_x {
+    @include player-button(-22,
+    60);
+  }
+  div.action_win {
+    @include player-button(-30,
+    110);
+  }
+  div.action_lose {
+    @include player-button(-10,
+    110);
+  }
+  div.action_wait {
+    @include player-button(10,
+    110);
+  }
+  div.action_s {
+    @include player-button(-22,
+    -20);
+  }
+}
