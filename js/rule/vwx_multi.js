@@ -131,7 +131,7 @@ app.factory('rule', ['qCommon', function(qCommon) {
     "line1": {
       "left": 0,
       "right": 1,
-      "y": 0.7,
+      "y": 0.6,
       "zoom": 1,
       "orderBy": "position"
     }
@@ -189,20 +189,73 @@ app.factory('rule', ['qCommon', function(qCommon) {
       }
     },
     {
-      "name": "",
+      "name": "α",
+      "enable0": function(players, header, property) {
+        return true;
+      },
+      "button_css": "btn btn-default",
+      "group": "rule",
+      "keyboard": "z",
+      "tweet": "mode",
+      "action0": function(players, header, property) {
+        header.variant = 1;
+        header.variantName = "α";
+      }
+    },
+    {
+      "name": "β",
+      "enable0": function(players, header, property) {
+        return true;
+      },
       "button_css": "btn btn-default",
       "group": "rule",
       "tweet": "mode",
-      "indexes0": function(players, header, property) {
-        return ["α", "β", "γ", "δ", "ε"];
-      },
-      "enable1": function(index, players, header, property) {
+      "keyboard": "x",
+      "action0": function(players, header, property) {
+        header.variant = 2;
+        header.variantName = "β";
+      }
+    },
+    {
+      "name": "γ",
+      "enable0": function(players, header, property) {
         return true;
       },
-      "action1": function(index, players, header, property) {
-        var variant = ["α", "β", "γ", "δ", "ε"].indexOf(index) + 1;
-        header.variant = variant;
-        header.variantName = index;
+      "button_css": "btn btn-default",
+      "group": "rule",
+      "tweet": "mode",
+      "keyboard": "c",
+      "action0": function(players, header, property) {
+        header.variant = 3;
+        header.variantName = "γ";
+      }
+    },
+    {
+      "name": "δ",
+      "enable0": function(players, header, property) {
+        return true;
+      },
+      "button_css": "btn btn-default",
+      "group": "rule",
+      "tweet": "mode",
+      "keyboard": "v",
+      "action0": function(players, header, property) {
+        header.variant = 4;
+        header.variantName = "δ";
+      }
+    },
+    {
+      "name": "ε",
+      "enable0": function(players, header, property) {
+        return true;
+      },
+      "button_css": "btn btn-default",
+      "group": "rule",
+      "tweet": "mode",
+      "keyboard": "b",
+      "action0": function(players, header, property) {
+        header.variant = 5;
+        header.variantName = "ε";
       }
     }
   ];
@@ -271,7 +324,7 @@ app.factory('rule', ['qCommon', function(qCommon) {
       player.chance4 = (["normal", "absent"].indexOf(player.status) >= 0) && (player.x4 === 0) && ((player.pts4 + 1) * player.pts1 * player.pts2 * player.pts3 * player.pts5 >= property.winningPoint);
       player.chance5 = (["normal", "absent"].indexOf(player.status) >= 0) && (player.x5 === 0) && ((player.pts5 + 1) * player.pts1 * player.pts2 * player.pts3 * player.pts4 >= property.winningPoint);
 
-      player.chance = player["chance" + player.variant];
+      player.chance = player["chance" + header.variant];
       player.pinch = (player.x + 1 >= property.losingPoint);
 
       // キーボード入力時の配列の紐付け ローリング等の特殊形式でない場合はこのままでOK\

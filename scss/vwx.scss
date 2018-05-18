@@ -184,18 +184,17 @@ div.player {
       border-style: solid;
       line-height: 45px;
       letter-spacing: 0px;
-      &.select1 {
-        color: yellow;
-        border-width: 5px;
-      }
       &.chance1 {
         color: $chance-color;
         border-color: $chance-color;
       }
+      &.select1 {
+        border-color: lime;
+      }
       &.absent1 {
         color: black;
         border-color: black;
-        background-color: yellow;
+        background-color: gold;
       }
       &.hidepts {
         opacity: 0;
@@ -211,18 +210,17 @@ div.player {
       border-style: solid;
       line-height: 45px;
       letter-spacing: 0px;
-      &.select2 {
-        color: yellow;
-        border-width: 5px;
-      }
       &.chance2 {
         color: $chance-color;
         border-color: $chance-color;
       }
+      &.select2 {
+        border-color: lime;
+      }
       &.absent2 {
         color: black;
         border-color: black;
-        background-color: yellow;
+        background-color: gold;
       }
       &.hidepts {
         opacity: 0;
@@ -238,18 +236,17 @@ div.player {
       border-style: solid;
       line-height: 45px;
       letter-spacing: 0px;
-      &.select3 {
-        color: yellow;
-        border-width: 5px;
-      }
       &.chance3 {
         color: $chance-color;
         border-color: $chance-color;
       }
+      &.select3 {
+        border-color: lime;
+      }
       &.absent3 {
         color: black;
         border-color: black;
-        background-color: yellow;
+        background-color: gold;
       }
       &.hidepts {
         opacity: 0;
@@ -265,18 +262,17 @@ div.player {
       border-style: solid;
       line-height: 45px;
       letter-spacing: 0px;
-      &.select4 {
-        color: yellow;
-        border-width: 5px;
-      }
       &.chance4 {
         color: $chance-color;
         border-color: $chance-color;
       }
+      &.select4 {
+        border-color: lime;
+      }
       &.absent4 {
         color: black;
         border-color: black;
-        background-color: yellow;
+        background-color: gold;
       }
       &.hidepts {
         opacity: 0;
@@ -292,18 +288,17 @@ div.player {
       border-style: solid;
       line-height: 45px;
       letter-spacing: 0px;
-      &.select5 {
-        color: yellow;
-        border-width: 5px;
-      }
       &.chance5 {
         color: $chance-color;
         border-color: $chance-color;
       }
+      &.select5 {
+        border-color: lime;
+      }
       &.absent5 {
         color: black;
         border-color: black;
-        background-color: yellow;
+        background-color: gold;
       }
       &.hidepts {
         opacity: 0;

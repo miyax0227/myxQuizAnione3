@@ -1517,20 +1517,19 @@ div.player div.open div.o3 {
   letter-spacing: 0px;
 }
 
-div.player div.open div.o3.select1 {
-  color: yellow;
-  border-width: 5px;
-}
-
 div.player div.open div.o3.chance1 {
   color: lightblue;
   border-color: lightblue;
 }
 
+div.player div.open div.o3.select1 {
+  border-color: lime;
+}
+
 div.player div.open div.o3.absent1 {
   color: black;
   border-color: black;
-  background-color: yellow;
+  background-color: gold;
 }
 
 div.player div.open div.o3.hidepts {
@@ -1554,20 +1553,19 @@ div.player div.open div.o4 {
   letter-spacing: 0px;
 }
 
-div.player div.open div.o4.select2 {
-  color: yellow;
-  border-width: 5px;
-}
-
 div.player div.open div.o4.chance2 {
   color: lightblue;
   border-color: lightblue;
 }
 
+div.player div.open div.o4.select2 {
+  border-color: lime;
+}
+
 div.player div.open div.o4.absent2 {
   color: black;
   border-color: black;
-  background-color: yellow;
+  background-color: gold;
 }
 
 div.player div.open div.o4.hidepts {
@@ -1591,20 +1589,19 @@ div.player div.open div.o5 {
   letter-spacing: 0px;
 }
 
-div.player div.open div.o5.select3 {
-  color: yellow;
-  border-width: 5px;
-}
-
 div.player div.open div.o5.chance3 {
   color: lightblue;
   border-color: lightblue;
 }
 
+div.player div.open div.o5.select3 {
+  border-color: lime;
+}
+
 div.player div.open div.o5.absent3 {
   color: black;
   border-color: black;
-  background-color: yellow;
+  background-color: gold;
 }
 
 div.player div.open div.o5.hidepts {
@@ -1628,20 +1625,19 @@ div.player div.open div.o6 {
   letter-spacing: 0px;
 }
 
-div.player div.open div.o6.select4 {
-  color: yellow;
-  border-width: 5px;
-}
-
 div.player div.open div.o6.chance4 {
   color: lightblue;
   border-color: lightblue;
 }
 
+div.player div.open div.o6.select4 {
+  border-color: lime;
+}
+
 div.player div.open div.o6.absent4 {
   color: black;
   border-color: black;
-  background-color: yellow;
+  background-color: gold;
 }
 
 div.player div.open div.o6.hidepts {
@@ -1665,20 +1661,19 @@ div.player div.open div.o7 {
   letter-spacing: 0px;
 }
 
-div.player div.open div.o7.select5 {
-  color: yellow;
-  border-width: 5px;
-}
-
 div.player div.open div.o7.chance5 {
   color: lightblue;
   border-color: lightblue;
 }
 
+div.player div.open div.o7.select5 {
+  border-color: lime;
+}
+
 div.player div.open div.o7.absent5 {
   color: black;
   border-color: black;
-  background-color: yellow;
+  background-color: gold;
 }
 
 div.player div.open div.o7.hidepts {
