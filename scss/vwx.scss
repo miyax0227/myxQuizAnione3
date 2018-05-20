@@ -117,7 +117,7 @@ div.player {
       }
     }
     div.o2 {
-      @include player-item(-50, -270, 200, 40);
+      @include player-item(-100, -270, 200, 40);
       transform: rotateY(0deg);
       &.chance {
         color: $chance-color;
@@ -303,6 +303,45 @@ div.player {
       &.hidepts {
         opacity: 0;
       }
+    }
+    div.o2x {
+      @include player-item(-100,
+      -310,
+      200,
+      40);
+      transform: rotateY(0deg);
+      &.chance {
+        color: $chance-color;
+      }
+      &.hidepts {
+        opacity: 0;
+        transform: rotateY(180deg);
+      }
+      transition: 1s;
+    }
+    div.oFrac {
+      @include player-item(40,
+      -185,
+      40,
+      40);
+      transform: rotateY(0deg);
+      &.chance {
+        color: $chance-color;
+      }
+      &.hidepts {
+        opacity: 0;
+        transform: rotateY(180deg);
+      }
+      transition: 1s;
+    }
+    div.pushed_img {
+      @include player-item(-50,
+      -100,
+      100,
+      210);
+      @include img-show("select.png",
+      100px,
+      210px);
     }
   }
   div.closed {

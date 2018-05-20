@@ -762,7 +762,7 @@ div.player div.open div.x2 {
 
 div.player div.open div.o2 {
   position: absolute;
-  left: -50px;
+  left: -100px;
   top: -270px;
   width: 200px;
   font-size: 40px;
@@ -981,6 +981,59 @@ div.player div.open div.o7 {
     background-color: gold; }
   div.player div.open div.o7.hidepts {
     opacity: 0; }
+
+div.player div.open div.o2x {
+  position: absolute;
+  left: -100px;
+  top: -310px;
+  width: 200px;
+  font-size: 40px;
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", "Noto Sans Japanese", "ヒラギノ角ゴ ProN W3", Meiryo, sans-serif;
+  font-weight: bold;
+  text-align: center;
+  -webkit-user-select: none;
+  transform: rotateY(0deg);
+  transition: 1s; }
+  div.player div.open div.o2x.chance {
+    color: lightblue; }
+  div.player div.open div.o2x.hidepts {
+    opacity: 0;
+    transform: rotateY(180deg); }
+
+div.player div.open div.oFrac {
+  position: absolute;
+  left: 40px;
+  top: -185px;
+  width: 40px;
+  font-size: 40px;
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", "Noto Sans Japanese", "ヒラギノ角ゴ ProN W3", Meiryo, sans-serif;
+  font-weight: bold;
+  text-align: center;
+  -webkit-user-select: none;
+  transform: rotateY(0deg);
+  transition: 1s; }
+  div.player div.open div.oFrac.chance {
+    color: lightblue; }
+  div.player div.open div.oFrac.hidepts {
+    opacity: 0;
+    transform: rotateY(180deg); }
+
+div.player div.open div.pushed_img {
+  position: absolute;
+  left: -50px;
+  top: -100px;
+  width: 100px;
+  font-size: 210px;
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", "Noto Sans Japanese", "ヒラギノ角ゴ ProN W3", Meiryo, sans-serif;
+  font-weight: bold;
+  text-align: center;
+  -webkit-user-select: none;
+  color: transparent; }
+  div.player div.open div.pushed_img[value="true"] {
+    background: url("../img/select.png");
+    background-size: 100px 210px;
+    background-position: 0px 0px;
+    background-repeat: no-repeat; }
 
 div.player div.closed div.paperRank {
   position: absolute;

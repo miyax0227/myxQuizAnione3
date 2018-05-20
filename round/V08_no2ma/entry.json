@@ -1,0 +1,11 @@
+[{
+  "source": "V06_board",
+  "filter": "1<=rank<=2",
+  "profile": true,
+  "order":"rank"
+}, {
+  "source": "V07_pushboard",
+  "filter": "1<=rank<=3",
+  "profile": true,
+  "order":"rank"
+}]

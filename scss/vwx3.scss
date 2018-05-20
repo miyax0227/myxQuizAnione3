@@ -97,6 +97,13 @@ div.player {
         transform: translate(0px, -10px);
       }
     }
+    div.pts {
+      @include player-item(-150, -10, 300, 150);
+    }
+    div.upper {
+      @include player-item(-150, -150, 300, 180);
+      color: $chance-color;
+    }
   }
   div.closed {
     div.paperRank {
@@ -167,6 +174,18 @@ div.player {
   }
   div.action_s {
     @include player-button(-20, 50);
+    transform: scale(2, 2);
+  }
+  div.action_win {
+    @include player-button(-60, 100);
+    transform: scale(2, 2);
+  }
+  div.action_lose {
+    @include player-button(-20, 100);
+    transform: scale(2, 2);
+  }
+  div.action_wait {
+    @include player-button(20, 100);
     transform: scale(2, 2);
   }
 }

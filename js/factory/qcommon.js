@@ -684,7 +684,16 @@ app.service('qCommon', ['$uibModal', '$localStorage', '$interval', '$location', 
 			} else if (item.hasOwnProperty('repeatChar')) {
 				// 数値でない場合
 				if (!(parseInt(value) > 0)) {
-					return "";
+					// 真偽値の場合、true,falseで対応
+					if (typeof value === 'boolean') {
+						if (value) {
+							return item.repeatChar.split(',')[0];
+						} else {
+							return item.repeatChar.split(',')[1];
+						}
+					} else {
+						return "";
+					}
 				}
 				return Array(parseInt(value) + 1).join(item.repeatChar);
 
