@@ -1816,3 +1816,17 @@ div.player div.action_s {
   top: -20px;
   opacity: 0.8;
   -webkit-user-select: none; }
+
+div.player div.action_plus {
+  position: absolute;
+  left: -30px;
+  top: 0px;
+  opacity: 0.8;
+  -webkit-user-select: none; }
+
+div.player div.action_minus {
+  position: absolute;
+  left: 10px;
+  top: 0px;
+  opacity: 0.8;
+  -webkit-user-select: none; }

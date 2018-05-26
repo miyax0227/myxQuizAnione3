@@ -1303,13 +1303,14 @@ app.service('qCommon', ['$uibModal', '$localStorage', '$interval', '$location', 
 
 		/** ボタン押下後、一定時間押下できないようにする
 		 * @param {object} scope  $scope
+		 * @param {number} wait 待ち時間（ミリ秒）
 		 */
-		function pushed(scope) {
+		function pushed(scope,wait) {
 			scope.pushable = false;
 			var t;
 			t = $interval(function () {
 				scope.pushable = true;
-			}, 500, 1);
+			}, wait, 1);
 		}
 	}
 ]);

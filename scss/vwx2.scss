@@ -59,7 +59,7 @@ div.player {
   }
   div.closed {
     div.paperRank {
-      @include player-item(-320, -18, 120, 36);
+      @include player-item(-310, -18, 620, 36);
       font-family: NationalyzeAlp;
       border-radius: 0px;
       @include bordered;

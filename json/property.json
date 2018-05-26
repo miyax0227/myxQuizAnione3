@@ -4,7 +4,8 @@
         "timer": 30,
         "maxRankDisplay": 2,
         "openRankArray": null,
-        "tweetCupTitle": ""
+        "tweetCupTitle": "",
+        "wait":500
     },
     {
         "right": {

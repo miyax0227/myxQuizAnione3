@@ -143,18 +143,12 @@ app.factory('rule', ['qCommon', function(qCommon) {
       "keyArray": "k1",
       "tweet": "o",
       "enable0": function(player, players, header, property) {
-        return (player.status == 'normal' && !header.playoff);
+        return (player.status == 'normal' && !header.playoff && header.push);
       },
       "action0": function(player, players, header, property) {
-        // 早押しモード
-        if (header.push) {
-          player.o++;
-          setMotion(player, 'o');
-          addQCount(players, header, property);
-          // 多答モード
-        } else {
-          player.multipts++;
-        }
+        player.o++;
+        setMotion(player, 'o');
+        addQCount(players, header, property);
       }
     },
     {
@@ -164,19 +158,36 @@ app.factory('rule', ['qCommon', function(qCommon) {
       "keyArray": "k2",
       "tweet": "x",
       "enable0": function(player, players, header, property) {
-        return (player.status == 'normal' && !header.playoff);
+        return (player.status == 'normal' && !header.playoff && header.push);
       },
       "action0": function(player, players, header, property) {
-        // 早押しモード
-        if (header.push) {
-          player.x++;
-          player.allx++;
-          setMotion(player, 'o');
-          addQCount(players, header, property);
-          // 多答モード
-        } else {
-          player.multipts--;
-        }
+        player.x++;
+        player.allx++;
+        setMotion(player, 'o');
+        addQCount(players, header, property);
+      }
+    },
+    {
+      "name": "+",
+      "css": "action_plus",
+      "button_css": "btn btn-primary",
+      "keyArray": "k3",
+      "enable0": function(player, players, header, property) {
+        return (player.status == 'normal' && !header.playoff && !header.push);
+      },
+      "action0": function(player, players, header, property) {
+        player.multipts++;
+      }
+    },
+    {
+      "name": "-",
+      "button_css": "btn btn-danger",
+      "css": "action_minus",
+      "enable0": function(player, players, header, property) {
+        return (player.status == 'normal' && !header.playoff && !header.push);
+      },
+      "action0": function(player, players, header, property) {
+        player.multipts--;
       }
     }
   ];
@@ -189,13 +200,13 @@ app.factory('rule', ['qCommon', function(qCommon) {
       "button_css": "btn btn-default",
       "group": "rule",
       "keyboard": "Space",
-      "tweet": "thru",
       "enable0": function(players, header, property) {
         return true;
       },
       "action0": function(players, header, property) {
         // 早押しモード
         if (header.push) {
+          qCommon.editTweet(header.tweets, property.tweet["thru"], header, true);
           addQCount(players, header, property);
           // 多答モード
         } else {

@@ -487,4 +487,12 @@ div.player {
     @include player-button(-22,
     -20);
   }
+  div.action_plus {
+    @include player-button(-30,
+    0);
+  }
+  div.action_minus {
+    @include player-button(10,
+    0);
+  }
 }

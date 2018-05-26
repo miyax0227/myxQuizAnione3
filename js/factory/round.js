@@ -694,7 +694,13 @@ app.factory('round', ['qCommon', 'rule', '$filter', '$timeout',
 				var items = scope.items;
 
 				// 一定時間ボタン再押下不可
-				qCommon.pushed(scope);
+				var wait;
+				if(angular.isDefined(property.wait)){
+					wait = property.wait;
+				}else{
+					wait = 500;
+				}
+				qCommon.pushed(scope, wait);
 				try {
 					// action0を実行
 					action.action0(player, players, header, property);
