@@ -119,8 +119,8 @@ app.factory('rule', ['qCommon', function(qCommon) {
    * tweet - ルール固有のツイートのひな型
    ****************************************************************************/
   rule.tweet = {
-    "o": "${handleName}◯　→${pts1}*${pts2}*${pts3}*${pts4}*${pts5}=${pts} ${x}×",
-    "x": "${handleName}×　→${pts1}*${pts2}*${pts3}*${pts4}*${pts5}=${pts} ${x}×",
+    "o": "${handleName}◯　→${pts1}*${pts2}*${pts3}*${pts4}*${pts5}=${pts} ${x}× ${substatus}",
+    "x": "${handleName}×　→${pts1}*${pts2}*${pts3}*${pts4}*${pts5}=${pts} ${x}× ${substatus}",
     "thru": "スルー"
   };
 
@@ -325,7 +325,8 @@ app.factory('rule', ['qCommon', function(qCommon) {
       player.chance5 = (["normal", "absent"].indexOf(player.status) >= 0) && (player.x5 === 0) && ((player.pts5 + 1) * player.pts1 * player.pts2 * player.pts3 * player.pts4 >= property.winningPoint);
 
       player.chance = player["chance" + header.variant];
-      player.pinch = (player.x + 1 >= property.losingPoint);
+      player.pinch = player.status == "normal" && (player.x + 1 >= property.losingPoint);
+      player.substatus = (player.chance && player.pinch) ? "ダブリー" : player.chance ? "リーチ" : player.pinch ? "トビリー" : "";
 
       // キーボード入力時の配列の紐付け ローリング等の特殊形式でない場合はこのままでOK\
       player.keyIndex = player.position;

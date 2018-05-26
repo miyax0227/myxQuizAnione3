@@ -68,9 +68,10 @@ app.factory('rule', ['qCommon', function(qCommon) {
    * tweet - ルール固有のツイートのひな型
    ****************************************************************************/
   rule.tweet = {
-    "o": "${handleName}◯　→${o}◯ ${x}×",
+    "o": "${handleName}◯　→${o}◯ ${x}× ${substatus}",
     "x": "${handleName}×　→${o}◯ ${x}× ${absent}休み",
-    "thru": "スルー"
+    "thru": "スルー",
+    "win": "${handleName}優勝！！"
   };
 
   /*****************************************************************************
@@ -182,6 +183,7 @@ app.factory('rule', ['qCommon', function(qCommon) {
       // pinch, chance
       player.pinch = false;
       player.chance = (player.o + 1 >= property.winningPoint) && (player.status == 'normal');
+      player.substatus = (player.chance && player.pinch) ? "ダブリー" : player.chance ? "リーチ" : player.pinch ? "トビリー" : "";
 
       // キーボード入力時の配列の紐付け ローリング等の特殊形式でない場合はこのままでOK\
       player.keyIndex = player.position;

@@ -1654,7 +1654,7 @@ div.player div.closed div.paperRank {
 div.player div.rank img {
   position: absolute;
   left: -40px;
-  top: -210px;
+  top: -270px;
   width: 90px;
   height: 60px;
   -webkit-user-select: none;
@@ -1675,7 +1675,8 @@ div.player div.status img.win {
   top: -75px;
   width: 60px;
   height: 166px;
-  -webkit-user-select: none; }
+  -webkit-user-select: none;
+  opacity: 0.8; }
   div.player div.status img.win.ng-enter {
     transition: all cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.5s;
     opacity: 0;
@@ -1692,7 +1693,8 @@ div.player div.status img.lose {
   top: -80px;
   width: 75px;
   height: 182px;
-  -webkit-user-select: none; }
+  -webkit-user-select: none;
+  opacity: 0.8; }
   div.player div.status img.lose.ng-enter {
     transition: all cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.5s;
     opacity: 0;
@@ -1709,7 +1711,8 @@ div.player div.status img.wait {
   top: -62px;
   width: 60px;
   height: 146px;
-  -webkit-user-select: none; }
+  -webkit-user-select: none;
+  opacity: 0.8; }
   div.player div.status img.wait.ng-enter {
     transition: all cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.5s;
     opacity: 0;

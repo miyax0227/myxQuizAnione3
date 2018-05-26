@@ -386,7 +386,7 @@ div.player {
   div.rank {
     img {
       @include player-img(-40,
-      -210,
+      -270,
       90,
       60);
       background-color: rgba(0, 0, 0, 0.5);
@@ -401,6 +401,7 @@ div.player {
       -75,
       60,
       166);
+      opacity: 0.8;
       @include fadein(0.5) {
         transform: scale(1.5, 1.5);
       }
@@ -410,6 +411,7 @@ div.player {
       -80,
       75,
       182);
+      opacity: 0.8;
       @include fadein(0.5) {
         transform: scale(1.5, 1.5) rotate(30deg);
       }
@@ -419,6 +421,7 @@ div.player {
       -62,
       60,
       146);
+      opacity: 0.8;
       @include fadein(0.5) {
         transform: scale(1.5, 1.5);
       }

@@ -23,10 +23,16 @@ app.factory('rule', ['qCommon', function(qCommon) {
    * header - ルール固有のヘッダ
    ****************************************************************************/
   rule.head = [{
-    "key": "pos",
-    "value": true,
-    "style": "boolean"
-  }];
+      "key": "pos",
+      "value": true,
+      "style": "boolean"
+    },
+    {
+      "key": "course",
+      "value": "",
+      "style": "string"
+    }
+  ];
 
   /*****************************************************************************
    * items - ルール固有のアイテム
@@ -88,6 +94,20 @@ app.factory('rule', ['qCommon', function(qCommon) {
       "y": 0.2,
       "zoom": 1,
       "orderBy": "rankPoint"
+    },
+    "linea": {
+      "x": 0.25,
+      "top": 0.3,
+      "bottom": 0.9,
+      "zoom": 1,
+      "orderBy": "rankPoint"
+    },
+    "lineb": {
+      "x": 0.75,
+      "top": 0.3,
+      "bottom": 0.9,
+      "zoom": 1,
+      "orderBy": "rankPoint"
     }
   };
 
@@ -100,41 +120,102 @@ app.factory('rule', ['qCommon', function(qCommon) {
    * global_actions - 全体に対する操作の設定
    ****************************************************************************/
   rule.global_actions = [{
-    "name": "thru",
-    "button_css": "btn btn-default",
-    "group": "rule",
-    "keyboard": "Space",
-    "enable0": function(players, header, property) {
-      return true;
-    },
-    "action0": function(players, header, property) {
-      var nextPlayer;
-      var nextPlayers = players.filter(function(p) {
-        return p.next
-      });
+      "name": "thru",
+      "button_css": "btn btn-default",
+      "group": "rule",
+      "keyboard": "Space",
+      "enable0": function(players, header, property) {
+        return true;
+      },
+      "action0": function(players, header, property) {
+        var nextPlayer;
+        var nextPlayers = players.filter(function(p) {
+          return p.next
+        });
 
-      if (nextPlayers.length >= 1) {
-        nextPlayer = nextPlayers[0];
+        if (nextPlayers.length >= 1) {
+          nextPlayer = nextPlayers[0];
 
-        for (var i = 1; i <= 4; i++) {
-          var will = nextPlayer["" + i];
+          for (var i = 1; i <= 4; i++) {
+            var will = nextPlayer["" + i];
 
-          // 人数オーバーの場合は次へ
-          if (players.filter(function(p) {
-              return p.course == will;
-            }).length >= property.maxCourseCount[will]) {
-            console.log("ng: " + will);
-            continue;
+            // 人数オーバーの場合は次へ
+            if (players.filter(function(p) {
+                return p.course == will;
+              }).length >= property.maxCourseCount[will]) {
+              console.log("ng: " + will);
+              continue;
+            }
+
+            // コースを設定
+            console.log("ok: " + will);
+            nextPlayer.course = will;
+            break;
           }
-
-          // コースを設定
-          console.log("ok: " + will);
-          nextPlayer.course = will;
-          break;
         }
       }
+    },
+    {
+      "name": "s",
+      "enable0": function(players, header, property) {
+        return true;
+      },
+      "button_css": "btn btn-default",
+      "group": "rule",
+      "keyboard": "z",
+      "action0": function(players, header, property) {
+        header.course = "";
+      }
+    },
+    {
+      "name": "a",
+      "button_css": "btn btn-default",
+      "group": "rule",
+      "keyboard": "x",
+      "enable0": function(players, header, property) {
+        return true;
+      },
+      "action0": function(players, header, property) {
+        header.course = "a";
+      }
+    },
+    {
+      "name": "b",
+      "button_css": "btn btn-default",
+      "group": "rule",
+      "keyboard": "c",
+      "enable0": function(players, header, property) {
+        return true;
+      },
+      "action0": function(players, header, property) {
+        header.course = "b";
+      }
+    },
+    {
+      "name": "c",
+      "button_css": "btn btn-default",
+      "group": "rule",
+      "keyboard": "v",
+      "enable0": function(players, header, property) {
+        return true;
+      },
+      "action0": function(players, header, property) {
+        header.course = "c";
+      }
+    },
+    {
+      "name": "d",
+      "button_css": "btn btn-default",
+      "group": "rule",
+      "keyboard": "b",
+      "enable0": function(players, header, property) {
+        return true;
+      },
+      "action0": function(players, header, property) {
+        header.course = "d";
+      }
     }
-  }];
+  ];
 
   /*****************************************************************************
    * judgement - 操作終了時等の勝敗判定
@@ -200,33 +281,66 @@ app.factory('rule', ['qCommon', function(qCommon) {
       nextPlayer = nextPlayers[0];
     }
 
+    // courseName
+    if (angular.isObject(property.courseName) && angular.isDefined(property.courseName[header.course])) {
+      header.courseName = property.courseName[header.course];
+    } else {
+      header.courseName = "";
+    }
+
     angular.forEach(players, function(player, index) {
-      // line
-      if (player == nextPlayer) {
-        player.next = true;
-        player.line = "next";
+      if (header.course.length >= 1) {
+        if (player == nextPlayer) {
+          player.next = true;
+          player.line = "left";
+
+        } else if (player.course == header.course) {
+          var rankInCourse = players.filter(function(p) {
+            return p.course == header.course && p.rankPoint <= player.rankPoint;
+          }).length;
+          var countInCourse = players.filter(function(p) {
+            return p.course == header.course;
+          }).length;
+
+          if (rankInCourse <= countInCourse / 2) {
+            player.line = "linea";
+          } else {
+            player.line = "lineb"
+          }
+
+        } else {
+          player.line = "left";
+
+        }
       } else {
-        player.next = false;
-        switch (player.course) {
-          case "":
-            player.line = "left";
-            break;
-          case "a":
-            player.line = "line1";
-            break;
-          case "b":
-            player.line = "line2";
-            break;
-          case "c":
-            player.line = "line3";
-            break;
-          case "d":
-            player.line = "line4";
-            break;
-          default:
-            player.line = "left";
+        // line
+        if (player == nextPlayer) {
+          player.next = true;
+          player.line = "next";
+        } else {
+          player.next = false;
+          switch (player.course) {
+            case "":
+              player.line = "left";
+              break;
+            case "a":
+              player.line = "line1";
+              break;
+            case "b":
+              player.line = "line2";
+              break;
+            case "c":
+              player.line = "line3";
+              break;
+            case "d":
+              player.line = "line4";
+              break;
+            default:
+              player.line = "left";
+          }
         }
       }
+
     });
   }
 
