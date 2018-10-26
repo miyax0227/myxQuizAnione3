@@ -311,9 +311,11 @@ app.factory('rule', ['qCommon', function(qCommon) {
       if (["normal", "absent"].indexOf(player.status) >= 0) {
         if (player["x" + header.variant] >= 1) {
           player.status = "absent";
+          player.absent = 0;
         } else {
           player["select" + header.variant] = true;
           player.status = "normal";
+          player.absent = 0;
         }
       }
 

@@ -143,7 +143,8 @@ app.factory('rule', ['qCommon', function(qCommon) {
           }
         }
         addQCount(players, header, property);
-      }
+      },
+      "nowait": false
     },
     {
       "name": "×",
@@ -160,7 +161,8 @@ app.factory('rule', ['qCommon', function(qCommon) {
         // 自分の列をローリング
         rolling(players, player.col);
         addQCount(players, header, property);
-      }
+      },
+      "nowait": false
     },
     {
       "name": "S",
@@ -179,7 +181,8 @@ app.factory('rule', ['qCommon', function(qCommon) {
         });
         player.status = "selected";
 
-      }
+      },
+      "nowait": true
     }
   ];
 
@@ -201,7 +204,8 @@ app.factory('rule', ['qCommon', function(qCommon) {
         rolling(players, col);
       }
       addQCount(players, header, property);
-    }
+    },
+    "nowait": false
   }];
 
   /*****************************************************************************
@@ -224,7 +228,6 @@ app.factory('rule', ['qCommon', function(qCommon) {
         }
 
         win(player, players, header, property);
-        player.o = property.winningPoint;
         timerStop();
 
       }
@@ -236,8 +239,6 @@ app.factory('rule', ['qCommon', function(qCommon) {
         }
 
         lose(player, players, header, property);
-        player.x = property.losingPoint;
-        player.o = 0;
         timerStop();
       }
     });

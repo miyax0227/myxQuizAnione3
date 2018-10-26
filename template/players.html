@@ -1,4 +1,4 @@
-<div class="player" ng-repeat="player in current.players as players" ng-style="getPlayerCSS(players,player, windowSize, lineProperty)" ng-if="player.line != 'left'">
+<div class="player" ng-repeat="player in current.players as players" ng-style="getPlayerCSS(players,player, windowSize, lineProperty, property)" ng-if="player.line != 'left'">
 
   <div svg></div>
 
@@ -25,7 +25,7 @@
   </div>
   
   <div ng-repeat="action in actions" ng-class="action.css" ng-if="globalActionVisible && ! viewMode && ! capturing">
-    <button ng-click="func_player_scope(action.action, player)" ng-class="action.button_css" ng-disabled="! func_player_scope(action.enable,player) || !pushable">
+    <button ng-click="func_player_scope(action.action, player)" ng-class="action.button_css" ng-if="func_player_scope(action.enable,player)" ng-disabled="!pushable">
       {{action.name}}
     </button>
   </div>

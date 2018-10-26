@@ -472,16 +472,16 @@ div.player {
     60);
   }
   div.action_win {
-    @include player-button(-30,
-    110);
+    @include player-button(-60,
+    0);
   }
   div.action_lose {
-    @include player-button(-10,
-    110);
+    @include player-button(-20,
+    0);
   }
   div.action_wait {
-    @include player-button(10,
-    110);
+    @include player-button(20,
+    0);
   }
   div.action_s {
     @include player-button(-22,

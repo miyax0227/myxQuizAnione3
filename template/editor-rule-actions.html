@@ -130,6 +130,9 @@
           <th>
             tweet
           </th>
+          <th>
+            nowait
+          </th>
         </tr>
         <tr ng-if="rule.currentActionClass==1">
           <td>
@@ -143,6 +146,9 @@
           </td>
           <td>
             <input ng-model="rule.currentAction.tweet" class="form-control input-sm" type="text">
+          </td>
+          <td>
+            <input ng-model="rule.currentAction.nowait" class="form-control input-sm" type="checkbox">
           </td>
         </tr>
 
@@ -159,6 +165,10 @@
           <th>
             tweet
           </th>
+          <th>
+            nowait
+          </th>
+
         </tr>
         <tr ng-if="rule.currentActionClass==2">
           <td>
@@ -173,6 +183,9 @@
           <td>
             <input ng-model="rule.currentAction.tweet" class="form-control input-sm" type="text">
           </td>
+          <td>
+            <input ng-model="rule.currentAction.nowait" class="form-control input-sm" type="checkbox">
+          </td>
         </tr>
 
         <tr ng-if="rule.currentActionClass==3">
@@ -185,6 +198,10 @@
           <th>
             tweet
           </th>
+          <th>
+            nowait
+          </th>
+
         </tr>
         <tr ng-if="rule.currentActionClass==3">
           <td>
@@ -195,6 +212,9 @@
           </td>
           <td>
             <input ng-model="rule.currentAction.tweet" class="form-control input-sm" type="text">
+          </td>
+          <td>
+            <input ng-model="rule.currentAction.nowait" class="form-control input-sm" type="checkbox">
           </td>
         </tr>
       </table>

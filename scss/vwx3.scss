@@ -177,15 +177,15 @@ div.player {
     transform: scale(2, 2);
   }
   div.action_win {
-    @include player-button(-60, 100);
+    @include player-button(-120, 100);
     transform: scale(2, 2);
   }
   div.action_lose {
-    @include player-button(-20, 100);
+    @include player-button(-40, 100);
     transform: scale(2, 2);
   }
   div.action_wait {
-    @include player-button(20, 100);
+    @include player-button(40, 100);
     transform: scale(2, 2);
   }
 }

@@ -1791,22 +1791,22 @@ div.player div.action_x {
 
 div.player div.action_win {
   position: absolute;
-  left: -30px;
-  top: 110px;
+  left: -60px;
+  top: 0px;
   opacity: 0.8;
   -webkit-user-select: none; }
 
 div.player div.action_lose {
   position: absolute;
-  left: -10px;
-  top: 110px;
+  left: -20px;
+  top: 0px;
   opacity: 0.8;
   -webkit-user-select: none; }
 
 div.player div.action_wait {
   position: absolute;
-  left: 10px;
-  top: 110px;
+  left: 20px;
+  top: 0px;
   opacity: 0.8;
   -webkit-user-select: none; }
 

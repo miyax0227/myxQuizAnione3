@@ -23,6 +23,11 @@ const BrowserWindow = electron.BrowserWindow;
 // メインウィンドウはGCされないようにグローバル宣言
 let mainWindow;
 
+// controlWindow, viewWindowのリスト
+var controlWindows = {};
+var viewWindows = {};
+var lastHists = {};
+
 // 全てのウィンドウが閉じたら終了
 app.on('window-all-closed', function () {
   if (process.platform != 'darwin') {
@@ -35,8 +40,43 @@ app.on('ready', function () {
   // deprecation警告を出力しない
   process.noDeprecation = true;
 
-  var fs = require('fs');
+  const fs = require('fs');
+  const ipc = require('electron').ipcMain;
+  const BrowserWindow = require('electron').BrowserWindow;
   var data = JSON.parse(fs.readFileSync(__dirname + '/json/window.json', 'utf-8'));
+
+  //
+  ipc.on('registWindow', function (event, arg) {
+    if (arg.hasOwnProperty('viewMode') && arg.hasOwnProperty('roundName')) {
+      if (arg.viewMode) {
+        viewWindows[arg.roundName] = event.sender;
+        console.log("registWindow", arg.roundName);
+        if (lastHists[arg.roundName]) {
+          viewWindows[arg.roundName].send("createHist", lastHists[arg.roundName]);
+          lastHists[arg.aroundName] = undefined;
+        }
+      } else {
+        controlWindows[arg.roundName] = event.sender;
+      }
+    }
+  });
+
+  ipc.on('createHist', function (event, arg) {
+    console.log("createHist", arg.roundName);
+    lastHists[arg.roundName] = arg;
+    try {
+      if (viewWindows[arg.roundName]) {
+        viewWindows[arg.roundName].send("createHist", arg);
+      }
+    } catch (e) {
+      if (e.message == "Object has been destroyed") {
+        console.log("Object has been destroyed", arg.roundName);
+        viewWindows[arg.roundName] = undefined;
+      } else {
+        console.log(e);
+      }
+    }
+  });
 
   // メイン画面の表示。ウィンドウの幅、高さを指定できる
   mainWindow = new BrowserWindow({

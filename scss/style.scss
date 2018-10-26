@@ -118,7 +118,8 @@ div.scoreboard {
 	    width: $logo-width;
 	    height: $logo-height;
 	    left: 2%;
-	    top: 10px;
+		top: 10px;
+		-webkit-user-select: none;
 	}
 	
 	div.title{

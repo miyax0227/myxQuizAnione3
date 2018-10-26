@@ -119,11 +119,11 @@ app.factory('round', ['qCommon', 'rule', '$filter', '$timeout',
 			 * 強制勝抜(プレーオフ時)
 			 ****************************************************************************/
 			{
-				name: "",
+				name: "勝",
 				css: "action_win",
 				button_css: "btn btn-primary btn-sm",
 				enable0: function (player, players, header) {
-					return (["normal", "wait", "absent","selected"].indexOf(player.status) >= 0 && header.playoff);
+					return (["normal", "wait", "absent", "selected"].indexOf(player.status) >= 0 && header.playoff);
 				},
 				action0: function (player, players, header, property) {
 					qCommon.win(player, players, header, property);
@@ -134,11 +134,11 @@ app.factory('round', ['qCommon', 'rule', '$filter', '$timeout',
 			 * 強制失格(プレーオフ時)
 			 ****************************************************************************/
 			{
-				name: "",
+				name: "負",
 				css: "action_lose",
 				button_css: "btn btn-danger btn_sm",
 				enable0: function (player, players, header) {
-					return (["normal", "wait", "absent","selected"].indexOf(player.status) >= 0 && header.playoff);
+					return (["normal", "wait", "absent", "selected"].indexOf(player.status) >= 0 && header.playoff);
 				},
 				action0: function (player, players, header, property) {
 					lose(player, players, header, property);
@@ -149,11 +149,11 @@ app.factory('round', ['qCommon', 'rule', '$filter', '$timeout',
 			 * 強制待機(プレーオフ時)
 			 ****************************************************************************/
 			{
-				name: "",
+				name: "待",
 				css: "action_wait",
 				button_css: "btn btn-warning btn_sm",
 				enable0: function (player, players, header) {
-					return (["normal", "wait", "absent","selected"].indexOf(player.status) >= 0 && header.playoff);
+					return (["normal", "wait", "absent", "selected"].indexOf(player.status) >= 0 && header.playoff);
 				},
 				action0: function (player, players, header) {
 					player.status = "wait";
@@ -508,7 +508,7 @@ app.factory('round', ['qCommon', 'rule', '$filter', '$timeout',
 
 						// 通常状態のプレイヤーは全員勝ち抜け
 						players.filter(function (player) {
-							return (["normal","selected"].indexOf(player.status) >= 0);
+							return (["normal", "selected"].indexOf(player.status) >= 0);
 						}).map(function (player) {
 							win(player, players, header, property);
 						});
@@ -525,7 +525,7 @@ app.factory('round', ['qCommon', 'rule', '$filter', '$timeout',
 
 						// ボーダー上のプレイヤーの優先順位キー
 						var keyPriority = Math.min.apply(null, players.filter(function (player) {
-							var statusBool = (["normal", "wait", "absent","selected"].indexOf(player.status) >= 0);
+							var statusBool = (["normal", "wait", "absent", "selected"].indexOf(player.status) >= 0);
 							var lotBool = (!header.hasOwnProperty("nowLot")) || (header.nowLot == player.lot);
 							return statusBool && lotBool;
 						}).map(function (player) {
@@ -544,7 +544,7 @@ app.factory('round', ['qCommon', 'rule', '$filter', '$timeout',
 
 						// ボーダー上のプレイヤーと比較同位のプレイヤーリストを取得
 						borderPlayers = players.filter(function (player) {
-							var statusBool = (["normal", "wait", "absent","selected"].indexOf(player.status) >= 0);
+							var statusBool = (["normal", "wait", "absent", "selected"].indexOf(player.status) >= 0);
 							var lotBool = (!header.hasOwnProperty("nowLot")) || (header.nowLot == player.lot);
 							return statusBool && lotBool;
 						}).filter(function (player) {
@@ -563,7 +563,7 @@ app.factory('round', ['qCommon', 'rule', '$filter', '$timeout',
 
 							// ボーダー上にいないプレイヤーを待機状態にする
 							players.filter(function (player) {
-								return (["normal", "wait", "absent","selected"].indexOf(player.status) >= 0);
+								return (["normal", "wait", "absent", "selected"].indexOf(player.status) >= 0);
 							}).map(function (player) {
 								if (borderPlayers.indexOf(player) < 0) {
 									player.status = "wait";
@@ -602,7 +602,7 @@ app.factory('round', ['qCommon', 'rule', '$filter', '$timeout',
 
 						// 通常状態のプレイヤーは全員失格(逆順に)
 						var losePlayers = players.filter(function (player) {
-							return (["normal","selected"].indexOf(player.status) >= 0);
+							return (["normal", "selected"].indexOf(player.status) >= 0);
 						});
 						losePlayers.reverse();
 						losePlayers.map(function (player) {
@@ -621,7 +621,7 @@ app.factory('round', ['qCommon', 'rule', '$filter', '$timeout',
 
 						// ボーダー上のプレイヤーの優先順位キー
 						var keyPriority = Math.max.apply(null, players.filter(function (player) {
-							var statusBool = (["normal", "wait", "absent","selected"].indexOf(player.status) >= 0);
+							var statusBool = (["normal", "wait", "absent", "selected"].indexOf(player.status) >= 0);
 							var lotBool = (!header.hasOwnProperty("nowLot")) || (header.nowLot == player.lot);
 							return statusBool && lotBool;
 						}).map(function (player) {
@@ -640,7 +640,7 @@ app.factory('round', ['qCommon', 'rule', '$filter', '$timeout',
 
 						// ボーダー上のプレイヤーと比較同位のプレイヤーリストを取得
 						borderPlayers = players.filter(function (player) {
-							var statusBool = (["normal", "wait", "absent","selected"].indexOf(player.status) >= 0);
+							var statusBool = (["normal", "wait", "absent", "selected"].indexOf(player.status) >= 0);
 							var lotBool = (!header.hasOwnProperty("nowLot")) || (header.nowLot == player.lot);
 							return statusBool && lotBool;
 						}).filter(function (player) {
@@ -659,7 +659,7 @@ app.factory('round', ['qCommon', 'rule', '$filter', '$timeout',
 
 							// ボーダー上にいないプレイヤーを待機状態にする
 							players.filter(function (player) {
-								return (["normal", "wait", "absent","selected"].indexOf(player.status) >= 0);
+								return (["normal", "wait", "absent", "selected"].indexOf(player.status) >= 0);
 							}).map(function (player) {
 								if (borderPlayers.indexOf(player) < 0) {
 									player.status = "wait";
@@ -694,13 +694,10 @@ app.factory('round', ['qCommon', 'rule', '$filter', '$timeout',
 				var items = scope.items;
 
 				// 一定時間ボタン再押下不可
-				var wait;
-				if(angular.isDefined(property.wait)){
-					wait = property.wait;
-				}else{
-					wait = 500;
+				if (! action.nowait) {
+					qCommon.pushed(scope, 500);
 				}
-				qCommon.pushed(scope, wait);
+
 				try {
 					// action0を実行
 					action.action0(player, players, header, property);
@@ -766,7 +763,10 @@ app.factory('round', ['qCommon', 'rule', '$filter', '$timeout',
 						var items = scope.items;
 
 						// 一定時間ボタン再押下不可
-						qCommon.pushed(scope);
+						if (! global_action.nowait) {
+							qCommon.pushed(scope, 500);
+						}
+
 						try {
 							// action0を実行
 							global_action.action0(players, header, property);

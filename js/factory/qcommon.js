@@ -6,6 +6,7 @@ var app = angular.module(appName);
 /** クイズのルールに依存しない共通関数をまとめたservice */
 app.service('qCommon', ['$uibModal', '$localStorage', '$interval', '$location', '$window', '$filter',
 	function ($uibModal, $localStorage, $interval, $location, $window, $filter) {
+		const ipc = require('electron').ipcRenderer;
 		var timer = {};
 
 		var qCommon = {};
@@ -444,37 +445,35 @@ app.service('qCommon', ['$uibModal', '$localStorage', '$interval', '$location', 
 		 * @param {boolean} viewMode  表示モード
 		 **/
 		function saveToStorage(scope, viewMode) {
-			var defaultObj = {};
-			defaultObj[getRoundName()] = {
-				header: {},
-				players: [],
-				timer: {}
-			};
-
-			scope.$storage = $localStorage.$default(defaultObj);
 			scope.current = {};
-			scope.current.header = scope.$storage[getRoundName()].header;
-			scope.current.players = scope.$storage[getRoundName()].players;
-			// scope.timer = {};
-			scope.timer = scope.$storage[getRoundName()].timer;
+			scope.current.header = {};
+			scope.current.header.tweets = [];
+			scope.current.players = [];
+			scope.timer = {};
 			qCommon.timer = scope.timer;
 
-			if (viewMode) {
-				// localStorage内ではdate型を扱えないので変換
-				if (scope.timer['destination'] != null) {
-					scope.timer['destination'] = new Date(scope.timer['destination']);
-				}
-				if (scope.timer['restTime'] != null) {
-					scope.timer['restTime'] = new Date(scope.timer['restTime']);
-				}
+			ipc.send('registWindow', {
+				roundName: getRoundName(),
+				viewMode: viewMode
+			});
 
-				angular.element($window).bind('storage', function (event) {
-					var hist = $localStorage.$default(defaultObj);
-					refreshCurrent(hist[getRoundName()], scope);
-					scope.timer = scope.$storage[getRoundName()].timer;
+			if (!viewMode) {
+				scope.$watch('current', function () {
+					ipcSendCurrent(scope);
+				}, true);
+
+				scope.$watch('timer', function () {
+					ipcSendCurrent(scope);
+				}, true);
+			}
+
+			if (viewMode) {
+				ipc.on('createHist', function (event, arg) {
+					console.log('receiveCreateHist');
+					refreshCurrent(arg.hist, scope);
+					scope.timer = arg.timer;
 					qCommon.timer = scope.timer;
 
-					// localStorage内ではdate型を扱えないので変換
 					if (scope.timer['destination'] != null) {
 						scope.timer['destination'] = new Date(scope.timer['destination']);
 					}
@@ -555,9 +554,12 @@ app.service('qCommon', ['$uibModal', '$localStorage', '$interval', '$location', 
 		/** playerの表示位置を示すCSSを取得する
 		 * @param [Array] players 全プレイヤー情報
 		 * @param {object} player プレイヤー
+		 * @param {object} windowSize ウィンドウサイズ情報
+		 * @param {array} lineProperty プレイヤーが並ぶ軸の情報
+		 * @param {object} roundProperty ラウンド毎のプロパティ
 		 * @return {object} CSSオブジェクト
 		 **/
-		function getPlayerCSS(players, player, windowSize, lineProperty) {
+		function getPlayerCSS(players, player, windowSize, lineProperty, roundProperty) {
 			var property = {};
 			if (lineProperty.hasOwnProperty(player.line)) {
 				property = lineProperty[player.line];
@@ -578,6 +580,13 @@ app.service('qCommon', ['$uibModal', '$localStorage', '$interval', '$location', 
 			var count = players.filter(function (p) {
 				return p.line == player.line;
 			}).length;
+
+			if (roundProperty.hasOwnProperty('playerCountOnLine') &&
+				roundProperty.playerCountOnLine[player.line]) {
+				if (count < roundProperty.playerCountOnLine[player.line]) {
+					count = roundProperty.playerCountOnLine[player.line];
+				}
+			}
 
 			var position = players.filter(function (p) {
 				return (p.line == player.line) && (p[property.orderBy] < player[property.orderBy]);
@@ -743,7 +752,7 @@ app.service('qCommon', ['$uibModal', '$localStorage', '$interval', '$location', 
 				} else if (player.status == "absent") {
 					if (player.absent >= 2) {
 						player.absent--;
-					} else {
+					} else if (player.absent == 1) {
 						player.absent = 0;
 						player.status = "normal";
 						editTweet(header.tweets, property.tweet["comeback"], player, false);
@@ -1305,12 +1314,27 @@ app.service('qCommon', ['$uibModal', '$localStorage', '$interval', '$location', 
 		 * @param {object} scope  $scope
 		 * @param {number} wait 待ち時間（ミリ秒）
 		 */
-		function pushed(scope,wait) {
+		function pushed(scope, wait) {
 			scope.pushable = false;
 			var t;
 			t = $interval(function () {
 				scope.pushable = true;
 			}, wait, 1);
+		}
+
+		/** プロセス間通信で最新履歴を送る
+		 * @param {object} scope $scope
+		 */
+		function ipcSendCurrent(scope) {
+			console.log("ipc.send(createHist)");
+			ipc.send('createHist', {
+				roundName: getRoundName(),
+				hist: {
+					header: scope.current.header,
+					players: scope.current.players
+				},
+				timer: qCommon.timer
+			});
 		}
 	}
 ]);
