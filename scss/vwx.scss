@@ -7,7 +7,7 @@ $combo-color: gold;
 div.player {
   div.open {
     div.name {
-      @include player-item(-9, -108, 50, 56);
+      @include player-item(-9, -90, 50, 56);
       -webkit-writing-mode: vertical-rl;
       -webkit-text-orientation: upright;
       @include bordered;
@@ -22,33 +22,12 @@ div.player {
     }
     div.paperRank {
       @include player-item(-50, -134, 100, 24);
-      font-family: NationalyzeAlp;
       border-radius: 0px;
-      @include bordered;
-      @include value-range( 1, 1) {
-        background-color: gold;
-      }
-      @include value-range( 2, 4) {
-        background-color: silver;
-      }
-      @include value-range( 5, 10) {
-        background-color: red;
-      }
-      @include value-range(11, 22) {
-        background-color: blue;
-      }
-      @include value-range(23, 40) {
-        background-color: orange;
-      }
-      @include value-range(41, 88) {
-        background-color: green;
-      }
-      @include value-range(89, 300) {
-        background-color: purple;
-      }
+      background-color: black;
+      border: solid 2px white;
     }
     div.pref {
-      @include player-item(-50, 110, 100, 24);
+      display: none;
       border-radius: 0px;
       background-color: black;
       border: solid 2px white;
@@ -66,7 +45,7 @@ div.player {
       transition: 1s;
     }
     div.x {
-      @include player-item(-100, 130, 200, 80);
+      @include player-item(-100, 110, 200, 80);
       transform: rotateY(0deg);
       @include value-range(0, 0) {
         display: none;
@@ -81,13 +60,13 @@ div.player {
       transition: 1s;
     }
     div.absent {
-      @include player-item(20, -110, 70, 60);
+      @include player-item(20, -100, 70, 60);
       @include bordered(1, #000000, #FFFF22);
       line-height: 50%;
       z-index: 1;
     }
     div.combo {
-      @include player-item(-50, -100, 100, 200);
+      @include player-item(-50, -90, 100, 200);
       font-size: 0px;
       @include value-range(1, 1) {
         height: 210px;
@@ -96,7 +75,7 @@ div.player {
       }
     }
     div.select {
-      @include player-item(-50, -100, 100, 200);
+      @include player-item(-50, -90, 100, 200);
       font-size: 0px;
       &.selected {
         height: 210px;
@@ -105,7 +84,7 @@ div.player {
       }
     }
     div.x2 {
-      @include player-item(-50, 202, 100, 48);
+      @include player-item(-50, 188, 100, 48);
       @include value-range(0, 0) {
         display: none;
       }
@@ -119,6 +98,9 @@ div.player {
     div.o2 {
       @include player-item(-100, -270, 200, 40);
       transform: rotateY(0deg);
+      @include value-range(0, 0) {
+        display: none;
+      }
       &.chance {
         color: $chance-color;
       }
@@ -350,37 +332,8 @@ div.player {
       -134,
       100,
       24);
-      font-family: NationalyzeAlp;
       border-radius: 0px;
       @include bordered;
-      @include value-range( 1,
-      1) {
-        background-color: gold;
-      }
-      @include value-range( 2,
-      4) {
-        background-color: silver;
-      }
-      @include value-range( 5,
-      10) {
-        background-color: red;
-      }
-      @include value-range(11,
-      22) {
-        background-color: blue;
-      }
-      @include value-range(23,
-      40) {
-        background-color: orange;
-      }
-      @include value-range(41,
-      88) {
-        background-color: green;
-      }
-      @include value-range(89,
-      300) {
-        background-color: purple;
-      }
     }
   }
   div.rank {
@@ -428,7 +381,7 @@ div.player {
     }
     img.absent {
       @include player-img(-30,
-      -100,
+      -90,
       60,
       205);
       opacity: 0.7;

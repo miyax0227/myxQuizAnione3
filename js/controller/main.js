@@ -190,8 +190,10 @@ app.controller('main', ['$scope', '$q', 'fileResource', 'qCommon', 'round',
 				return qCommon.victoryName($scope);
 			};
 			// 履歴が無い場合、現在の得点状況を追加
-			if ($scope.history.length == 0) {
-				qCommon.createHist($scope);
+			if (!qCommon.viewMode()) {
+				if ($scope.history.length == 0) {
+					qCommon.createHist($scope);
+				}
 			}
 			// タイマースタート
 			qCommon.timerTimerStart($scope);
@@ -199,7 +201,8 @@ app.controller('main', ['$scope', '$q', 'fileResource', 'qCommon', 'round',
 			// 初期アニメーションスタート
 			// $scope.initialAnimation = true;
 		});
-	}]);
+	}
+]);
 
 app.controller('modal', ['$scope', 'qCommon', '$uibModalInstance',
 	function ($scope, qCommon, $uibModalInstance) {
@@ -218,10 +221,10 @@ app.controller('modal', ['$scope', 'qCommon', '$uibModalInstance',
 			return arr;
 		};
 
-    /** プレイヤーを再下段へ移動する
-     * @param {number} index 対象プレイヤーのindex
-     * @param {object} items 並び替え対象チームのitem
-     */
+		/** プレイヤーを再下段へ移動する
+		 * @param {number} index 対象プレイヤーのindex
+		 * @param {object} items 並び替え対象チームのitem
+		 */
 		$scope.moveDown = function moveDown(index, items) {
 			angular.forEach(items, function (item) {
 				if (item.repeat) {
@@ -232,10 +235,10 @@ app.controller('modal', ['$scope', 'qCommon', '$uibModalInstance',
 			});
 		};
 
-    /** キーを入替する
-     * @param {string} key1 入替するキー1
-     * @param {string} key2 入替するキー2
-     */
+		/** キーを入替する
+		 * @param {string} key1 入替するキー1
+		 * @param {string} key2 入替するキー2
+		 */
 		function swapKey(key1, key2) {
 			var swap = $scope.selectPlayer[key2];
 			$scope.selectPlayer[key2] = $scope.selectPlayer[key1];
@@ -252,7 +255,8 @@ app.controller('modal', ['$scope', 'qCommon', '$uibModalInstance',
 			$uibModalInstance.dismiss();
 		};
 
-	}]);
+	}
+]);
 
 /** 全てのjsonファイルの読込の同期をとるためのfactory */
 app.factory('fileResource', function ($resource) {
@@ -273,7 +277,8 @@ app.factory('fileResource', function ($resource) {
 		// property.json - クイズのルールの中で、可変な値の設定(共通、ラウンド毎に設定がないプロパティを補完)
 		, $resource('../../json/property.json')
 		// tweet.json - ツイートの雛型
-		, $resource('../../json/tweet.json')];
+		, $resource('../../json/tweet.json')
+	];
 });
 
 /** ローカルプロバイダの設定 */

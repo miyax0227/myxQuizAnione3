@@ -1,1 +1,1 @@
-{"rule":"paperResult","css":"vwx2","victory":true,"title":"Examination Result","status":"{{current.header.mode}}"}
+{"rule":"paperResult","css":"vwx2","victory":false,"title":"1st Round: Pen of Hybrid","status":"{{current.header.mode}}"}

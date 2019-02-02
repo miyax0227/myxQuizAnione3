@@ -13,8 +13,8 @@
 	"author": "Ryoh MIYAMOTO",
 	"license": "ISC",
 	"dependencies": {
-		"electron-oauth-twitter": "^1.1.0",
-		"node-sass": "^4.7.2",
-		"xlsx": "0.10.3"
+		"electron-oauth-twitter": "^1.2.0",
+		"node-sass": "^4.11.0",
+		"xlsx": "0.14.1"
 	}
 }

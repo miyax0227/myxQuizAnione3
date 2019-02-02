@@ -1,37 +1,27 @@
 [{
-    "source": "nameList",
-    "filter": "1<=paperRank<=4",
-    "order": "paperRank",
-    "profile": ["paperPts", "1", "2", "3", "4"],
-    "property": {
-      "rollingRank": [0, 0, 0, 0]
+  "source": [{
+      "source": "V02_2R",
+      "filter": "lotRank==1",
+      "order": "paperRank"
+    },
+    {
+      "source": "V02_2R",
+      "filter": "lotRank==2",
+      "order": "paperRank"
+    },
+    {
+      "source": "V02_2R",
+      "filter": "lotRank==3",
+      "order": "paperRank"
+    },
+    {
+      "source": "V02_2R",
+      "filter": "lotRank==4",
+      "order": "paperRank"
     }
-  },
-  {
-    "source": "V02_1_unevenRolling",
-    "filter": "1<=rank<=12",
-    "order": "rank",
-    "profile": ["paperPts", "1", "2", "3", "4"],
-    "property": {
-      "rollingRank": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
-    }
-  },
-  {
-    "source": "V02_2_unevenRolling",
-    "filter": "1<=rank<=12",
-    "order": "rank",
-    "profile": ["paperPts", "1", "2", "3", "4"],
-    "property": {
-      "rollingRank": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
-    }
-  },
-  {
-    "source": "V02_3_unevenRolling",
-    "filter": "1<=rank<=12",
-    "order": "rank",
-    "profile": ["paperPts", "1", "2", "3", "4"],
-    "property": {
-      "rollingRank": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
-    }
+  ],
+  "profile": ["paperPts"],
+  "property": {
+    "blaff": [""]
   }
-]
+}]

@@ -1,6 +1,6 @@
 [{
     "source":"nameList",
-    "filter":"1<=paperRank<=100",
+    "filter":"1<=paperRank<=50",
     "order":"paperRank",
     "profile":["paperPts"]
 }]

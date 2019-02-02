@@ -11,6 +11,7 @@ app.factory('rule', ['qCommon', function(qCommon) {
   var rule = {};
   var win = qCommon.win;
   var lose = qCommon.lose;
+  var rolling = qCommon.rolling;
   var timerStop = qCommon.timerStop;
   var setMotion = qCommon.setMotion;
   var addQCount = qCommon.addQCount;
@@ -49,12 +50,6 @@ app.factory('rule', ['qCommon', function(qCommon) {
       "css": "x"
     },
     {
-      "key": "combo",
-      "value": 0,
-      "style": "number",
-      "css": "combo"
-    },
-    {
       "key": "priority",
       "order": [{
           "key": "status",
@@ -73,6 +68,10 @@ app.factory('rule', ['qCommon', function(qCommon) {
         },
         {
           "key": "x",
+          "order": "asc"
+        },
+        {
+          "key": "paperRank",
           "order": "asc"
         }
       ]
@@ -123,20 +122,10 @@ app.factory('rule', ['qCommon', function(qCommon) {
       "action0": function(player, players, header, property) {
         // ○を加算
         player.o++;
-        // コンボ計算
-        if (property.combo > 0 && player.combo === 1) {
-          player.o += property.combo;
-        }
-        // コンボ管理
-        if (property.combo > 0) {
-          players.map(function(p) {
-            p.combo = 0;
-          });
-          player.combo = 1;
-        }
         setMotion(player, 'o');
         addQCount(players, header, property);
-      }
+      },
+      "nowait": false
     },
     {
       "name": "×",
@@ -148,28 +137,14 @@ app.factory('rule', ['qCommon', function(qCommon) {
         return (player.status == 'normal' && !header.playoff);
       },
       "action0": function(player, players, header, property) {
-        // swedishルールの場合
-        if (angular.isArray(property.swedish)) {
-          if (property.swedish[player.o] !== undefined) {
-            player.x += property.swedish[player.o];
-          } else {
-            player.x += property.swedish[property.swedish.length - 1];
-          }
-          // swedishルールではない場合
-        } else {
-          // ×を加算
-          player.x++;
-        }
-        // コンボ管理
-        player.combo = 0;
-        // up-downルールの場合、○を初期化
-        if (property.updown) {
-          player.o = 0;
-        }
+        player.x++;
+        player.status = "preabsent";
+        player.absent = header.penalty;
 
         setMotion(player, 'x');
         addQCount(players, header, property);
-      }
+      },
+      "nowait": false
     }
   ];
 
@@ -187,7 +162,8 @@ app.factory('rule', ['qCommon', function(qCommon) {
       },
       "action0": function(players, header, property) {
         addQCount(players, header, property);
-      }
+      },
+      "nowait": false
     },
     {
       "name": "pos",
@@ -199,7 +175,8 @@ app.factory('rule', ['qCommon', function(qCommon) {
       "action0": function(players, header, property) {
         header.pos = !header.pos;
       },
-      "keyArray": ""
+      "keyArray": "",
+      "nowait": false
     },
     {
       "name": "",
@@ -214,7 +191,8 @@ app.factory('rule', ['qCommon', function(qCommon) {
       "action1": function(index, players, header, property) {
         header.nowLot = index;
         header.qCount = 1;
-      }
+      },
+      "nowait": false
     }
   ];
 
@@ -234,15 +212,6 @@ app.factory('rule', ['qCommon', function(qCommon) {
       if (player.o >= property.winningPoint) {
 
         win(player, players, header, property);
-        player.o = property.winningPoint;
-        player.combo = 0;
-        timerStop();
-      }
-      /* lose条件 */
-      if (player.x >= property.losingPoint) {
-        lose(player, players, header, property);
-        player.x = property.losingPoint;
-        player.combo = 0;
         timerStop();
       }
     });
@@ -256,10 +225,15 @@ app.factory('rule', ['qCommon', function(qCommon) {
    ****************************************************************************/
   function calc(players, header, items, property) {
     var key = 0;
+
+    // ペナルティ計算
+    header.penalty = property.penalty - players.filter(function(player) {
+      return player.status == "win";
+    }).length;
+
     angular.forEach(players, function(player, index) {
       // pinch, chance
-      player.pinch = (player.x == property.losingPoint - 1) && (player.status == 'normal');
-      player.chance = (player.o + 1 + player.combo * property.combo >= property.winningPoint) &&
+      player.chance = (player.o + 1 >= property.winningPoint) &&
         (player.status == 'normal');
 
       // キーボード入力時の配列の紐付け ローリング等の特殊形式でない場合はこのままでOK\
