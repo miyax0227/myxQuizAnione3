@@ -25,7 +25,16 @@
 				Final: Speed of hybrid
 			</div>
 			<div class="qCount">
-    			Set {{current.header.set}}&nbsp;{{current.header.ruleName}}
+    			Set{{current.header.set}}&nbsp;{{current.header.ruleName}}
+<div ng-if="! timer.visible" class="right">
+  <span ng-class="{'disabled':current.header.rule0>=2}">+1/-1:&nbsp;{{current.header.rule0}}</span><br>
+  <span ng-class="{'disabled':current.header.rule1>=2}">+2/-1:&nbsp;{{current.header.rule1}}</span><br>
+  <span ng-class="{'disabled':current.header.rule2>=2}">+1/-2:&nbsp;{{current.header.rule2}}</span><br>
+  <br>
+  <span ng-class="{'disabled':current.header.question0>=2}">Hybrid:&nbsp;{{current.header.question0}}</span><br>
+  <span ng-class="{'disabled':current.header.question1>=2}">Uesaka:&nbsp;{{current.header.question1}}</span><br>
+  <span ng-class="{'disabled':current.header.question2>=2}">Suzuki:&nbsp;{{current.header.question2}}</span><br>
+</div>
   			</div>
   			<div victory></div>
 		</div>

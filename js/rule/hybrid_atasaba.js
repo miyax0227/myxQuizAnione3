@@ -190,6 +190,9 @@ app.factory('rule', ['qCommon', function(qCommon) {
             p.status = "normal";
             p.pts = property.initPts;
             p.x = 0;
+          } else if (p.status == "win") {
+            p.pts = "";
+            p.x = 0;
           }
         });
         header.set++;
@@ -218,6 +221,16 @@ app.factory('rule', ['qCommon', function(qCommon) {
       }
     });
 
+    if (players.filter(function(player) {
+        return player.status == "normal";
+      }).length == 1) {
+
+      timerStop();
+      var winner = players.filter(function(player) {
+        return player.status == "normal";
+      })[0];
+      win(winner, players, header, property);
+    }
   }
 
   /*****************************************************************************

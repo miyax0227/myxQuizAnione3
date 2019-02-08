@@ -41,6 +41,36 @@ app.factory('rule', ['qCommon', function(qCommon) {
       "key": "xPts",
       "value": 1,
       "style": "number"
+    },
+    {
+      "key": "rule0",
+      "value": 0,
+      "style": "number"
+    },
+    {
+      "key": "rule1",
+      "value": 0,
+      "style": "number"
+    },
+    {
+      "key": "rule2",
+      "value": 0,
+      "style": "number"
+    },
+    {
+      "key": "question0",
+      "value": 0,
+      "style": "number"
+    },
+    {
+      "key": "question1",
+      "value": 0,
+      "style": "number"
+    },
+    {
+      "key": "question2",
+      "value": 0,
+      "style": "number"
     }
   ];
 
@@ -94,15 +124,15 @@ app.factory('rule', ['qCommon', function(qCommon) {
    ****************************************************************************/
   rule.lines = {
     "line1": {
-      "left": 0,
-      "right": 1,
+      "left": 0.2,
+      "right": 0.8,
       "y": 0.5,
       "zoom": 1,
       "orderBy": "position"
     },
     "line2": {
-      "left": 0,
-      "right": 1,
+      "left": 0.2,
+      "right": 0.8,
       "y": 0.5,
       "zoom": 1,
       "orderBy": "priority"
@@ -217,8 +247,24 @@ app.factory('rule', ['qCommon', function(qCommon) {
         header.ruleName = index;
         header.oPts = property.ruleConfig[i].oPts;
         header.xPts = property.ruleConfig[i].xPts;
-
+        header["rule" + i]++;
       },
+      "nowait": false
+    },
+    {
+      "name": "",
+      "action1": function(index, players, header, property) {
+        var i = property.questionName.indexOf(index);
+        header["question" + i]++;
+      },
+      "enable1": function(index, players, header, property) {
+        return true;
+      },
+      "indexes0": function(players, header, property) {
+        return property.questionName;
+      },
+      "button_css": "btn btn-info",
+      "group": "rule",
       "nowait": false
     }
   ];
