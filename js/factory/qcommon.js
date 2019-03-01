@@ -559,7 +559,7 @@ app.service('qCommon', ['$uibModal', '$localStorage', '$interval', '$location', 
 		 * @param {object} roundProperty ラウンド毎のプロパティ
 		 * @return {object} CSSオブジェクト
 		 **/
-		function getPlayerCSS(players, player, windowSize, lineProperty, roundProperty) {
+		function getPlayerCSS(players, player, windowSize, lineProperty, roundProperty, header) {
 			var property = {};
 			if (lineProperty.hasOwnProperty(player.line)) {
 				property = lineProperty[player.line];
@@ -575,6 +575,9 @@ app.service('qCommon', ['$uibModal', '$localStorage', '$interval', '$location', 
 
 			if (!property.orderBy) {
 				property.orderBy = "position";
+			}
+			if (!header.playerZoom) {
+				header.playerZoom = 1;
 			}
 
 			var count = players.filter(function (p) {
@@ -615,9 +618,9 @@ app.service('qCommon', ['$uibModal', '$localStorage', '$interval', '$location', 
 			}
 
 			if (property.hasOwnProperty('zoom')) {
-				zoom = property.zoom * windowSize.objectZoom;
+				zoom = property.zoom * windowSize.objectZoom * header.playerZoom;
 			} else {
-				zoom = windowSize.objectZoom;
+				zoom = windowSize.objectZoom * header.playerZoom;
 			}
 
 			if (property.hasOwnProperty('invisible')) {

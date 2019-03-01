@@ -1,4 +1,4 @@
-<div class="player" ng-repeat="player in current.players as players" ng-style="getPlayerCSS(players,player, windowSize, lineProperty, property)" ng-if="player.line != 'left'">
+<div class="player" ng-repeat="player in current.players as players" ng-style="getPlayerCSS(players,player, windowSize, lineProperty, property, current.header)" ng-if="player.line != 'left'">
 
   <div svg></div>
 

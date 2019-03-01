@@ -460,6 +460,80 @@ app.factory('round', ['qCommon', 'rule', '$filter', '$timeout',
 				}
 			},
 			/*****************************************************************************
+			 * プレイヤー拡大
+			 ****************************************************************************/
+			{
+				name: "P+",
+				button_css: "btn btn-info",
+				group: "view",
+				nowait: true,
+				enable: function (scope) {
+					return true;
+				},
+				action0: function (players, header, property) {
+					if (!header.playerZoom) {
+						header.playerZoom = 1;
+					}
+					header.playerZoom += 0.1;
+				}
+			},
+			/*****************************************************************************
+			 * プレイヤー縮小
+			 ****************************************************************************/
+			{
+				name: "P-",
+				button_css: "btn btn-info",
+				group: "view",
+				nowait: true,
+				enable: function (scope) {
+					return true;
+				},
+				action0: function (players, header, property) {
+					if (!header.playerZoom) {
+						header.playerZoom = 1;
+					}
+					header.playerZoom -= 0.1;
+				}
+			},
+			/*****************************************************************************
+			 * プレイヤー位置を上げる
+			 ****************************************************************************/
+			{
+				name: "↑",
+				button_css: "btn btn-info",
+				group: "view",
+				nowait: true,
+				enable: function (scope) {
+					return true;
+				},
+				action0: function (players, header, property) {
+					if (!header.playerLevel) {
+						header.playerLevel = 0;
+					}
+					header.playerLevel -= 5;
+					header.playerLevelCSS = {'transform':'translateY(' + header.playerLevel + 'px)'};
+				}
+			},
+			/*****************************************************************************
+			 * プレイヤー位置を下げる
+			 ****************************************************************************/
+			{
+				name: "↓",
+				button_css: "btn btn-info",
+				group: "view",
+				nowait: true,
+				enable: function (scope) {
+					return true;
+				},
+				action0: function (players, header, property) {
+					if (!header.playerLevel) {
+						header.playerLevel = 0;
+					}
+					header.playerLevel += 5;
+					header.playerLevelCSS = {'transform':'translateY(' + header.playerLevel + 'px)'};
+				}
+			},
+			/*****************************************************************************
 			 * プレーオフ終了
 			 ****************************************************************************/
 			{
@@ -694,7 +768,7 @@ app.factory('round', ['qCommon', 'rule', '$filter', '$timeout',
 				var items = scope.items;
 
 				// 一定時間ボタン再押下不可
-				if (! action.nowait) {
+				if (!action.nowait) {
 					qCommon.pushed(scope, 500);
 				}
 
@@ -763,7 +837,7 @@ app.factory('round', ['qCommon', 'rule', '$filter', '$timeout',
 						var items = scope.items;
 
 						// 一定時間ボタン再押下不可
-						if (! global_action.nowait) {
+						if (!global_action.nowait) {
 							qCommon.pushed(scope, 500);
 						}
 
