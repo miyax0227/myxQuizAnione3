@@ -1,1 +1,1 @@
-{"rule":"hybrid_course","css":"vwx2","victory":false,"title":"3rd Round: Choice of Hybrid","status":""}
+{"rule":"abc_course_select","css":"vwx","victory":false,"title":"3R Number 10","status":"{{current.header.nowCourseName}}"}

@@ -11,6 +11,7 @@ app.factory('rule', ['qCommon', function(qCommon) {
   var rule = {};
   var win = qCommon.win;
   var lose = qCommon.lose;
+  var rolling = qCommon.rolling;
   var timerStop = qCommon.timerStop;
   var setMotion = qCommon.setMotion;
   var addQCount = qCommon.addQCount;
@@ -85,7 +86,8 @@ app.factory('rule', ['qCommon', function(qCommon) {
     },
     "action0": function(player, players, header, property) {
       player.selected = !player.selected;
-    }
+    },
+    "nowait": false
   }];
 
   /*****************************************************************************
@@ -101,6 +103,10 @@ app.factory('rule', ['qCommon', function(qCommon) {
       },
       "action0": function(players, header, property) {
         // そのコースがまだ決定前の場合
+        console.log(header.nowCourse);
+        console.log(players.map(function(p) {
+          return p.course;
+        }));
         if (players.filter(function(p) {
             return p.course == header.nowCourse;
           }).length === 0) {
@@ -138,21 +144,24 @@ app.factory('rule', ['qCommon', function(qCommon) {
           p.selected = false;
         });
 
-      }
+      },
+      "nowait": false
     },
     {
       "name": "",
       "button_css": "btn btn-default",
       "group": "rule",
       "indexes0": function(players, header, property) {
-        return property.courseArray;
+        return property.courseName;
       },
       "enable1": function(index, players, header, property) {
         return true;
       },
       "action1": function(index, players, header, property) {
-        header.nowCourse = property.courseName.indexOf(index);
-      }
+        header.nowCourse = property.courseName.indexOf(index) + 1;
+        header.nowCourseName = index;
+      },
+      "nowait": false
     }
   ];
 

@@ -6,30 +6,30 @@
 
 @keyframes openIn {
   0% {
-    transform: rotateX(-90deg);
+    transform: rotateY(-90deg);
     opacity: 0;
   }
   50% {
-    transform: rotateX(-90deg);
+    transform: rotateY(-90deg);
     opacity: 0;
   }
   100% {
-    transform: rotateX(0deg);
+    transform: rotateY(0deg);
     opacity: 1;
   }
 }
 
 @keyframes closeOut {
   0% {
-    transform: rotateX(0deg);
+    transform: rotateY(0deg);
     opacity: 1;
   }
   50% {
-    transform: rotateX(90deg);
+    transform: rotateY(90deg);
     opacity: 0;
   }
   100% {
-    transform: rotateX(90deg);
+    transform: rotateY(90deg);
     opacity: 0;
   }
 }
@@ -114,7 +114,7 @@ div.scoreboard.ng-hide-remove-active {
 
 div.scoreboard img.logo {
   position: absolute;
-  width: 160px;
+  width: 285px;
   height: 95px;
   left: 2%;
   top: 10px;
@@ -122,7 +122,7 @@ div.scoreboard img.logo {
 }
 
 div.scoreboard div.title {
-  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", "Noto Sans Japanese", "ヒラギノ角ゴ ProN W3", Meiryo, sans-serif;
+  font-family: "FGP丸ｺﾞｼｯｸ体Ca-U", -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", "Noto Sans Japanese", "ヒラギノ角ゴ ProN W3", Meiryo, sans-serif;
   font-weight: bold;
   position: absolute;
   font-size: 50px;
@@ -131,13 +131,15 @@ div.scoreboard div.title {
   -webkit-text-stroke-width: 0px;
   -webkit-text-fill-color: transparent;
   -webkit-background-clip: text;
-  background-image: linear-gradient(orange 50%, orange 50%);
+  background-image: linear-gradient(darkblue 50%, blue 50%);
+  -webkit-text-stroke: 1px white;
+  text-stroke: 1px white;
   top: 0px;
-  margin-left: calc(2% + 160px + 10px);
+  margin-left: calc(2% + 285px + 10px);
 }
 
 div.scoreboard div.timer {
-  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", "Noto Sans Japanese", "ヒラギノ角ゴ ProN W3", Meiryo, sans-serif;
+  font-family: "FGP丸ｺﾞｼｯｸ体Ca-U", -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", "Noto Sans Japanese", "ヒラギノ角ゴ ProN W3", Meiryo, sans-serif;
   font-weight: bold;
   position: absolute;
   font-size: 40px;
@@ -150,7 +152,7 @@ div.scoreboard div.timer {
 }
 
 div.scoreboard div.timerEnabled {
-  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", "Noto Sans Japanese", "ヒラギノ角ゴ ProN W3", Meiryo, sans-serif;
+  font-family: "FGP丸ｺﾞｼｯｸ体Ca-U", -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", "Noto Sans Japanese", "ヒラギノ角ゴ ProN W3", Meiryo, sans-serif;
   font-weight: bold;
   position: absolute;
   font-size: 40px;
@@ -163,21 +165,21 @@ div.scoreboard div.timerEnabled {
 }
 
 div.scoreboard div.qCount {
-  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", "Noto Sans Japanese", "ヒラギノ角ゴ ProN W3", Meiryo, sans-serif;
+  font-family: "FGP丸ｺﾞｼｯｸ体Ca-U", -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", "Noto Sans Japanese", "ヒラギノ角ゴ ProN W3", Meiryo, sans-serif;
   font-weight: bold;
   position: absolute;
   font-size: 50px;
   -webkit-user-select: none;
-  top: 45px;
-  left: calc(2% + 160px + 10px);
-  width: calc(96% - 160px - 10px);
+  top: 48px;
+  left: calc(2% + 285px + 10px);
+  width: calc(96% - 285px - 10px);
   color: aliceblue;
   text-align: left;
 }
 
 div.scoreboard div.qCount div.right {
   position: absolute;
-  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", "Noto Sans Japanese", "ヒラギノ角ゴ ProN W3", Meiryo, sans-serif;
+  font-family: "FGP丸ｺﾞｼｯｸ体Ca-U", -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", "Noto Sans Japanese", "ヒラギノ角ゴ ProN W3", Meiryo, sans-serif;
   font-weight: bold;
   position: absolute;
   font-size: 36px;
@@ -195,8 +197,8 @@ div.scoreboard div.qCount div.right span.disabled {
 div.scoreboard hr.hr0 {
   position: absolute;
   top: 38px;
-  width: calc(96% - 160px);
-  margin-left: calc(2% + 160px);
+  width: calc(96% - 285px);
+  margin-left: calc(2% + 285px);
   margin-right: 2%;
   border: 0;
   height: 2px;
@@ -235,7 +237,7 @@ div.scoreboard div.victory h1 {
 }
 
 div.scoreboard div.victory h1.cupTitle {
-  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", "Noto Sans Japanese", "ヒラギノ角ゴ ProN W3", Meiryo, sans-serif;
+  font-family: "FGP丸ｺﾞｼｯｸ体Ca-U", -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", "Noto Sans Japanese", "ヒラギノ角ゴ ProN W3", Meiryo, sans-serif;
   font-weight: bold;
   position: absolute;
   font-size: 100px;
@@ -244,7 +246,7 @@ div.scoreboard div.victory h1.cupTitle {
 }
 
 div.scoreboard div.victory h1.first {
-  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", "Noto Sans Japanese", "ヒラギノ角ゴ ProN W3", Meiryo, sans-serif;
+  font-family: "FGP丸ｺﾞｼｯｸ体Ca-U", -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", "Noto Sans Japanese", "ヒラギノ角ゴ ProN W3", Meiryo, sans-serif;
   font-weight: bold;
   position: absolute;
   font-size: 100px;
@@ -253,7 +255,7 @@ div.scoreboard div.victory h1.first {
 }
 
 div.scoreboard div.victory h1.name {
-  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", "Noto Sans Japanese", "ヒラギノ角ゴ ProN W3", Meiryo, sans-serif;
+  font-family: "FGP丸ｺﾞｼｯｸ体Ca-U", -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", "Noto Sans Japanese", "ヒラギノ角ゴ ProN W3", Meiryo, sans-serif;
   font-weight: bold;
   position: absolute;
   font-size: 100px;
@@ -262,7 +264,7 @@ div.scoreboard div.victory h1.name {
 }
 
 div.scoreboard div.victory h1.member {
-  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", "Noto Sans Japanese", "ヒラギノ角ゴ ProN W3", Meiryo, sans-serif;
+  font-family: "FGP丸ｺﾞｼｯｸ体Ca-U", -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", "Noto Sans Japanese", "ヒラギノ角ゴ ProN W3", Meiryo, sans-serif;
   font-weight: bold;
   position: absolute;
   font-size: 40px;
@@ -324,7 +326,7 @@ div.explain {
   height: calc(100% - 200px);
   background-color: black;
   overflow-y: scroll;
-  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", "Noto Sans Japanese", "ヒラギノ角ゴ ProN W3", Meiryo, sans-serif;
+  font-family: "FGP丸ｺﾞｼｯｸ体Ca-U", -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", "Noto Sans Japanese", "ヒラギノ角ゴ ProN W3", Meiryo, sans-serif;
   font-size: 36px;
 }
 

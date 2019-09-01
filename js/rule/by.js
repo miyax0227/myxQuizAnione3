@@ -11,6 +11,7 @@ app.factory('rule', ['qCommon', function(qCommon) {
   var rule = {};
   var win = qCommon.win;
   var lose = qCommon.lose;
+  var rolling = qCommon.rolling;
   var timerStop = qCommon.timerStop;
   var setMotion = qCommon.setMotion;
   var addQCount = qCommon.addQCount;
@@ -38,7 +39,7 @@ app.factory('rule', ['qCommon', function(qCommon) {
     },
     {
       "key": "x",
-      "value": 0,
+      "value": 10,
       "style": "number",
       "css": "x"
     },
@@ -115,7 +116,8 @@ app.factory('rule', ['qCommon', function(qCommon) {
         player.o++;
         setMotion(player, 'o');
         addQCount(players, header, property);
-      }
+      },
+      "nowait": false
     },
     {
       "name": "×",
@@ -131,7 +133,8 @@ app.factory('rule', ['qCommon', function(qCommon) {
         player.x--;
         setMotion(player, 'x');
         addQCount(players, header, property);
-      }
+      },
+      "nowait": false
     }
   ];
 
@@ -149,7 +152,8 @@ app.factory('rule', ['qCommon', function(qCommon) {
       },
       "action0": function(players, header, property) {
         addQCount(players, header, property);
-      }
+      },
+      "nowait": false
     },
     {
       "name": "pos",
@@ -161,7 +165,8 @@ app.factory('rule', ['qCommon', function(qCommon) {
       "action0": function(players, header, property) {
         header.pos = !header.pos;
       },
-      "keyArray": ""
+      "keyArray": "",
+      "nowait": false
     }
   ];
 
@@ -202,7 +207,7 @@ app.factory('rule', ['qCommon', function(qCommon) {
       // pts
       player.pts = player.o * player.x;
       // pinch, chance
-      player.pinch = (player.x == property.losingPoint - 1) && (player.status == 'normal');
+      player.pinch = (player.x == property.losingPoint + 1) && (player.status == 'normal');
       player.chance = ((player.o + 1) * player.x >= property.winningPoint) &&
         (player.status == 'normal');
 

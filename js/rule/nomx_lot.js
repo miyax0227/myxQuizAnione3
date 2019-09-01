@@ -50,6 +50,12 @@ app.factory('rule', ['qCommon', function(qCommon) {
       "css": "x"
     },
     {
+      "key": "combo",
+      "value": 0,
+      "style": "number",
+      "css": "combo"
+    },
+    {
       "key": "priority",
       "order": [{
           "key": "status",
@@ -122,6 +128,17 @@ app.factory('rule', ['qCommon', function(qCommon) {
       "action0": function(player, players, header, property) {
         // ○を加算
         player.o++;
+        // コンボ計算
+        if (property.combo > 0 && player.combo === 1) {
+          player.o += property.combo;
+        }
+        // コンボ管理
+        if (property.combo > 0) {
+          players.map(function(p) {
+            p.combo = 0;
+          });
+          player.combo = 1;
+        }
         setMotion(player, 'o');
         addQCount(players, header, property);
       },
@@ -138,8 +155,9 @@ app.factory('rule', ['qCommon', function(qCommon) {
       },
       "action0": function(player, players, header, property) {
         player.x++;
-        player.status = "preabsent";
-        player.absent = header.penalty;
+        if (property.combo > 0) {
+          player.combo = 0;
+        }
 
         setMotion(player, 'x');
         addQCount(players, header, property);
@@ -191,6 +209,7 @@ app.factory('rule', ['qCommon', function(qCommon) {
       "action1": function(index, players, header, property) {
         header.nowLot = index;
         header.qCount = 1;
+        header.openRank = 0;
       },
       "nowait": false
     }
@@ -210,10 +229,19 @@ app.factory('rule', ['qCommon', function(qCommon) {
     }), function(player, i) {
       /* win条件 */
       if (player.o >= property.winningPoint) {
-
         win(player, players, header, property);
+        player.o = property.winningPoint;
+        if (property.combo > 0) {
+          player.combo = 0;
+        }
         timerStop();
       }
+      /* lose条件 */
+      if (player.x >= property.losingPoint) {
+        lose(player, players, header, property);
+        timerStop();
+      }
+
     });
   }
 
@@ -234,6 +262,8 @@ app.factory('rule', ['qCommon', function(qCommon) {
     angular.forEach(players, function(player, index) {
       // pinch, chance
       player.chance = (player.o + 1 >= property.winningPoint) &&
+        (player.status == 'normal');
+      player.pinch = (player.x + 1 >= property.losingPoint) &&
         (player.status == 'normal');
 
       // キーボード入力時の配列の紐付け ローリング等の特殊形式でない場合はこのままでOK\

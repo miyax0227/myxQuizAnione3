@@ -73,16 +73,32 @@ app.factory('round', ['qCommon', 'rule', '$filter', '$timeout',
 			// openRankが-1の場合、全てオープン
 			if (header.openRank < 0) {
 				angular.forEach(players, function (player) {
-					if (player.close) {
-						player.close = false;
+					// ロットの指定がない場合
+					if (header.nowLot === undefined) {
+						if (player.close) {
+							player.close = false;
+						}
+						// ロットの指定がある場合
+					} else {
+						if (player.close && player.lot == header.nowLot) {
+							player.close = false;
+						}
 					}
 				});
 
 				// openRankが0以上の場合、openRank以下のpaperRankを持つプレイヤーをopen
 			} else {
 				angular.forEach(players, function (player) {
-					if (player.close && player.paperRank <= header.openRank) {
-						player.close = false;
+					// ロットの指定がない場合
+					if (header.nowLot === undefined) {
+						if (player.close && player.paperRank <= header.openRank) {
+							player.close = false;
+						}
+						// ロットの指定がある場合
+					} else {
+						if (player.close && player.paperRank <= header.openRank && player.lot == header.nowLot) {
+							player.close = false;
+						}
 					}
 				});
 
@@ -439,7 +455,11 @@ app.factory('round', ['qCommon', 'rule', '$filter', '$timeout',
 					} else {
 						// クローズ状態のプレイヤーの最小順位
 						var closeRank = Math.min.apply(null, players.filter(function (player) {
-							return player.close;
+							if (header.nowLot === undefined) {
+								return player.close;
+							} else {
+								return player.close && (player.lot == header.nowLot);
+							}
 						}).map(function (player) {
 							return player.paperRank;
 						}));
@@ -511,7 +531,9 @@ app.factory('round', ['qCommon', 'rule', '$filter', '$timeout',
 						header.playerLevel = 0;
 					}
 					header.playerLevel -= 5;
-					header.playerLevelCSS = {'transform':'translateY(' + header.playerLevel + 'px)'};
+					header.playerLevelCSS = {
+						'transform': 'translateY(' + header.playerLevel + 'px)'
+					};
 				}
 			},
 			/*****************************************************************************
@@ -530,7 +552,9 @@ app.factory('round', ['qCommon', 'rule', '$filter', '$timeout',
 						header.playerLevel = 0;
 					}
 					header.playerLevel += 5;
-					header.playerLevelCSS = {'transform':'translateY(' + header.playerLevel + 'px)'};
+					header.playerLevelCSS = {
+						'transform': 'translateY(' + header.playerLevel + 'px)'
+					};
 				}
 			},
 			/*****************************************************************************

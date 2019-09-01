@@ -16,16 +16,17 @@
 		<script src="../../js/controller/main.js"></script>
 		<script src="../../js/factory/qcommon.js"></script>
 		<script src="../../js/factory/round.js"></script>
-		<script src="../../js/rule/hybrid_atasaba.js"></script>
+		<script src="../../js/rule/n+m-.js"></script>
 	</head>
 
 	<body ng-controller="main" ng-keydown="keyDown($event)">
 		<div scoreboard>
 			<div class="title">
-				Semifinal: Decent of hybrid
+				準決勝 3セット制タイムレース Nine Hundred
 			</div>
 			<div class="qCount">
-    			Set {{current.header.set}}
+    			第 {{current.header.nowSet}} セット 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{current.header.rulename}}
   			</div>
   			
 		</div>

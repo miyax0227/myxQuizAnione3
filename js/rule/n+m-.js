@@ -11,6 +11,7 @@ app.factory('rule', ['qCommon', function(qCommon) {
   var rule = {};
   var win = qCommon.win;
   var lose = qCommon.lose;
+  var rolling = qCommon.rolling;
   var timerStop = qCommon.timerStop;
   var setMotion = qCommon.setMotion;
   var addQCount = qCommon.addQCount;
@@ -119,7 +120,8 @@ app.factory('rule', ['qCommon', function(qCommon) {
         player.pts += header.plus;
         setMotion(player, 'o');
         addQCount(players, header, property);
-      }
+      },
+      "nowait": false
     },
     {
       "name": "×",
@@ -135,7 +137,8 @@ app.factory('rule', ['qCommon', function(qCommon) {
         player.pts -= header.minus;
         setMotion(player, 'x');
         addQCount(players, header, property);
-      }
+      },
+      "nowait": false
     }
   ];
 
@@ -153,7 +156,8 @@ app.factory('rule', ['qCommon', function(qCommon) {
       },
       "action0": function(players, header, property) {
         addQCount(players, header, property);
-      }
+      },
+      "nowait": false
     },
     {
       "name": "pos",
@@ -165,7 +169,8 @@ app.factory('rule', ['qCommon', function(qCommon) {
       "action0": function(players, header, property) {
         header.pos = !header.pos;
       },
-      "keyArray": ""
+      "keyArray": "",
+      "nowait": false
     },
     {
       "name": "hide",
@@ -177,26 +182,33 @@ app.factory('rule', ['qCommon', function(qCommon) {
       },
       "keyArray": "",
       "button_css": "btn btn-default",
-      "group": "rule"
+      "group": "rule",
+      "nowait": false
     },
     {
       "name": "",
       "button_css": "btn btn-default",
       "group": "rule",
       "indexes0": function(players, header, property) {
-        return property.ptsrule;
+        return property.ptsrule.map(p => {
+          return p.name;
+        });
       },
       "enable1": function(index, players, header, property) {
         return true;
       },
       "action1": function(index, players, header, property) {
-        var i = property.ptsrule.indexOf(index);
-        header.rulename = property.ptsrule[i];
-        header.plus = property.ptsplus[i];
-        header.minus = property.ptsminus[i];
+        var i = property.ptsrule.map(p => {
+          return p.name;
+        }).indexOf(index);
+        header.nowSet = i + 1;
+        header.rulename = property.ptsrule[i].name;
+        header.plus = property.ptsrule[i].plus;
+        header.minus = property.ptsrule[i].minus;
         header.qCount = 1;
 
-      }
+      },
+      "nowait": false
     }
   ];
 
@@ -223,6 +235,14 @@ app.factory('rule', ['qCommon', function(qCommon) {
       player.pinch = false;
       player.chance = false;
       player.hidepts = header.hidepts;
+
+      if (header.nowSet === undefined) {
+        header.nowSet = 1;
+        header.rulename = property.ptsrule[0].name;
+        header.plus = property.ptsrule[0].plus;
+        header.minus = property.ptsrule[0].minus;
+      }
+
 
       // キーボード入力時の配列の紐付け ローリング等の特殊形式でない場合はこのままでOK\
       player.keyIndex = player.position;

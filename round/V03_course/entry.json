@@ -18,10 +18,12 @@
       "source": "V02_2R",
       "filter": "lotRank==4",
       "order": "paperRank"
+    },
+    {
+      "source": "V02_2R",
+      "filter": "lotRank==5",
+      "order": "paperRank"
     }
   ],
-  "profile": ["paperPts"],
-  "property": {
-    "blaff": [""]
-  }
+  "profile": []
 }]

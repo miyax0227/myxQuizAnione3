@@ -1,1 +1,1 @@
-{"rule":"hybrid_noma_lot","css":"vwx","victory":false,"title":"2nd Round: Suspend of Hybrid","status":"Group {{current.header.nowLot}} Penalty: {{current.header.penalty}}"}
+{"rule":"nomx_lot","css":"vwx","victory":false,"title":"2R 連答つき5○2×クイズ","status":"第{{current.header.nowLot}}組"}

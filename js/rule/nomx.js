@@ -11,6 +11,7 @@ app.factory('rule', ['qCommon', function(qCommon) {
   var rule = {};
   var win = qCommon.win;
   var lose = qCommon.lose;
+  var rolling = qCommon.rolling;
   var timerStop = qCommon.timerStop;
   var setMotion = qCommon.setMotion;
   var addQCount = qCommon.addQCount;
@@ -47,6 +48,12 @@ app.factory('rule', ['qCommon', function(qCommon) {
       "value": 0,
       "style": "number",
       "css": "combo"
+    },
+    {
+      "key": "penalty",
+      "value": 0,
+      "style": "number",
+      "css": "x2"
     },
     {
       "key": "priority",
@@ -130,7 +137,8 @@ app.factory('rule', ['qCommon', function(qCommon) {
         }
         setMotion(player, 'o');
         addQCount(players, header, property);
-      }
+      },
+      "nowait": false
     },
     {
       "name": "×",
@@ -163,7 +171,8 @@ app.factory('rule', ['qCommon', function(qCommon) {
 
         setMotion(player, 'x');
         addQCount(players, header, property);
-      }
+      },
+      "nowait": false
     }
   ];
 
@@ -181,7 +190,8 @@ app.factory('rule', ['qCommon', function(qCommon) {
       },
       "action0": function(players, header, property) {
         addQCount(players, header, property);
-      }
+      },
+      "nowait": false
     },
     {
       "name": "pos",
@@ -193,7 +203,8 @@ app.factory('rule', ['qCommon', function(qCommon) {
       "action0": function(players, header, property) {
         header.pos = !header.pos;
       },
-      "keyArray": ""
+      "keyArray": "",
+      "nowait": false
     }
   ];
 
@@ -236,9 +247,15 @@ app.factory('rule', ['qCommon', function(qCommon) {
   function calc(players, header, items, property) {
     angular.forEach(players, function(player, index) {
       // pinch, chance
-      player.pinch = (player.x == property.losingPoint - 1) && (player.status == 'normal');
-      player.chance = (player.o + 1 + player.combo * property.combo >= property.winningPoint) &&
-        (player.status == 'normal');
+      if (property.swedish) {
+        player.pinch = (player.x + property.swedish[player.o] >= property.losingPoint) && (player.status == 'normal');
+        player.penalty = "+" + property.swedish[player.o];
+      } else {
+        player.pinch = (player.x == property.losingPoint - 1) && (player.status == 'normal');
+        player.penalty = "";
+      }
+
+      player.chance = (player.o + 1 >= property.winningPoint) && (player.status == 'normal');
 
       // キーボード入力時の配列の紐付け ローリング等の特殊形式でない場合はこのままでOK\
       player.keyIndex = player.position;

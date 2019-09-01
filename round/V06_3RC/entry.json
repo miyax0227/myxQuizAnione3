@@ -1,5 +1,5 @@
 [{
   "source": "V03_course",
-  "filter": "course==C",
+  "filter": "course==3",
   "profile": true
 }]

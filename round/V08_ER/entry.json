@@ -1,4 +1,4 @@
 [{
   "source": "nameList",
-  "filter":"1<=paperRank<=8"
+  "filter":"1<=paperRank<=12"
 }]
