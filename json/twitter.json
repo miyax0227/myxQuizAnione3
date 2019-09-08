@@ -1,49 +1,36 @@
 {
   "accounts": [
     {
-      "consumerKey": "R7oKAXvqycwjAoMMqVaMkKNRG",
-      "consumerSecret": "PppAy7yWIzPgkHtbAUEHPGkrGWloUnqqjGLAxSg5BdDNLyVIQ2",
-      "accessToken": "704989891285749760-4FnGUPH4qJMxs3Qd0HQNvaFSiea9YSB",
-      "accessTokenSecret": "6V9Tp25aWUkmQ20JZqDlDPqQ4L3TZuqj5uISz7X1uo5nk",
-      "owner": "kachinukehai_4",
-      "ownerId": "704989891285749760",
-      "$$hashKey": "object:99"
-    },
-    {
       "owner": "myxpoint",
-      "ownerId": 703632418834518000,
+      "ownerId": 703632418834518017,
       "consumerKey": "esh749nGvygSvc9ouTYVkwuPO",
       "consumerSecret": "VsVuRcKal3g2NfO4zCv4SBLDZ9tz4ioglZiUMaSM44aEk4KCnG",
       "accessToken": "703632418834518017-QKNHTGAy6lnGC3esVSNcnCy7Og1jtJv",
-      "accessTokenSecret": "F1ea42oFKnEkD3OM7cAioSRWKauHnh9c7ufBjpMOe1ngE",
-      "$$hashKey": "object:149"
+      "accessTokenSecret": "F1ea42oFKnEkD3OM7cAioSRWKauHnh9c7ufBjpMOe1ngE"
     },
     {
-      "owner": "vwitter_1",
-      "ownerId": 704987676823269400,
-      "consumerKey": "esh749nGvygSvc9ouTYVkwuPO",
-      "consumerSecret": "VsVuRcKal3g2NfO4zCv4SBLDZ9tz4ioglZiUMaSM44aEk4KCnG",
-      "accessToken": "704987676823269376-ZjY0R09NrD7NDWWn3B7P6Vt88oZtEpu",
-      "accessTokenSecret": "5AZTRQdTIhFYHi8LaKj1JdeOCTOM723xVUpYOfljh7kp8",
-      "$$hashKey": "object:253"
+      "owner": "ani_one_live1",
+      "ownerId": 815239454579249152,
+      "consumerKey": "06kl6wr4TapJAOHvSDKBeQO9Y",
+      "consumerSecret": "NUpDmhxoZhKiQXqc2HA0YTzle6RzeKO2RUqVCXVT5qKojb0xdC",
+      "accessToken": "815239454579249152-gx1e9ALcxMofVcrWnSYLT0pqDfRCvto",
+      "accessTokenSecret": "TQrAZYNAFZJuvFdbYPBE4vPxc7BVjMp5bhT08CLYIJCDl"
     },
     {
-      "owner": "vwitter_2",
-      "ownerId": 704988984057794600,
-      "consumerKey": "esh749nGvygSvc9ouTYVkwuPO",
-      "consumerSecret": "VsVuRcKal3g2NfO4zCv4SBLDZ9tz4ioglZiUMaSM44aEk4KCnG",
-      "accessToken": "704988984057794561-RWG5jeiYwsvrduoiF2jBVmmdYuJBVB3",
-      "accessTokenSecret": "4kcc4GrMnnLVcTi8PjRKEPv52jdAGLFMqjdfdq4dfMTnA",
-      "$$hashKey": "object:214"
+      "owner": "ani_one_live2",
+      "ownerId": 815240162733006852,
+      "consumerKey": "8EPp48EiitbQWXdqTzE0sP9hA",
+      "consumerSecret": "CN5FYmEWe7rDSajuX4dbl2mvsfSl9C1bspU2FaciHz5UqnUlwF",
+      "accessToken": "815240162733006852-HuxlyuhBoUjQuvp5CaJyGMvL0M6uH20",
+      "accessTokenSecret": "4WIIiTAtOMs4h9XaP7KCLOb2SFSSeR2YR8ZfUDSTo0G0s"
     },
     {
-      "owner": "vwitter_3",
-      "ownerId": 704989574498398200,
-      "consumerKey": "esh749nGvygSvc9ouTYVkwuPO",
-      "consumerSecret": "VsVuRcKal3g2NfO4zCv4SBLDZ9tz4ioglZiUMaSM44aEk4KCnG",
-      "accessToken": "704989574498398208-6LevNnm5JsrutU2Soym97D2ZfFdpi0C",
-      "accessTokenSecret": "IFgOvyI5xUEmnrag99yrIiQUkRMjOe45MY0mNywQpy4Gd",
-      "$$hashKey": "object:220"
+      "owner": "ani_one_live3",
+      "ownerId": 815240560218771456,
+      "consumerKey": "FAhgWeKEZryMlTnb0XopGzpzj",
+      "consumerSecret": "wnHrpugOJaKhBSpH510lycF1Y0nFWgFyMcYYyMIdv7rcYrk7TW",
+      "accessToken": "815240560218771456-3D6wKtWguqEZQ25yCjgV2y4zPXjfyJQ",
+      "accessTokenSecret": "9HgWnty49SIMwj850xMkpZfWlU2opx7SN1nNtng2HK0DX"
     }
   ]
 }

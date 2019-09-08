@@ -330,6 +330,14 @@ app.directive('victory', function () {
 	};
 });
 
+app.directive('victory2', function () {
+	return {
+		restrict: 'A',
+		transclude: true,
+		templateUrl: '../../template/victory2.html'
+	};
+});
+
 app.directive('profile', function () {
 	return {
 		restrict: 'A',

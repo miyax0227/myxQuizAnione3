@@ -148,6 +148,47 @@ app.factory('rule', ['qCommon', function(qCommon) {
       "nowait": false
     },
     {
+      "name": "shuffle",
+      "enable0": function(players, header, property) {
+        return true;
+      },
+      "button_css": "btn btn-default",
+      "group": "rule",
+      "action0": function(players, header, property) {
+        header.nowCourse = 0;
+        header.shuffle = true;
+      },
+      "keyArray": "",
+      "nowait": false
+    },
+    {
+      "name": "random",
+      "button_css": "btn btn-default",
+      "group": "rule",
+      "enable0": function(players, header, property) {
+        return true;
+      },
+      "action0": function(players, header, property) {
+        var index = 0;
+        var v = property.courseName.slice();
+        players.map(function(p) {
+          if (p.course) {
+            v[p.course - 1] = "";
+          }
+        })
+        v = v.filter(function(c) {
+          return c !== "";
+        })
+        if (v.length > 0) {
+          index = v[Math.floor(v.length * Math.random())];
+        }
+
+        header.nowCourse = property.courseName.indexOf(index) + 1;
+        header.nowCourseName = index;
+        header.shuffle = false;
+      }
+    },
+    {
       "name": "",
       "button_css": "btn btn-default",
       "group": "rule",
@@ -160,6 +201,7 @@ app.factory('rule', ['qCommon', function(qCommon) {
       "action1": function(index, players, header, property) {
         header.nowCourse = property.courseName.indexOf(index) + 1;
         header.nowCourseName = index;
+        header.shuffle = false;
       },
       "nowait": false
     }
@@ -189,11 +231,13 @@ app.factory('rule', ['qCommon', function(qCommon) {
    ****************************************************************************/
   function calc(players, header, items, property) {
     var key = 0;
+    header.entried = false;
     angular.forEach(players, function(player, index) {
       if (player.course === 0) {
         player.keyIndex = (key++);
         player.line = "line2";
       } else if (player.course == header.nowCourse) {
+        header.entried = true;
         player.keyIndex = 999;
         player.line = "line1";
       } else {

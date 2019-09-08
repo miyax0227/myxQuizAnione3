@@ -1,0 +1,78 @@
+<!doctype html>
+<html ng-app="myxQuizSlot">
+
+<head>
+  <title>myxQuizSlot</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <script src="js/libs/jquery.min.js" onload="window.$ = window.jQuery = module.exports;"></script>
+  <script src="js/libs/jquery-ui.min.js"></script>
+  <script src="js/libs/angular.min.js"></script>
+  <script src="js/libs/ngStorage.min.js"></script>
+  <script src="js/libs/ui-bootstrap-tpls.js"></script>
+  <script src="js/libs/angular-animate.min.js"></script>
+  <script src="js/libs/angular-resource.min.js"></script>
+
+  <script type="text/javascript">
+    'use strict';
+
+    var appName = "myxQuizSlot";
+    var app = angular.module(appName, ["ui.bootstrap", "ngAnimate", "ngResource"]);
+    /** INDEX画面用コントローラ */
+    app.controller('slot', ['$scope', '$interval', function ($scope, $interval) {
+      $scope.slot = 0;
+
+      var t = $interval(function () {
+        $scope.slot++;
+        if ($scope.slot >= 4) {
+          $scope.slot = 0;
+        }
+      }, 1000);
+    }]);
+
+  </script>
+
+  <style>
+    div.slot-upper {
+      position: absolute;
+      width: 90%;
+      height: 20%;
+      top: 20%;
+      font-size: 100px;
+      font-family: "FGP丸ｺﾞｼｯｸ体Ca-U";
+    }
+
+    div.slot-upper.ng-enter {
+      transition: all 1s;
+      opacity: 0;
+      transform: translate(0%, -50%);
+    }
+
+    div.slot-upper.ng-enter.ng-enter-active {
+      opacity: 1;
+      transform: translate(0%, 0%);
+    }
+
+    div.slot-upper.ng-leave {
+      transition: all 1s;
+      opacity: 1;
+      transform: translate(0%, 0%);
+    }
+
+    div.slot-upper.ng-leave-active {
+      opacity: 0;
+      transform: translate(0%, 50%);
+    }
+  </style>
+</head>
+
+<body ng-controller="slot" ng-cloak>
+  <div class="slot-upper text-center" ng-if="slot==0">10 up down</div>
+  <div class="slot-upper text-center" ng-if="slot==1">10〇10×</div>
+  <div class="slot-upper text-center" ng-if="slot==2">Swedith 10</div>
+  <div class="slot-upper text-center" ng-if="slot==3">10 by 10</div>
+
+  <button class="btn btn-default" ng-click="a=!a">10 up down</button>
+</body>
+
+</html>

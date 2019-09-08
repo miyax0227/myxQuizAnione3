@@ -25,7 +25,65 @@
 				3R Number 10
 			</div>
 			<div class="qCount">
-    			{{current.header.nowCourseName}}
+    			<span ng-if="! current.header.shuffle && current.header.entried">{{current.header.nowCourseName}}</span>
+
+<div ng-controller="slot">
+  <div ng-if="(current.header.shuffle && current.header.nowCourse == 0) || ( ! current.header.entried && current.header.nowCourse > 0)">
+    <div ng-repeat="cn in property.courseName" class = "slot-upper text-center"
+    ng-if = "$index==slot" > {{cn}}
+    </div>
+  </div>
+</div>
+
+  <style>
+    div.slot-upper {
+      position: absolute;
+      width: 120%;
+      height: 20%;
+      top: 200px;
+      left: -25%;
+      font-size: 200px;
+      font-family: "FGP丸ｺﾞｼｯｸ体Ca-U";
+    }
+
+    div.slot-upper.ng-enter {
+      transition: all 0.2s cubic-bezier(.41,.59,.51,.67);
+      opacity: 0;
+      transform: translate(0%, -200px) rotateX(-60deg);
+    }
+
+    div.slot-upper.ng-enter.ng-enter-active {
+      opacity: 1;
+      transform: translate(0%, 0%) rotateX(0deg);
+    }
+
+    div.slot-upper.ng-leave {
+      transition: all 0.2s cubic-bezier(.41,.59,.51,.67);
+      opacity: 1;
+      transform: translate(0%, 0%) rotateX(0deg);
+    }
+
+    div.slot-upper.ng-leave-active {
+      opacity: 0;
+      transform: translate(0%, 200px) rotateX(60deg);
+    }
+  </style>
+
+<script type="text/javascript">
+    app.controller('slot', ['$scope', '$interval', function ($scope, $interval) {
+      $scope.slot = 0;
+      
+      var t = $interval(function () {
+        if($scope.current.header.shuffle || $scope.slot != $scope.current.header.nowCourse - 1){
+          $scope.slot++;
+          if ($scope.slot >= 4) {
+            $scope.slot = 0;
+          }
+        }
+          
+      }, 200);
+    }]);
+</script>
   			</div>
   			
 		</div>

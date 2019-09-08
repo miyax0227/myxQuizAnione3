@@ -28,7 +28,7 @@ app.factory('rule', ['qCommon', function(qCommon) {
       "style": "boolean"
     },
     {
-      "key": "nowLot",
+      "key": "nowGenre",
       "value": 1,
       "style": "number"
     }
@@ -41,7 +41,7 @@ app.factory('rule', ['qCommon', function(qCommon) {
       "key": "o",
       "value": 0,
       "style": "number",
-      "css": "o"
+      "css": "o2"
     },
     {
       "key": "x",
@@ -50,10 +50,59 @@ app.factory('rule', ['qCommon', function(qCommon) {
       "css": "x"
     },
     {
-      "key": "combo",
+      "key": "genreCount",
       "value": 0,
       "style": "number",
-      "css": "combo"
+      "css": "o"
+    },
+    {
+      "key": "genre1",
+      "value": 0,
+      "style": "number",
+      "css": "genre1",
+      "repeatChar": "漫"
+    },
+    {
+      "key": "genre2",
+      "value": 0,
+      "style": "number",
+      "css": "genre2",
+      "repeatChar": "ア"
+    },
+    {
+      "key": "genre3",
+      "value": 0,
+      "style": "number",
+      "css": "genre3",
+      "repeatChar": "電"
+    },
+    {
+      "key": "genre4",
+      "value": 0,
+      "style": "number",
+      "css": "genre4",
+      "repeatChar": "ノ"
+    },
+    {
+      "key": "genre5",
+      "value": 0,
+      "style": "number",
+      "css": "genre5",
+      "repeatChar": "特"
+    },
+    {
+      "key": "genre6",
+      "value": 0,
+      "style": "number",
+      "css": "genre6",
+      "repeatChar": "人"
+    },
+    {
+      "key": "genre7",
+      "value": 0,
+      "style": "number",
+      "css": "genre7",
+      "repeatChar": "ホ"
     },
     {
       "key": "priority",
@@ -75,10 +124,6 @@ app.factory('rule', ['qCommon', function(qCommon) {
         {
           "key": "x",
           "order": "asc"
-        },
-        {
-          "key": "paperRank",
-          "order": "asc"
         }
       ]
     }
@@ -88,9 +133,10 @@ app.factory('rule', ['qCommon', function(qCommon) {
    * tweet - ルール固有のツイートのひな型
    ****************************************************************************/
   rule.tweet = {
-    "o": "[Heat${lot}] ${handleName}◯　→${o}◯ ${x}×",
-    "x": "[Heat${lot}]${handleName}×　→${o}◯ ${x}×",
-    "thru": "[Heat${nowLot}]スルー"
+    "o": "${handleName}◯　→${genreCount}ジャンル (${gotGenreList})",
+    "x": "${handleName}×　→${x}×",
+    "thru": "スルー",
+    "x2": "${handleName}：${genreCount}ジャンル (${gotGenreList})"
   };
 
   /*****************************************************************************
@@ -128,19 +174,17 @@ app.factory('rule', ['qCommon', function(qCommon) {
       "action0": function(player, players, header, property) {
         // ○を加算
         player.o++;
-        // コンボ計算
-        if (property.combo > 0 && player.combo === 1) {
-          player.o += property.combo;
-        }
-        // コンボ管理
-        if (property.combo > 0) {
-          players.map(function(p) {
-            p.combo = 0;
-          });
-          player.combo = 1;
+        // ジャンル獲得
+        player["genre" + header.nowGenre] = 1;
+        // ジャンル進める
+        header.nowGenre++;
+        if (header.nowGenre >= 8) {
+          header.nowGenre = 1;
         }
         setMotion(player, 'o');
         addQCount(players, header, property);
+
+
       },
       "nowait": false
     },
@@ -154,15 +198,115 @@ app.factory('rule', ['qCommon', function(qCommon) {
         return (player.status == 'normal' && !header.playoff);
       },
       "action0": function(player, players, header, property) {
+        // ×を加算
         player.x++;
-        if (property.combo > 0) {
-          player.combo = 0;
+        // ジャンル進める
+        header.nowGenre++;
+        if (header.nowGenre >= 8) {
+          header.nowGenre = 1;
         }
-
         setMotion(player, 'x');
         addQCount(players, header, property);
       },
       "nowait": false
+    },
+    {
+      "name": "x1",
+      "css": "action_x1",
+      "button_css": "btn btn-danger",
+      "enable0": function(player, players, header, property) {
+        return (player.status == 'normal' && !header.playoff && player["genre1"] == 1);
+      },
+      "action0": function(player, players, header, property) {
+        // ジャンル喪失
+        player["genre1"] = 0;
+      },
+      "nowait": false,
+      "tweet": "x2"
+    },
+    {
+      "name": "x2",
+      "action0": function(player, players, header, property) {
+        // ジャンル喪失
+        player["genre2"] = 0;
+      },
+      "enable0": function(player, players, header, property) {
+        return (player.status == 'normal' && !header.playoff && player["genre2"] == 1);
+      },
+      "css": "action_x2",
+      "button_css": "btn btn-danger",
+      "nowait": false,
+      "tweet": "x2"
+    },
+    {
+      "name": "x3",
+      "action0": function(player, players, header, property) {
+        // ジャンル喪失
+        player["genre3"] = 0;
+      },
+      "enable0": function(player, players, header, property) {
+        return (player.status == 'normal' && !header.playoff && player["genre3"] == 1);
+      },
+      "css": "action_x3",
+      "button_css": "btn btn-danger",
+      "nowait": false,
+      "tweet": "x2"
+    },
+    {
+      "name": "x4",
+      "action0": function(player, players, header, property) {
+        // ジャンル喪失
+        player["genre4"] = 0;
+      },
+      "enable0": function(player, players, header, property) {
+        return (player.status == 'normal' && !header.playoff && player["genre4"] == 1);
+      },
+      "css": "action_x4",
+      "button_css": "btn btn-danger",
+      "nowait": false,
+      "tweet": "x2"
+    },
+    {
+      "name": "x5",
+      "action0": function(player, players, header, property) {
+        // ジャンル喪失
+        player["genre5"] = 0;
+      },
+      "enable0": function(player, players, header, property) {
+        return (player.status == 'normal' && !header.playoff && player["genre5"] == 1);
+      },
+      "css": "action_x5",
+      "button_css": "btn btn-danger",
+      "nowait": false,
+      "tweet": "x2"
+    },
+    {
+      "name": "x6",
+      "action0": function(player, players, header, property) {
+        // ジャンル喪失
+        player["genre6"] = 0;
+      },
+      "enable0": function(player, players, header, property) {
+        return (player.status == 'normal' && !header.playoff && player["genre6"] == 1);
+      },
+      "css": "action_x6",
+      "button_css": "btn btn-danger",
+      "nowait": false,
+      "tweet": "x2"
+    },
+    {
+      "name": "x7",
+      "action0": function(player, players, header, property) {
+        // ジャンル喪失
+        player["genre7"] = 0;
+      },
+      "enable0": function(player, players, header, property) {
+        return (player.status == 'normal' && !header.playoff && player["genre7"] == 1);
+      },
+      "css": "action_x7",
+      "button_css": "btn btn-danger",
+      "nowait": false,
+      "tweet": "x2"
     }
   ];
 
@@ -179,6 +323,11 @@ app.factory('rule', ['qCommon', function(qCommon) {
         return true;
       },
       "action0": function(players, header, property) {
+        // ジャンル進める
+        header.nowGenre++;
+        if (header.nowGenre >= 8) {
+          header.nowGenre = 1;
+        }
         addQCount(players, header, property);
       },
       "nowait": false
@@ -194,23 +343,6 @@ app.factory('rule', ['qCommon', function(qCommon) {
         header.pos = !header.pos;
       },
       "keyArray": "",
-      "nowait": false
-    },
-    {
-      "name": "",
-      "button_css": "btn btn-default",
-      "group": "rule",
-      "indexes0": function(players, header, property) {
-        return property.lots;
-      },
-      "enable1": function(index, players, header, property) {
-        return true;
-      },
-      "action1": function(index, players, header, property) {
-        header.nowLot = index;
-        header.qCount = 1;
-        header.openRank = 0;
-      },
       "nowait": false
     }
   ];
@@ -228,20 +360,13 @@ app.factory('rule', ['qCommon', function(qCommon) {
       return (item.rank === 0);
     }), function(player, i) {
       /* win条件 */
-      if (player.o >= property.winningPoint) {
+      if (player.genreCount >= property.winningPoint) {
         win(player, players, header, property);
-        player.o = property.winningPoint;
-        if (property.combo > 0) {
-          player.combo = 0;
-        }
-        timerStop();
       }
       /* lose条件 */
       if (player.x >= property.losingPoint) {
         lose(player, players, header, property);
-        timerStop();
       }
-
     });
   }
 
@@ -252,33 +377,26 @@ app.factory('rule', ['qCommon', function(qCommon) {
    * @param {Object} items - items
    ****************************************************************************/
   function calc(players, header, items, property) {
-    var key = 0;
-
-    // ペナルティ計算
-    header.penalty = property.penalty - players.filter(function(player) {
-      return player.status == "win";
-    }).length;
-
     angular.forEach(players, function(player, index) {
+      // genreCount
+      player.genreCount = player["genre1"] + player["genre2"] + player["genre3"] + player["genre4"] + player["genre5"] + player["genre6"] + player["genre7"];
+      // gotGenreList
+      player.gotGenreList = [1, 2, 3, 4, 5, 6, 7].filter(function(g) {
+        return player["genre" + g] == 1;
+      }).map(function(g) {
+        return property.genre[g - 1];
+      }).join(',');
+
       // pinch, chance
-      player.chance = (player.o + 1 >= property.winningPoint) &&
-        (player.status == 'normal');
-      player.pinch = (player.x + 1 >= property.losingPoint) &&
-        (player.status == 'normal');
+      player.pinch = (player.x == property.losingPoint - 1) && (player.status == 'normal');
+      player.chance = (player.genreCount + 1 >= property.winningPoint) && (player.status == 'normal');
 
       // キーボード入力時の配列の紐付け ローリング等の特殊形式でない場合はこのままでOK\
       player.keyIndex = player.position;
-      if (player.lot == header.nowLot) {
-        if (header.pos) {
-          player.line = "line1";
-          player.keyIndex = (key++);
-        } else {
-          player.line = "line2";
-          player.keyIndex = (key++);
-        }
+      if (header.pos) {
+        player.line = "line1";
       } else {
-        player.line = "left";
-        player.keyIndex = 999;
+        player.line = "line2";
       }
     });
   }

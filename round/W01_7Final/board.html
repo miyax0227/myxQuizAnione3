@@ -1,0 +1,49 @@
+<!doctype html>
+<html ng-app="myxQuizMain">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<link rel="stylesheet" href="../../css/bootstrap.min.css" >
+		<link rel="stylesheet" href="../../css/style.css" >
+		<link rel="stylesheet" href="../../css/vwx7.css" >
+
+		<script src="../../js/libs/angular.js"></script>
+		<script src="../../js/libs/ngStorage.min.js"></script>
+		<script src="../../js/libs/angular-animate.min.js"></script>
+		<script src="../../js/libs/angular-resource.min.js"></script>
+		<script src="../../js/libs/ui-bootstrap-tpls.js"></script>
+    <script src="../../js/libs/angular-sanitize.min.js"></script>
+		
+		<script src="../../js/controller/main.js"></script>
+		<script src="../../js/factory/qcommon.js"></script>
+		<script src="../../js/factory/round.js"></script>
+		<script src="../../js/rule/seven_final.js"></script>
+	</head>
+
+	<body ng-controller="main" ng-keydown="keyDown($event)">
+		<div scoreboard>
+			<div class="title">
+				７（なな）2019 決勝
+			</div>
+			<div class="qCount">
+    			{{current.header.qCount}}問目&nbsp;
+<span class="genre" ng-attr-value="{{current.header.nowGenre}}">{{property.genre[current.header.nowGenre-1]}}</span>
+
+<style type="text/css">
+    span.genre{
+        -webkit-text-stroke: 2px white;
+    }
+    
+    span.genre[value="1"]{color: red;}
+    span.genre[value="2"]{color: orange;}
+    span.genre[value="3"]{color: yellow;}
+    span.genre[value="4"]{color: green;}
+    span.genre[value="5"]{color: blue;}
+    span.genre[value="6"]{color: darkblue;}
+    span.genre[value="7"]{color: purple;}
+
+</style>
+  			</div>
+  			<div victory2></div>
+		</div>
+	</body>
+</html>

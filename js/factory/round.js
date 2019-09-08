@@ -246,7 +246,7 @@ app.factory('round', ['qCommon', 'rule', '$filter', '$timeout',
 								var tempFileName = qCommon.getTempCaptureFileName();
 								var fileName = qCommon.getCaptureFileName();
 
-								fs.writeFile(tempFileName, img.toPng(), function (err) {
+								fs.writeFile(tempFileName, img.toPNG(), function (err) {
 									if (err) {
 										console.log(err);
 									} else {

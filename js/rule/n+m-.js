@@ -111,7 +111,6 @@ app.factory('rule', ['qCommon', function(qCommon) {
       "css": "action_o",
       "button_css": "btn btn-primary btn-lg",
       "keyArray": "k1",
-      "tweet": "o",
       "enable0": function(player, players, header, property) {
         return (player.status == 'normal' && !header.playoff);
       },
@@ -128,7 +127,6 @@ app.factory('rule', ['qCommon', function(qCommon) {
       "css": "action_x",
       "button_css": "btn btn-danger btn-lg",
       "keyArray": "k2",
-      "tweet": "x",
       "enable0": function(player, players, header, property) {
         return (player.status == 'normal' && !header.playoff);
       },
@@ -150,7 +148,6 @@ app.factory('rule', ['qCommon', function(qCommon) {
       "button_css": "btn btn-default",
       "group": "rule",
       "keyboard": "Space",
-      "tweet": "thru",
       "enable0": function(players, header, property) {
         return true;
       },
