@@ -21,14 +21,40 @@
 
 	<body ng-controller="main" ng-keydown="keyDown($event)">
 		<div scoreboard>
+			<img class="logo7" src="../../img/7_2019_logo2.png">
 			<div class="title">
-				７（なな）2019 決勝
+				決勝
 			</div>
 			<div class="qCount">
     			{{current.header.qCount}}問目&nbsp;
 <span class="genre" ng-attr-value="{{current.header.nowGenre}}">{{property.genre[current.header.nowGenre-1]}}</span>
 
 <style type="text/css">
+		body div.scoreboard img.logo {
+			width: 0px;
+		}
+
+		body div.scoreboard hr.hr0 {
+			margin-left: 380px;
+		}
+
+		body div.scoreboard div.title {
+		  left: 200px;
+			margin-left: 200px;
+		}
+
+		body div.scoreboard img.logo7{
+			height: 100px;
+			background: linear-gradient(black, white,white,white, black);
+			margin-top: 10px;
+			margin-left: 50px;
+		}
+
+		body div.scoreboard div.qCount {
+			left: 200px;
+			margin-left: 200px;
+		}
+
     span.genre{
         -webkit-text-stroke: 2px white;
     }
